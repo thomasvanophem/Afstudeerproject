@@ -1,0 +1,5 @@
+Tue Apr 29 22:05:08 2014 ERROR: HTTP 404 http://download.geonames.org/export/dump/cities10000.zip
+Tue Apr 29 22:06:04 2014 ERROR: HTTP 404 http://download.geonames.org/export/dump/cities10000.zip
+Tue Apr 29 22:06:46 2014 ERROR: HTTP Error 404: Not Found http://download.geonames.org/export/dump/cities10000.zip
+Tue Apr 29 22:07:12 2014 ERROR: HTTP Error 404: Not Found http://download.geonames.org/export/dump/cities10000.zip
+Tue Apr 29 22:07:26 2014 ERROR: HTTP Error 404: Not Found http://download.geonames.org/export/dump/cities10000.zip

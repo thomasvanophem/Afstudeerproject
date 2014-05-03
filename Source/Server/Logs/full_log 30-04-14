@@ -1,0 +1,129 @@
+Wed Apr 30 16:47:35 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 16:47:35 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities10000.zip
+Wed Apr 30 16:47:35 2014 WARNING: Download unsuccessfull!
+Wed Apr 30 16:47:35 2014 ERROR: HTTP Error 404: Not Found http://download.geonames.org/export/dump/cities10000.zip
+Wed Apr 30 16:47:35 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 16:47:37 2014 OK: Download successfull!
+Wed Apr 30 16:47:38 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 16:47:39 2014 OK: Download successfull!
+Wed Apr 30 16:47:41 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 16:47:41 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 16:47:41 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 16:47:41 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 16:47:41 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 16:47:41 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 16:47:41 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 16:47:42 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 16:47:42 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 16:47:42 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 16:47:42 2014 INFO: Completed GEO DATA unzip...
+Wed Apr 30 16:50:02 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 16:50:02 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities1000.zip
+Wed Apr 30 16:50:02 2014 OK: Download successfull!
+Wed Apr 30 16:50:06 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 16:50:06 2014 OK: Download successfull!
+Wed Apr 30 16:50:08 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 16:50:09 2014 OK: Download successfull!
+Wed Apr 30 16:50:10 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 16:50:10 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 16:50:10 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 16:50:10 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 16:50:10 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 16:50:10 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 16:50:10 2014 BUSY: Extracting ./Download/cities1000.zip
+Wed Apr 30 16:50:10 2014 OK: ./Download/cities1000.zip successfully unzipped!
+Wed Apr 30 16:50:10 2014 BUSY: Removing ./Download/cities1000.zip
+Wed Apr 30 16:50:10 2014 OK: ./Download/cities1000.zip successfully removed!
+Wed Apr 30 16:50:10 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 16:50:11 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 16:50:11 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 16:50:11 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 16:50:11 2014 INFO: Completed GEO DATA unzip...
+Wed Apr 30 17:08:15 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 17:08:15 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities1000.zip
+Wed Apr 30 17:08:15 2014 OK: Download successfull!
+Wed Apr 30 17:08:17 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 17:08:17 2014 OK: Download successfull!
+Wed Apr 30 17:08:19 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 17:08:19 2014 OK: Download successfull!
+Wed Apr 30 17:08:20 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 17:08:20 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 17:08:20 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 17:08:20 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 17:08:20 2014 BUSY: Extracting ./Download/cities1000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities1000.zip successfully unzipped!
+Wed Apr 30 17:08:20 2014 BUSY: Removing ./Download/cities1000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities1000.zip successfully removed!
+Wed Apr 30 17:08:20 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 17:08:20 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 17:08:20 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 17:08:20 2014 INFO: Completed GEO DATA unzip...
+Wed Apr 30 17:54:15 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 17:54:15 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities1000.zip
+Wed Apr 30 17:54:15 2014 OK: Download successfull!
+Wed Apr 30 17:54:17 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 17:54:17 2014 OK: Download successfull!
+Wed Apr 30 17:54:19 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 17:54:19 2014 OK: Download successfull!
+Wed Apr 30 17:54:20 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 17:54:20 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 17:54:20 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 17:54:20 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 17:54:20 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 17:54:20 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 17:54:20 2014 BUSY: Extracting ./Download/cities1000.zip
+Wed Apr 30 17:54:21 2014 OK: ./Download/cities1000.zip successfully unzipped!
+Wed Apr 30 17:54:21 2014 BUSY: Removing ./Download/cities1000.zip
+Wed Apr 30 17:54:21 2014 OK: ./Download/cities1000.zip successfully removed!
+Wed Apr 30 17:54:21 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 17:54:21 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 17:54:21 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 17:54:21 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 17:54:21 2014 INFO: Completed GEO DATA unzip...
+Wed Apr 30 18:24:26 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 18:24:26 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities1000.zip
+Wed Apr 30 18:24:27 2014 OK: Download successfull!
+Wed Apr 30 18:24:30 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 18:24:31 2014 OK: Download successfull!
+Wed Apr 30 18:24:32 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 18:24:33 2014 OK: Download successfull!
+Wed Apr 30 18:24:34 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 18:24:34 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 18:24:34 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 18:24:34 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 18:24:34 2014 BUSY: Extracting ./Download/cities1000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities1000.zip successfully unzipped!
+Wed Apr 30 18:24:34 2014 BUSY: Removing ./Download/cities1000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities1000.zip successfully removed!
+Wed Apr 30 18:24:34 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 18:24:34 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 18:24:34 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 18:24:34 2014 INFO: Completed GEO DATA unzip...
+Wed Apr 30 18:29:11 2014 INFO: Starting GEO DATA download...
+Wed Apr 30 18:29:11 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities1000.zip
+Wed Apr 30 18:29:11 2014 OK: Download successfull!
+Wed Apr 30 18:29:15 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities5000.zip
+Wed Apr 30 18:29:15 2014 OK: Download successfull!
+Wed Apr 30 18:29:17 2014 BUSY: Downloading http://download.geonames.org/export/dump/cities15000.zip
+Wed Apr 30 18:29:17 2014 OK: Download successfull!
+Wed Apr 30 18:29:18 2014 INFO: Completed GEO DATA download...
+Wed Apr 30 18:29:18 2014 INFO: Starting GEO DATA unzip...
+Wed Apr 30 18:29:18 2014 BUSY: Extracting ./Download/cities15000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities15000.zip successfully unzipped!
+Wed Apr 30 18:29:19 2014 BUSY: Removing ./Download/cities15000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities15000.zip successfully removed!
+Wed Apr 30 18:29:19 2014 BUSY: Extracting ./Download/cities1000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities1000.zip successfully unzipped!
+Wed Apr 30 18:29:19 2014 BUSY: Removing ./Download/cities1000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities1000.zip successfully removed!
+Wed Apr 30 18:29:19 2014 BUSY: Extracting ./Download/cities5000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities5000.zip successfully unzipped!
+Wed Apr 30 18:29:19 2014 BUSY: Removing ./Download/cities5000.zip
+Wed Apr 30 18:29:19 2014 OK: ./Download/cities5000.zip successfully removed!
+Wed Apr 30 18:29:19 2014 INFO: Completed GEO DATA unzip...
