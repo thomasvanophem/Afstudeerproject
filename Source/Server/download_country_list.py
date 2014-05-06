@@ -11,6 +11,7 @@ import os
 import time
 import glob
 import sys
+import crython
 from zipfile import ZipFile
 from urllib2 import urlopen, URLError, HTTPError
 
@@ -79,7 +80,8 @@ def download(source_url):
     except URLError, e:
         logger.log("warning", "Download unsuccessfull!", time.strftime("%c"))
         logger.log("error", str(e) + " " + source_url, time.strftime("%c"))
-        
+
+@crython.job(expr='@daily', ctx='process')        
 def download_helper():
     """
     Specifies the files to download and calls the download function.

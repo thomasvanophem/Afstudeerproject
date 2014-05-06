@@ -51,7 +51,7 @@ def main(source, radius):
         coordinates = coordinates + read_file(f)
 
     for coordinate in coordinates:
-        if calc_distance(source, coordinate[1])  <= radius and coordinate[0] not in result:
+        if calc_distance(source, coordinate[1]) <= float(radius) and coordinate[0] not in result:
             result.append(coordinate[0])
             
     return result
