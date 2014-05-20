@@ -18,7 +18,7 @@ class Index():
         elif cherrypy.request.method == "POST":
             print lat, lon, radius
             temp = coordinate_calc.main((lat, lon), radius)
-	        print temp
+            print temp
             return interface("Home", """<h2>Welkom!</h2>
                                         Latitude: %s <br />
                                         Longitude: %s <br />
