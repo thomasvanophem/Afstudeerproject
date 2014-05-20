@@ -5,86 +5,95 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
-      html, body, #map-canvas {
+      html, body {
         height: 100%;
         margin: 0px;
         padding: 0px
       }
+      #map-canvas {
+        height: 75%;
+        width: 70%;
+        margin-top: 50px;
+        margin-right: 50px;
+      }
+      #result {
+        height: 75%;
+        width: 20%;
+      }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
     <script>
-function loadXMLDoc(radius, x, y)
-{
-var xmlhttp;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("map-canvas").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("POST","",true);
-xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
-}  
+        function loadXMLDoc(radius, x, y) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    document.getElementById("result").innerHTML=xmlhttp.responseText;
+                }
+            }
+
+            xmlhttp.open("POST","",true);
+            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
+        }  
   
-function initialize() {
-  var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8
-  };
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(-34.397, 150.644),
+            zoom: 8
+        };
 
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-    mapOptions);
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.CIRCLE,
-    drawingControl: true,
-    markerOptions: {
-      icon: 'images/beachflag.png'
-    },
-    circleOptions: {
-      fillColor: '#ffff00',
-      fillOpacity: 0.5,
-      strokeWeight: 1,
-      clickable: false,
-      editable: true,
-      zIndex: 1
+        var drawingManager = new google.maps.drawing.DrawingManager({
+                                    drawingMode: google.maps.drawing.OverlayType.CIRCLE,
+                                    drawingControl: true,
+                                    markerOptions: {
+                                    icon: 'images/beachflag.png'
+                                },
+                                circleOptions: {
+                                    fillColor: '#ffff00',
+                                    fillOpacity: 0.5,
+                                    strokeWeight: 1,
+                                    clickable: false,
+                                    editable: true,
+                                    zIndex: 1
+                                }
+                            });
+      
+        drawingManager.setMap(map);
+        
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+                if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
+                    var center = event.overlay.getCenter();
+	                var radius = event.overlay.getRadius();
+	                console.log(radius);
+	                console.log(center);
+	                loadXMLDoc(radius / 1000.0, center.k, center.A);
+                }
+            });
     }
-  });
-  
-  drawingManager.setMap(map);
-google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-  if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
-    var center = event.overlay.getCenter();
-	var radius = event.overlay.getRadius();
-	console.log(radius);
-	console.log(center);
-	loadXMLDoc(radius / 1000.0, center.k, center.A);
-  }
-});
-}
 
-google.maps.event.addDomListener(window, 'load', initialize);
+    google.maps.event.addDomListener(window, 'load', initialize);
 
 
     </script>
-        <title>
-            $title
-        </title>
+    <title>
+        $title
+    </title>
   </head>
   <body>
         <h1>
             $title
         </h1>
         
-        $content
+        <div id="map-canvas"></div>
+        <div id="results"></div>
   </body>

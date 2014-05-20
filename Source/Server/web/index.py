@@ -14,7 +14,7 @@ class Index():
             #                            <input type="submit" value="Verzenden" />
             #                            </form>
             #                        """)
-            return interface("Home", "<div id=\"map-canvas\"></div>")
+            return interface("Home", "")
         elif cherrypy.request.method == "POST":
             print lat, lon, radius
 	    temp = coordinate_calc.main((lat, lon), radius)
