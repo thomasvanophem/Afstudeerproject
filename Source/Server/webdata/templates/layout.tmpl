@@ -16,7 +16,7 @@
         margin-top: 50px;
         margin-right: 50px;
       }
-      #result {
+      #results {
         height: 75%;
         width: 20%;
       }
@@ -35,7 +35,7 @@
             
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    document.getElementById("result").innerHTML=xmlhttp.responseText;
+                    document.getElementById("results").innerHTML=xmlhttp.responseText;
                 }
             }
 
