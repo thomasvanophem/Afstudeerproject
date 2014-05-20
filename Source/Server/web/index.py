@@ -14,12 +14,13 @@ class Index():
             #                            <input type="submit" value="Verzenden" />
             #                            </form>
             #                        """)
-            return interface("Home", "<div id="map-canvas"></div>")
+            return interface("Home", "<div id=\"map-canvas\"></div>")
         elif cherrypy.request.method == "POST":
-            temp = coordinate_calc.main((lat, lon), radius)
-            return interface("Home", """<h2>Welkom!</h2>
+            print lat, lon, radius
+	    temp = coordinate_calc.main((lat, lon), radius)
+            return interface("Home", """<h2>Welkom!</h2><div id=\"myDiv\">
                                         Latitude: %s <br />
                                         Longitude: %s <br />
                                         Radius: %s <br/>
-                                        Steden: %s
+                                        Steden: %s</div>
                                      """%(float(lat), float(lon), float(radius), temp))

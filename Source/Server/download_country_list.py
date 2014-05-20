@@ -81,7 +81,7 @@ def download(source_url):
         logger.log("warning", "Download unsuccessfull!", time.strftime("%c"))
         logger.log("error", str(e) + " " + source_url, time.strftime("%c"))
 
-@crython.job(expr='@daily', ctx='process')        
+@crython.job(expr='@daily')        
 def download_helper():
     """
     Specifies the files to download and calls the download function.
