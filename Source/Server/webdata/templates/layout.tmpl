@@ -31,6 +31,29 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
     <script>
+function loadXMLDoc(radius, x, y)
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("POST","",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
+}  
+  
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(-34.397, 150.644),
@@ -63,6 +86,7 @@ google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event)
 	var radius = event.overlay.getRadius();
 	console.log(radius);
 	console.log(center);
+	loadXMLDox(radius, center.k, center.A);
   }
 });
 }
