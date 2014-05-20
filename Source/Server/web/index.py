@@ -16,9 +16,7 @@ class Index():
             #                        """)
             return interface("Home", "")
         elif cherrypy.request.method == "POST":
-            print float(lat), float(lon), float(radius)
             temp = coordinate_calc.main((lat, lon), radius)
-            print temp
             return interface("Home", """<h2>Welkom!</h2>
                                         Latitude: %s <br />
                                         Longitude: %s <br />
