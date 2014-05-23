@@ -56,6 +56,7 @@
 			}
 		</style>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script>
 			function loadXMLDoc(radius, x, y) {
 				var xmlhttp;
@@ -78,9 +79,11 @@
 				xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
 			}  
 	  
+			var selectedArea = null;
+			
 			function initialize() {
 				var mapOptions = {
-					center: new google.maps.LatLng(-34.397, 150.644),
+					center: new google.maps.LatLng(52.3740300, 4.8896900),
 					zoom: 8
 				};
 
@@ -104,6 +107,19 @@
 			  
 				drawingManager.setMap(map);
 				
+				$('#map-canvas').on('mousedown', function() {
+					if ( selectedArea ) {
+						selectedArea.setMap(null);
+						google.maps.event.clearInstanceListeners(selectedArea);
+					}
+	
+					selectedArea = null;
+				});
+
+				google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+					selectedArea = circle;
+				});
+				
 				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 						if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
 							var center = event.overlay.getCenter();
@@ -111,6 +127,7 @@
 							//DEBUG
 							console.log("Radius: "+radius/1000.0+" KM");
 							console.log("Lat: "+center.k+" Lon: "+center.A);
+							//Request to server
 							loadXMLDoc(radius / 1000.0, center.k, center.A);
 						}
 					});
