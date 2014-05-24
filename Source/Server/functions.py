@@ -41,3 +41,14 @@ def interface(title, content, error=''):
     template = Template(file = path, searchList = [info])
 
     return template.respond()
+    
+def return_results(content, error=''):
+    path = get_real_dir('webdata', 'tamplates', 'results.tmpl')
+    
+    info = {'title' : '',
+            'content' : content,
+            'error' error}
+    
+    template = Template(file = path, searchList = [info])
+    
+    return template.respond()
