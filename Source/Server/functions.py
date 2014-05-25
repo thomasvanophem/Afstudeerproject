@@ -1,6 +1,7 @@
 import time
 import os
 import sys
+import json
 
 import logger
 
@@ -43,11 +44,11 @@ def interface(title, content, error=''):
     return template.respond()
     
 def return_results(content, error=''):
-    path = get_real_dir('webdata', 'tamplates', 'results.tmpl')
+    path = get_real_dir('webdata', 'templates', 'results.tmpl')
     
     info = {'title' : '',
             'content' : content,
-            'error' error}
+            'error' : error}
     
     template = Template(file = path, searchList = [info])
     

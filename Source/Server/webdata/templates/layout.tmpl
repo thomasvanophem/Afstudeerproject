@@ -107,8 +107,9 @@
 										});
 			  
 				drawingManager.setMap(map);
-				
+				#raw
 				$('#map-canvas').on('mousedown', function() {
+				#end raw
 					if ( selectedArea ) {
 						selectedArea.setMap(null);
 						google.maps.event.clearInstanceListeners(selectedArea);
