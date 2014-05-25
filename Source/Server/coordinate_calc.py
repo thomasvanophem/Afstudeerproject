@@ -51,7 +51,7 @@ def main(source, radius, db, result):
         if calc_distance(source, coordinate[1]) <= float(radius) and coordinate[0] not in result:
             result.append(coordinate[0])
     
-    if len(result) < 50 and db == "../Download/cities15000.txt":
+    if len(result) < 50 and db == "./Download/cities15000.txt":
         main(source, radius, "./Download/cities5000.txt", result)
     elif len(result) < 50 and db == "./Download/cities5000.txt":
         main(source, radius, "./Download/cities1000.txt", result)
