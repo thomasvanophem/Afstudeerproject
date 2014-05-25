@@ -20,3 +20,7 @@ Sat May  3 14:27:39 2014 OK: ./Download/cities1000.zip successfully unzipped!
 Sat May  3 14:27:39 2014 BUSY: Removing ./Download/cities1000.zip
 Sat May  3 14:27:39 2014 OK: ./Download/cities1000.zip successfully removed!
 Sat May  3 14:27:39 2014 INFO: Completed GEO DATA unzip...
+Sat May  3 16:38:51 2014 ERROR: You need the SimpleJSON-module for this to wokr!
+Sat May  3 16:38:56 2014 ERROR: You need the SimpleJSON-module for this to wokr!
+Sat May  3 16:39:05 2014 ERROR: You need the SimpleJSON-module for this to wokr!
+Sat May  3 16:40:08 2014 ERROR: You need the SimpleJSON-module for this to work!

@@ -16,7 +16,6 @@ def read_file(file_name):
         
     with open(file_name, "r") as f:
         for line in f:
-            #result.append((line.split("\t")[1], (line.split("\t")[4], line.split("\t")[5])))
             result.append((line.split("\t")[2], (line.split("\t")[4], line.split("\t")[5])))
          
     return result
@@ -43,18 +42,18 @@ def calc_distance(source, destination):
     return R * c
     
     
-def main(source, radius):
+def main(source, radius, db, result):
     coordinates = []
-    result = []
     
-    for f in glob.glob("./Download/*.txt"):
-        coordinates = coordinates + read_file(f)
+    coordinates = coordinates + read_file(db)
 
     for coordinate in coordinates:
         if calc_distance(source, coordinate[1]) <= float(radius) and coordinate[0] not in result:
             result.append(coordinate[0])
-            
-    return result
     
-if __name__ == "__main__":
-    print main((22.36667, -79.56667), 1000.0) #((lat, lon), radius in km)
+    if len(result) < 50 and db == "../Download/cities15000.txt":
+        main(source, radius, "./Download/cities5000.txt", result)
+    elif len(result) < 50 and db == "./Download/cities5000.txt":
+        main(source, radius, "./Download/cities1000.txt", result)
+    
+    return result
