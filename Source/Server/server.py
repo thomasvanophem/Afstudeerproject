@@ -1,5 +1,3 @@
-import crython
-
 import download_country_list
 from functions import *
 from web.index import Index
@@ -15,5 +13,4 @@ def main():
     cherrypy.quickstart(Index(), config = cherry_conf)
 
 if __name__ == "__main__":
-    crython.tab.start()
     main()
