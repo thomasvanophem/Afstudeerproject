@@ -1,8 +1,9 @@
-import download_country_list
+import geo_data
 from functions import *
 from web.index import Index
 
 def main():
+    geo_data.download_helper()
     cherry_conf = {'global': {
 			'tools.sessions.on': True,
 			'tools.sessions.timeout': 20160, #14 days
