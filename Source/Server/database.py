@@ -64,7 +64,7 @@ class Database:
         fields:         list [] of fields to insert
         values:         list [] of values
         """     
-
+        
         # Construct the SQL query.
         val = ", ".join(["?"] * len(values))
         data = ", ".join(fields)
@@ -79,7 +79,8 @@ class Database:
             logger.log("ok", "Insert successful", time.strftime("%c"))
         except sqlite3.OperationalError as e:
             logger.log("error", "Insert failed :: " + str(e) + " :: " + sql, time.strftime("%c"))
-
+        except sqlite3.InterfaceError as e:
+            logger.log("error", "Insert failed :: " + str(e) + " :: " + sql, time.strftime("%c"))
     def select(self, table_name, fields, where = "", order = "",  ad = "ASC"):
         """
         Selects records from the database.

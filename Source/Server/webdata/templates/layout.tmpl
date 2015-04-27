@@ -140,9 +140,9 @@
 							var radius = event.overlay.getRadius();
 							//DEBUG
 							console.log("Radius: "+radius/1000.0+" KM");
-							console.log("Lat: "+center.k+" Lon: "+center.A);
+							console.log("Lat: "+center.lat()+" Lon: "+center.lng());
 							//Request to server
-							loadXMLDoc(radius / 1000.0, center.k, center.A);
+							loadXMLDoc(radius / 1000.0, center.lat(), center.lng());
 						}
 					});
 			}

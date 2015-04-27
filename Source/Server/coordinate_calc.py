@@ -5,12 +5,12 @@ Date: 30-04-2014
 
 import math
 import glob
+import time
 
 import database
 
 def get_cities(db_name, r, lat, lon):
     result = []
-    print r
     dlon = math.asin(math.sin(r)/math.cos(lat))
     
     lat_min = str(lat - r)
@@ -24,8 +24,6 @@ def get_cities(db_name, r, lat, lon):
             " GROUP BY NAME HAVING acos(sin(" + str(lat) + ") * sin(LAT) + cos(" + \
             str(lat) + ") * cos(LAT) * cos(LON - (" + str(lon) + "))) <= " + str(r)
     
-    print where
-    
     db = database.Database(db_name)
     
     for row in db.select("cities", fields, where):
@@ -35,13 +33,22 @@ def get_cities(db_name, r, lat, lon):
     
     return result    
     
-def main(db, source, radius): #, db, result):
+def cache(db_name, lat, lon, radius, cities):
+    db = database.Database(db_name)
+    db.create_table("geo_cache", ["ID INTEGER PRIMARY KEY ASC", 
+                                    "LAT REAL", "LON REAL", 
+                                    "RADIUS REAL", "CITIES TEXT", 
+                                    "DATE INTEGER"])
+    db.insert("geo_cache", ["LAT", "LON", "RADIUS", "CITIES", "DATE"], 
+                            [lat, lon, radius, str(cities), int(time.time())])
+    db.close()
+
+def main(db, source, radius):
     r = float(radius) / 6371
     lat = math.radians(float(source[0]))
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
-    
-    print cities
+    cache("geo_data.db", lat, lon, float(radius), cities)
     
     return cities
     
