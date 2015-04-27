@@ -8,6 +8,6 @@ class Index():
         if cherrypy.request.method == "GET":
             return interface("Home", "")
         elif cherrypy.request.method == "POST":
-            temp = coordinate_calc.main((lat, lon), radius, "./Download/cities15000.txt", [])
+            temp = coordinate_calc.main("geo_data.db", (lat, lon), radius)
 
             return json.dumps(temp)
