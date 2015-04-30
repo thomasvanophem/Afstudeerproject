@@ -7,17 +7,17 @@ var newsSearch;
 
 function searchComplete() {
     // Check that we got results
-    document.getElementById('content').innerHTML = '';
+    //document.getElementById('content').innerHTML = '';
     
     if (newsSearch.results && newsSearch.results.length > 0) {
         for (var i = 0; i < newsSearch.results.length; i++) {
             // Create HTML elements for search results
             var p = document.createElement('p');
             var a = document.createElement('a');
-            
+            //alert(p);
             a.href=newsSearch.results[i].unescapedUrl;
             a.innerHTML = newsSearch.results[i].title;
-
+            a.target="_blank";
             // Append search results to the HTML nodes
             p.appendChild(a);
             //document.body.appendChild(p);
@@ -46,7 +46,7 @@ function loadXMLDoc(radius, x, y) {
             //#end raw
             for (var i = 0; i < temp.length; i++) {
                 //#raw
-                $("#results").append(temp[i] + "<br />");
+                //$("#results").append(temp[i] + "<br />");
                 //#end raw
                 
                 // Create a News Search instance.
@@ -60,7 +60,7 @@ function loadXMLDoc(radius, x, y) {
                 newsSearch.execute(temp[i]);
 
                 // Include the required Google branding
-                google.search.Search.getBranding('branding');
+                //google.search.Search.getBranding('branding');
             }
         }
     }
