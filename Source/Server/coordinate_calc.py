@@ -33,23 +33,12 @@ def get_cities(db_name, r, lat, lon):
     
     return result    
     
-def cache(db_name, lat, lon, radius, cities):
-    db = database.Database(db_name)
-    db.create_table("geo_cache", ["ID INTEGER PRIMARY KEY ASC", 
-                                    "LAT REAL", "LON REAL", 
-                                    "RADIUS REAL", "CITIES TEXT", 
-                                    "DATE INTEGER"])
-    db.insert("geo_cache", ["LAT", "LON", "RADIUS", "CITIES", "DATE"], 
-                            [lat, lon, radius, str(cities), int(time.time())])
-    db.close()
-
 def main(db, source, radius):
     r = float(radius) / 6371
     lat = math.radians(float(source[0]))
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
-    cache("geo_data.db", lat, lon, float(radius), cities)
-    
+        
     return cities
     
 if __name__ == "__main__":

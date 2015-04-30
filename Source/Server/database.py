@@ -167,7 +167,18 @@ class Database:
             logger.log("ok", "Record was deleted", time.strftime("%c"))
         except:
             logger.log("error", "Delete failed :: " + str(sys.exc_info()[0]) + " :: " + sql, time.strftime("%c"))
-    
+
+    def drop_table(self, table_name):
+	sql = "DROP TABLE " + table_name + ";"
+
+        try:
+            logger.log("busy", "Dropping table " + table_name, time.strftime("%c"))
+            self.db.execute(sql)
+            self.db.commit()
+            logger.log("ok", "Dropped table " + table_name, time.strftime("%c"))
+        except:
+            logger.log("error", "Drop failed :: " + str(sys.exc_info()[0]) + " :: " + sql, time.strftime("%c"))
+
     def close(self):
         """
         Closes the database connection.

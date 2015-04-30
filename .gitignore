@@ -1,1 +1,4 @@
 Source/Server/Download/
+Source/Server/Logs
+*.pyc
+*.so

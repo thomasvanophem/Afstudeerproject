@@ -55,7 +55,7 @@ def unzip_file(zip_file):
         e = sys.exc_info()[0]
         logger.log("error", str(e), time.strftime("%c"))
 
-def write_to_database():
+def write_cities_to_database():
     db = database.Database("geo_data.db")
     db.create_table("cities", ["ID INTEGER PRIMARY KEY ASC", 
                                 "NAME TEXT NOT NULL",
@@ -63,23 +63,37 @@ def write_to_database():
                                 "LAT REAL NOT NULL",
                                 "LON REAL NOT NULL",
                                 "COUNTRY_CODE TEXT NOT NULL"])              
-    for name in glob.glob("./Download/*.txt"):
+    temp = open("./Download/cities1000.txt", 'r')
         
+    for line in temp:
+        l = line.split("\t")
         
-        temp = open(name, 'r')
+        db.insert("cities", ["NAME", "POP", "LAT", "LON",
+                            "COUNTRY_CODE"], 
+                            [l[2], int(l[14]), math.radians(float(l[4])), 
+                            math.radians(float(l[5])), l[8]])
+    
+    temp.close()
         
-        for line in temp:
+    db.close()
+
+def write_countries_to_database():
+    db = database.Database("geo_data.db")
+    db.create_table("countries", ["ID INTEGER PRIMARY KEY ASC",
+                                    "NAME TEXT NOT NULL", "CODE TEXT NOT NULL"])   
+    
+    temp = open("./Download/countryInfo.txt", 'r')
+
+    for line in temp:
+        if line[0] != "#":
             l = line.split("\t")
-            
-            db.insert("cities", ["NAME", "POP", "LAT", "LON",
-                                "COUNTRY_CODE"], 
-                                [l[2], int(l[14]), math.radians(float(l[4])), 
-                                math.radians(float(l[5])), l[8]])
-    
-        temp.close()
-        
-    db.close()   
-    
+
+            db.insert("countries", ["NAME", "CODE"], [l[4], l[5]])
+
+    temp.close()
+
+    db.close()
+
 def download(source_url):
     """
     Downloads and save the files specified by source_url.
@@ -117,7 +131,12 @@ def download_helper():
         os.makedirs("Download");
         logger.log("info", "Downoad directory created", time.strftime("%c"))
     
-    if len(glob.glob("./Download/*.txt")) < 1:
+    if config.download:
+        db = database.Database("geo_data.db")
+        db.drop_table("cities")
+        db.drop_table("countries")
+        db.close()
+
         logger.log("info", "Starting GEO DATA download", time.strftime("%c"))
         
         # Download all the files in config.download_files.               
@@ -133,7 +152,9 @@ def download_helper():
             unzip_file(f)
         
         logger.log("info", "Completed GEO DATA unzip", time.strftime("%c"))    
-        write_to_database()
+        
+        write_cities_to_database()
+        write_countries_to_database()
     else:
         logger.log("info", "GEO DATA already downloaded", time.strftime("%c"))
     
