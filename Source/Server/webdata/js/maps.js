@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-		<meta charset="utf-8">
-		
-        <link rel="stylesheet" href="../css/layout.css" />
-		
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<<<<<<< HEAD
-		<script>
-			function loadXMLDoc(radius, x, y) {
+function loadXMLDoc(radius, x, y) {
 				var xmlhttp;
 				if (window.XMLHttpRequest) {
 					// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -23,7 +11,7 @@
 				xmlhttp.onreadystatechange = function() {
 					if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 					    	var temp = JSON.parse(xmlhttp.responseText);
-                                                var div = document.getElementById("results");
+						var div = document.getElementById("results");
 						#raw
 						$("#results").html('');
 						#end raw
@@ -98,34 +86,3 @@
 			}
 
 			google.maps.event.addDomListener(window, 'load', initialize);
-		</script>
-=======
-		<script src="../js/maps.js"></script>
->>>>>>> 1c29e5d415e2318b104edecad479518a1ae1945e
-		<title>
-			$title
-		</title>
-	</head>
-	<body>
-		<div id="menu">
-			<ul>
-				<li>
-					<a href="index3.html">Home</a>
-				</li>
-				<li>
-					<a href="#">Contact</a>
-				</li>
-				<li>
-					<a href="#">F.A.Q.</a>
-				</li>
-			</ul>
-		</div>
-		<div id="wrapper">
-			<div id="map-canvas">
-			</div>
-			<div id="results">
-				$content
-			</div>
-		</div>
-	</body>
-</html>
