@@ -12,13 +12,13 @@ function loadXMLDoc(radius, x, y) {
 					if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 					    	var temp = JSON.parse(xmlhttp.responseText);
 						var div = document.getElementById("results");
-						#raw
+						//#raw
 						$("#results").html('');
-						#end raw
+						//#end raw
 						for (var i = 0; i < temp.length; i++) {
-							#raw
+							//#raw
 							$("#results").append(temp[i] + "<br />");
-							#end raw
+							//#end raw
 							//div.innerHTML = div.innerHTML + (temp[i]) + "<br />";
 						}
 						//document.getElementById("results").innerHTML=xmlhttp.responseText;
@@ -57,9 +57,9 @@ function loadXMLDoc(radius, x, y) {
 										});
 			  
 				drawingManager.setMap(map);
-				#raw
+				//#raw
 				$('#map-canvas').on('mousedown', function() {
-				#end raw
+				//#end raw
 					if ( selectedArea ) {
 						selectedArea.setMap(null);
 						google.maps.event.clearInstanceListeners(selectedArea);

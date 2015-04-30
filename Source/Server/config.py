@@ -16,4 +16,4 @@ colors = {'BUSY' : '\033[1;47m', 'INFO' : '\033[1;46m', 'OK' : '\033[1;42m',
             
 log = True
 to_file = False
-download = True
+download = False

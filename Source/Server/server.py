@@ -12,9 +12,15 @@ def main():
                     '/css': {
                         'tools.staticdir.on': True,
                         'tools.staticdir.dir': "/home/thomas/Afstudeerproject/Source/Server/webdata/css"},
+                    '/js': {
+                        'tools.staticdir.on': True,
+                        'tools.staticdir.dir': "/home/thomas/Afstudeerproject/Source/Server/webdata/js"},
                     '/layout.css': {
                         'tools.staticfile.on': True,
-                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/css/layout.css"}
+                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/css/layout.css"},
+                    '/maps.js': {
+                        'tools.staticfile.on': True,
+                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/js/maps.js"}
                     }
 
     cherrypy.quickstart(Index(), config = cherry_conf)
