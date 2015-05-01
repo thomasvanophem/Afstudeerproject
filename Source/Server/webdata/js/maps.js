@@ -24,6 +24,7 @@ function searchComplete() {
             $("#results").append(p);
         }
     }
+
 }
 
 function loadXMLDoc(radius, x, y) {
@@ -46,7 +47,7 @@ function loadXMLDoc(radius, x, y) {
             //#end raw
             for (var i = 0; i < temp.length; i++) {
                 //#raw
-                //$("#results").append(temp[i] + "<br />");
+                $("#results").append(temp[i] + "<br />");
                 //#end raw
                 
                 // Create a News Search instance.
@@ -58,10 +59,11 @@ function loadXMLDoc(radius, x, y) {
                 newsSearch.setResultSetSize(8)
                 // Specify search quer(ies)
                 newsSearch.execute(temp[i]);
-
+                //searchComplete();
                 // Include the required Google branding
                 //google.search.Search.getBranding('branding');
             }
+            google.search.Search.getBranding('branding');
         }
     }
 
