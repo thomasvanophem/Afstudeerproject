@@ -22,9 +22,19 @@ function GetBing(city) {
         context: this,
         type: 'GET',
         success: function(data, status) {
-            alert(data.d.results[0].Url);
-            alert(status);
-            alert(data);
+            results = data.d.results;
+            for (var i = 0; i < results.length; i++) {
+                var p = document.createElement('p');
+                var a = document.create_element('a');
+                
+                a.href = results[i].Url;
+                a.innerHTML = results[i].Title;
+                a.target = "_blank";
+                
+                p.appendChild(a);
+                
+                $("#results").append(p);
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert (textStatus);
