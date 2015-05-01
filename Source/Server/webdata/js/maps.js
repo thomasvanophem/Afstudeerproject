@@ -1,5 +1,4 @@
 var selectedArea = null;
-var Bing = require('node-bing-api')({ accKey: "C9+uvX1xxYhWjL5IUdy4GlA3UoekeDxfb9tFTMR4TKk" });
 
 function loadXMLDoc(radius, x, y) {
     var xmlhttp;
@@ -26,16 +25,6 @@ function loadXMLDoc(radius, x, y) {
                 
                
             }
-            
-            Bing.news("xbox", function(error, res, body){
-            console.log(body);
-          },
-          {
-            top: 10,  // Number of results (max 50)
-            skip: 3,   // Skip first 3 results
-            newssortby: "Date" //Choices are Date, Relevance
-            newscategory: "rt_Business" //Choices are rt_Business,rt_Entertainment,rt_Health,rt_Politics,rt_Sports,rt_US,rt_World,rt_ScienceAndTechnology
-          });
         }
     }
 
