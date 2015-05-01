@@ -12,7 +12,7 @@ function setHeader(xhr) {
 
 function GetBing(city) {
     //Build up the URL for the request
-    var requestStr = "https://api.datamarket.azure.com/Data.ashx/Bing/Search/News?Query=%27".concat(city, "%27&$top=5&$format=json");
+    var requestStr = "https://api.datamarket.azure.com/Data.ashx/Bing/Search/News?Query=%27".concat(city, "%27&$top=10&$format=json");
     var results = [];
     
     //Return the promise from making an XMLHttpRequest to the server
@@ -23,17 +23,24 @@ function GetBing(city) {
         type: 'GET',
         success: function(data, status) {
             results = data.d.results;
-            for (var i = 0; i < results.length; i++) {
-                var p = document.createElement('p');
-                var a = document.create_element('a');
+            
+            if (results.length != 0) {
+                $("#results").append("News for " + city + "... <br />");
+                for (var i = 0; i < results.length; i++) {
+                    var p = document.createElement('p');
+                    var a = document.createElement('a');
                 
-                a.href = results[i].Url;
-                a.innerHTML = results[i].Title;
-                a.target = "_blank";
+                    a.href = results[i].Url;
+                    a.innerHTML = results[i].Title;
+                    a.target = "_blank";
                 
-                p.appendChild(a);
+                    p.appendChild(a);
                 
-                $("#results").append(p);
+                    $("#results").append(p);
+                }
+
+            } else {
+                $("#results").append("No news for " + city + "...<br />");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
