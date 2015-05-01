@@ -1,31 +1,5 @@
-// This code generates a "Raw Searcher" to handle search queries. The Raw 
-// Searcher requires you to handle and draw the search results manually.
-google.load('search', '1');
-
 var selectedArea = null;
-var newsSearch;
-
-function searchComplete() {
-    // Check that we got results
-    //document.getElementById('content').innerHTML = '';
-    
-    if (newsSearch.results && newsSearch.results.length > 0) {
-        for (var i = 0; i < newsSearch.results.length; i++) {
-            // Create HTML elements for search results
-            var p = document.createElement('p');
-            var a = document.createElement('a');
-            //alert(p);
-            a.href=newsSearch.results[i].unescapedUrl;
-            a.innerHTML = newsSearch.results[i].title;
-            a.target="_blank";
-            // Append search results to the HTML nodes
-            p.appendChild(a);
-            //document.body.appendChild(p);
-            $("#results").append(p);
-        }
-    }
-
-}
+var Bing = require('node-bing-api')({ accKey: "C9+uvX1xxYhWjL5IUdy4GlA3UoekeDxfb9tFTMR4TKk" });
 
 function loadXMLDoc(radius, x, y) {
     var xmlhttp;
@@ -50,20 +24,18 @@ function loadXMLDoc(radius, x, y) {
                 $("#results").append(temp[i] + "<br />");
                 //#end raw
                 
-                // Create a News Search instance.
-                newsSearch = new google.search.NewsSearch();
-
-                // Set searchComplete as the callback function when a search is 
-                // complete.  The newsSearch object will have results in it.
-                newsSearch.setSearchCompleteCallback(this, searchComplete, null);
-                newsSearch.setResultSetSize(8)
-                // Specify search quer(ies)
-                newsSearch.execute(temp[i]);
-                //searchComplete();
-                // Include the required Google branding
-                //google.search.Search.getBranding('branding');
+               
             }
-            google.search.Search.getBranding('branding');
+            
+            Bing.news("xbox", function(error, res, body){
+            console.log(body);
+          },
+          {
+            top: 10,  // Number of results (max 50)
+            skip: 3,   // Skip first 3 results
+            newssortby: "Date" //Choices are Date, Relevance
+            newscategory: "rt_Business" //Choices are rt_Business,rt_Entertainment,rt_Health,rt_Politics,rt_Sports,rt_US,rt_World,rt_ScienceAndTechnology
+          });
         }
     }
 
