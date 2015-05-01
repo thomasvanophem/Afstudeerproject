@@ -10,11 +10,11 @@ function setHeader(xhr) {
   //'Basic <Your Azure Marketplace Key(Remember add colon character at before the key, then use Base 64 encode it');
 }
 
-function GetBing() {
+function GetBing(city) {
     //Build up the URL for the request
-    var requestStr = "https://api.datamarket.azure.com/Data.ashx/Bing/Search/News?Query=%27Alkmaar%27&$top=50&$format=json";
+    var requestStr = "https://api.datamarket.azure.com/Data.ashx/Bing/Search/News?Query=%27".concat(city, "%27&$top=5&$format=json");
     var results = [];
-
+    
     //Return the promise from making an XMLHttpRequest to the server
     $.ajax({ 
         url: requestStr, 
@@ -100,9 +100,9 @@ function loadXMLDoc(radius, x, y) {
                 //#raw
                 $("#results").append(temp[i] + "<br />");
                 //#end raw
-                
-               getBing();
+                GetBing(temp[i]);
             }
+            //GetBing();
         }
     }
 
