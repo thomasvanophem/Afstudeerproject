@@ -18,7 +18,7 @@ def get_cities(db_name, r, lat, lon):
     lon_min = str(lon - dlon)
     lon_max = str(lon + dlon)
     
-    fields = ["NAME"]
+    fields = ["NAME", "LAT", "LON", "POP"]
     where = "(LAT >= " + lat_min + " AND  LAT <= " + lat_max + \
             ") AND (LON >= " + lon_min + " AND LON <= " + lon_max + ")" + \
             " GROUP BY NAME HAVING acos(sin(" + str(lat) + ") * sin(LAT) + cos(" + \
@@ -42,4 +42,5 @@ def main(db, source, radius):
     return cities
     
 if __name__ == "__main__":
-    main("geo_data.db", (52.6333333, 4.75), 50)
+    t = main("geo_data.db", (52.6333333, 4.75), 50)
+    print t
