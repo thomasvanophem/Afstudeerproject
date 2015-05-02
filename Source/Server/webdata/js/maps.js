@@ -117,7 +117,7 @@ function loadXMLDoc(radius, x, y) {
                 //#raw
                 $("#results").append(temp[i] + "<br />");
                 //#end raw
-                GetBing(temp[i]);
+                GetBing(temp[i][0]);
             }
             //GetBing();
         }

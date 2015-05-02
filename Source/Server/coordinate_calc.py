@@ -18,11 +18,11 @@ def get_cities(db_name, r, lat, lon):
     lon_min = str(lon - dlon)
     lon_max = str(lon + dlon)
     
-    fields = ["cities.NAME", "cities.LAT", "cities.LON", "cities.POP"]
-    where = "(LAT >= " + lat_min + " AND  LAT <= " + lat_max + \
-            ") AND (LON >= " + lon_min + " AND LON <= " + lon_max + ")" + \
-            " GROUP BY NAME HAVING acos(sin(" + str(lat) + ") * sin(LAT) + cos(" + \
-            str(lat) + ") * cos(LAT) * cos(LON - (" + str(lon) + "))) <= " + str(r)
+    fields = ["cities.NAME", "cities.LAT", "cities.LON", "cities.POP", "countries.NAME"]
+    where = "cities.COUNTRY_CODE = countries.CODE AND (cities.LAT >= " + lat_min + " AND  cities.LAT <= " + lat_max + \
+            ") AND (cities.LON >= " + lon_min + " AND cities.LON <= " + lon_max + ")" + \
+            " GROUP BY cities.NAME HAVING acos(sin(" + str(lat) + ") * sin(cities.LAT) + cos(" + \
+            str(lat) + ") * cos(cities.LAT) * cos(cities.LON - (" + str(lon) + "))) <= " + str(r)
     
     db = database.Database(db_name)
     

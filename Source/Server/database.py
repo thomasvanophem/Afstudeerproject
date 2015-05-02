@@ -97,7 +97,7 @@ class Database:
         
         rows = []
         
-        sql = "SELECT " + data + " fROM " + table_name 
+        sql = "SELECT " + data + " FROM " + table_name 
         
         if where != "" and order != "":
             sql += " WHERE " + where + " ORDER BY " + order + " " + ad

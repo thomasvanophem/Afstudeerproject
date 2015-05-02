@@ -87,8 +87,7 @@ def write_countries_to_database():
     for line in temp:
         if line[0] != "#":
             l = line.split("\t")
-
-            db.insert("countries", ["NAME", "CODE"], [l[4], l[5]])
+            db.insert("countries", ["NAME", "CODE"], [l[4], l[0]])
 
     temp.close()
 
