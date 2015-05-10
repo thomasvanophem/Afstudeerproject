@@ -1,4 +1,6 @@
 var selectedArea = null;
+var map;
+var markers = [];
 
 var accountKey = 'C9+uvX1xxYhWjL5IUdy4GlA3UoekeDxfb9tFTMR4TKk';
 var accountKeyEncoded = base64_encode(":" + accountKey);
@@ -95,6 +97,10 @@ function base64_encode(data) {
     return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
 }
 
+Math.degrees = function(radians) {
+    return radians * 180.0 / Math.PI;
+}
+
 function loadXMLDoc(radius, x, y) {
     var xmlhttp;
     
@@ -110,14 +116,22 @@ function loadXMLDoc(radius, x, y) {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var temp = JSON.parse(xmlhttp.responseText);
             var div = document.getElementById("results");
-            //#raw
+
             $("#results").html('');
-            //#end raw
+            
             for (var i = 0; i < temp.length; i++) {
-                //#raw
+                
                 $("#results").append(temp[i] + "<br />");
-                //#end raw
+                
                 GetBing(temp[i][0]);
+                
+                var latlon = new google.maps.LatLng(Math.degrees(temp[i][1]), Math.degrees(temp[i][2]));
+                var marker = new google.maps.Marker({
+                                                    position: latlon,
+                                                    map: map,
+                                                    title: temp[i][0]
+                                                    });
+                markers.push(marker);
             }
             //GetBing();
         }
@@ -128,13 +142,21 @@ function loadXMLDoc(radius, x, y) {
     xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
 } 
 
+function remove_markers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+
+    markers = [];
+}
+
 function initialize() {
     var mapOptions = {
         center: new google.maps.LatLng(52.3740300, 4.8896900),
         zoom: 8
     };
 
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     var drawingManager = new google.maps.drawing.DrawingManager({
                                                                                                         drawingMode: google.maps.drawing.OverlayType.CIRCLE,
@@ -153,10 +175,10 @@ function initialize() {
                                                                                                         });
                                                                                                         
     drawingManager.setMap(map);
-    //#raw
+
     $('#map-canvas').on('mousedown', function() {
-    //#end raw
         if ( selectedArea ) {
+            remove_markers();
             selectedArea.setMap(null);
             google.maps.event.clearInstanceListeners(selectedArea);
         }

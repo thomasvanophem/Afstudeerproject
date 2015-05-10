@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 5
-
+max_cities = 10
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -39,7 +39,7 @@ def split_cities(cities):
     result = []
     nw, sw, ne, se = [], [], [], []
     
-    big_city = get_biggest(cities)
+    big = get_biggest(cities)
     
     result.append(big)
     
@@ -56,28 +56,33 @@ def split_cities(cities):
             sw.append(city)
         else:
             nw.append(city)
-    
+   
     if len(nw) <= min_cities:
-         result.append(get_biggest(nw))
+        result.append(get_biggest(nw))
     else:
-        result.append(split_cities(nw))
+        for city in split_cities(nw):
+            result.append(city)
         
     if len(sw) <= min_cities:
         result.append(get_biggest(sw))
     else:
-        result.append(split_cities(sw))
+        for city in split_cities(sw):
+            result.append(city)
         
     if len(ne) <= min_cities:
-        result.append(get_biggest(sw))
+        result.append(get_biggest(ne))
     else:
-        result.append(split_cities(sw))
+        for city in split_cities(ne):
+            result.append(city)
         
     if len(se) <= min_cities:
-        result.append(get_biggest(sw))
+        result.append(get_biggest(se))
     else:
-        result.append(split_cities(sw))
-        
-    return result
+        for city in split_cities(se):
+            result.append(city)
+    
+    # Remove empty tuples and return the result
+    return [i for i in result if i != ()]
     
 def get_bearing(big, city): 
     lat_big = math.radians(big[0])
@@ -96,8 +101,8 @@ def get_bearing(big, city):
     
 def get_biggest(cities):
     t = 0
-    
-    for city in cities
+    result = ()   
+    for city in cities:
         if city[3] > t:
             t = city[3]
             result = city
@@ -110,10 +115,14 @@ def main(db, source, radius):
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
     
-    temp = split_cities(cities)
-    print temp
+    temp = cities[:]
+    while len(temp) > max_cities:
+        temp = split_cities(temp)
     
-    return cities
+    print len(cities)
+    print len(temp)
+        
+    return temp
     
 if __name__ == "__main__":
     t = main("geo_data.db", (52.6333333, 4.75), 50)
