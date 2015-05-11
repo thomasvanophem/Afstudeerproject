@@ -42,7 +42,7 @@ def split_cities(cities):
     # Get the biggest city in the selection and add it to the result set.
     biggest = get_biggest(cities)
     result.append(biggest)
-    cities.remove (big)
+    cities.remove (biggest)
 
 
     for city in cities:
@@ -164,7 +164,7 @@ def get_bearing(big, city):
 def get_biggest(cities):
     t = 0
     result = ()
-    
+
     for city in cities:
         if city[3] > t:
             t = city[3]
