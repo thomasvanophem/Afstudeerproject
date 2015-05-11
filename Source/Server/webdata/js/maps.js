@@ -121,7 +121,7 @@ function loadXMLDoc(radius, x, y) {
             
             for (var i = 0; i < temp.length; i++) {
                 
-                $("#results").append(temp[i] + "<br />");
+                //$("#results").append(temp[i] + "<br />");
                 
                 GetBing(temp[i][0]);
                 

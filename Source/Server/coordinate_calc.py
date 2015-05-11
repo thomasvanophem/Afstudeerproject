@@ -24,7 +24,8 @@ def get_cities(db_name, r, lat, lon):
     where = "cities.COUNTRY_CODE = countries.CODE AND (cities.LAT >= " + lat_min + " AND  cities.LAT <= " + lat_max + \
             ") AND (cities.LON >= " + lon_min + " AND cities.LON <= " + lon_max + ")" + \
             " GROUP BY cities.NAME HAVING acos(sin(" + str(lat) + ") * sin(cities.LAT) + cos(" + \
-            str(lat) + ") * cos(cities.LAT) * cos(cities.LON - (" + str(lon) + "))) <= " + str(r)
+            str(lat) + ") * cos(cities.LAT) * cos(cities.LON - (" + str(lon) + "))) <= " + str(r) + \
+            " AND cities.pop != 0"
     
     db = database.Database(db_name)
     
