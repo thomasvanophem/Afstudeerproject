@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 15
+max_cities = 10
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -151,11 +151,12 @@ def main(db, source, radius):
 
         temp = cities[:]
 
-        while (len(temp) > max_cities - cities):
+        while (len(temp) > max_cities - num_cities):
                 temp = split_cities(temp)
 
 
     result += temp      
+    print len(result)
     return result
     
 if __name__ == "__main__":
