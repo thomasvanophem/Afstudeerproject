@@ -34,7 +34,69 @@ def get_cities(db_name, r, lat, lon):
     db.close()
     
     return result 
+
+def split_cities(cities):
+    result = []
+    nw, ne, se, sq = [], [], [], []
     
+    # Get the biggest city in the selection and add it to the result set.
+    biggest = get_biggest(cities)
+    result.append(biggest)
+    cities.remove (big)
+
+
+    for city in cities:
+        bearing = get_bearing((biggest[1], biggest[2]), (city[1], city[2]))
+
+        if bearing < 90.0:
+            ne.append(city)
+        elif bearing < 180.0:
+            se.append(city)
+        elif bearing < 270.0:
+            sw.append(city)
+        else:
+            # 270.0 >= bearing <= 360.0
+            nw.append(city)
+
+    if len(nw) < min_cities:
+        # less then the minimum, just append the biggest city to the result set.
+        result.append(get_biggest(nw))
+    else:
+        #len(nw) >= 5
+        # greater the the minimum, split the list of cities and append the result.
+        for city in split_cities(nw):
+            result.append(city)
+
+    if len(ne) < min_cities:
+        # less then the minimum, just append the biggest city to the result set.
+        result.append(get_biggest(ne))
+    else:
+        #len(nw) >= 5
+        # greater the the minimum, split the list of cities and append the result.
+        for city in split_cities(ne):
+            result.append(city)
+
+    if len(se) < min_cities:
+        # less then the minimum, just append the biggest city to the result set.
+        result.append(get_biggest(se))
+    else:
+        #len(nw) >= 5
+        # greater the the minimum, split the list of cities and append the result.
+        for city in split_cities(se):
+            result.append(city)
+
+    if len(sw) < min_cities:
+        # less then the minimum, just append the biggest city to the result set.
+        result.append(get_biggest(sw))
+    else:
+        #len(nw) >= 5
+        # greater the the minimum, split the list of cities and append the result.
+        for city in split_cities(sw):
+            result.append(city)
+
+    # Remove the empty tuples from the result set and return the result.
+    return [city for city in result if city != ()]
+"""
 def split_cities(cities):
     result = []
     nw, sw, ne, se = [], [], [], []
@@ -82,7 +144,7 @@ def split_cities(cities):
             result.append(city)
     
     # Remove empty tuples and return the result
-    return [i for i in result if i != ()]
+    return [i for i in result if i != ()]"""
     
 def get_bearing(big, city): 
     lat_big = math.radians(big[0])
@@ -101,7 +163,8 @@ def get_bearing(big, city):
     
 def get_biggest(cities):
     t = 0
-    result = ()   
+    result = ()
+    
     for city in cities:
         if city[3] > t:
             t = city[3]
