@@ -9,8 +9,8 @@ import time
 
 import database
 
-min_cities = 5
-max_cities = 10
+min_cities = 6
+max_cities = 15
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -37,13 +37,13 @@ def get_cities(db_name, r, lat, lon):
 
 def split_cities(cities):
     result = []
-    nw, ne, se, sq = [], [], [], []
+    nw, ne, se, sw = [], [], [], []
     
     # Get the biggest city in the selection and add it to the result set.
     biggest = get_biggest(cities)
     result.append(biggest)
-    cities.remove (biggest)
-
+    if biggest != ():
+        cities.remove(biggest)
 
     for city in cities:
         bearing = get_bearing((biggest[1], biggest[2]), (city[1], city[2]))
@@ -179,9 +179,12 @@ def main(db, source, radius):
     cities = get_cities(db, r, lat, lon)
     
     temp = cities[:]
+    print len(temp)
     while len(temp) > max_cities:
         temp = split_cities(temp)
-    
+        print len(temp)
+        print temp
+
     print len(cities)
     print len(temp)
         
