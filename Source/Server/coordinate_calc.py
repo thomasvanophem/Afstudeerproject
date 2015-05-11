@@ -47,6 +47,7 @@ def split_cities(cities):
         try:
             cities.remove(biggest)
         except ValueError as e:
+            # DEBUG
             print cities
             print biggest
 
@@ -139,8 +140,23 @@ def main(db, source, radius):
     while len(temp) > max_cities:
         temp = split_cities(temp)
         print len(temp)
-        
-    return temp
+    
+    result = temp[:]
+
+    num_cities = len(temp)
+
+    if num_cities != 15:
+        for city in temp:
+            cities.remove(city)
+
+        temp = cities[:]
+
+        while (len(temp) > max_cities - cities):
+                temp = split_cities(temp)
+
+
+    result += temp      
+    return result
     
 if __name__ == "__main__":
     t = main("geo_data.db", (52.6333333, 4.75), 50)
