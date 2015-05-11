@@ -43,7 +43,11 @@ def split_cities(cities):
         # Get the biggest city in the selection and add it to the result set.
         biggest = get_biggest(cities)
         result.append(biggest)
-        cities.remove(biggest)
+        try:
+            cities.remove(biggest)
+        except ValueError as e:
+            print cities
+            print biggest
 
         for city in cities:
             bearing = get_bearing((biggest[1], biggest[2]), (city[1], city[2]))
@@ -96,55 +100,6 @@ def split_cities(cities):
 
     # Remove the empty tuples from the result set and return the result.
     return [city for city in result if city != ()]
-"""
-def split_cities(cities):
-    result = []
-    nw, sw, ne, se = [], [], [], []
-    
-    big = get_biggest(cities)
-    
-    result.append(big)
-    
-    cities.remove(big)
-    
-    for city in (cities):
-        t = get_bearing((big[1], big[2]), (city[1], city[2]))
-        
-        if t < 90.0:
-            ne.append(city)
-        elif t < 180.0:
-            se.append(city)
-        elif t < 270.0:
-            sw.append(city)
-        else:
-            nw.append(city)
-   
-    if len(nw) <= min_cities:
-        result.append(get_biggest(nw))
-    else:
-        for city in split_cities(nw):
-            result.append(city)
-        
-    if len(sw) <= min_cities:
-        result.append(get_biggest(sw))
-    else:
-        for city in split_cities(sw):
-            result.append(city)
-        
-    if len(ne) <= min_cities:
-        result.append(get_biggest(ne))
-    else:
-        for city in split_cities(ne):
-            result.append(city)
-        
-    if len(se) <= min_cities:
-        result.append(get_biggest(se))
-    else:
-        for city in split_cities(se):
-            result.append(city)
-    
-    # Remove empty tuples and return the result
-    return [i for i in result if i != ()]"""
     
 def get_bearing(big, city): 
     lat_big = math.radians(big[0])
@@ -183,10 +138,6 @@ def main(db, source, radius):
     while len(temp) > max_cities:
         temp = split_cities(temp)
         print len(temp)
-        print temp
-
-    print len(cities)
-    print len(temp)
         
     return temp
     
