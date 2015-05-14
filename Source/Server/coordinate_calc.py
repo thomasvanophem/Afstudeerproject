@@ -146,20 +146,19 @@ def main(db, source, radius):
 
         num_cities = len(temp)
 
-        if num_cities != max_cities:
-            print "BOE"
-            print len(cities)
+        if num_cities < max_cities:
             for city in temp:
                 cities.remove(city)
-            print len(cities)
 
             temp2 = cities[:]
-
+            print temp2
             print len(result), len(temp2), max_cities - num_cities
 
             if len(temp2) < (max_cities - num_cities):
+                print "BOE"
                 result += temp2
             else:
+                print "FUCK"
                 while len(temp2) > (max_cities - num_cities):
                     temp2 = split_cities(temp2)
 
