@@ -146,16 +146,18 @@ def main(db, source, radius):
     num_cities = len(temp)
 
     if num_cities != 15:
+        print len(cities)
         for city in temp:
             cities.remove(city)
+        print len(cities)
 
-        temp = cities[:]
+        temp2 = cities[:]
 
-        while (len(temp) > max_cities - num_cities):
-                temp = split_cities(temp)
+        while len(temp2) > max_cities - num_cities:
+                temp2 = split_cities(temp2)
 
 
-    result += temp      
+    result += temp2      
     print len(result)
     return result
     
