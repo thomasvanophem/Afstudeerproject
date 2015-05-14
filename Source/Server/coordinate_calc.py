@@ -154,16 +154,16 @@ def main(db, source, radius):
             print len(cities)
 
             temp2 = cities[:]
-            print len(temp2), max_cities - num_cities
 
-            if len(temp2) < max_cities - num_cities:
+            print len(result), len(temp2), max_cities - num_cities
+
+            if len(temp2) < (max_cities - num_cities):
                 result += temp2
             else:
-                while len(temp2) > max_cities - num_cities:
+                while len(temp2) > (max_cities - num_cities):
                     temp2 = split_cities(temp2)
-                    
 
-        result += temp2      
+                result += temp2      
     else:
         result = cities[:]
         
