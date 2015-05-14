@@ -154,7 +154,9 @@ def main(db, source, radius):
             print temp2
             print len(result), len(temp2), max_cities - num_cities
 
-            if len(temp2) < (max_cities - num_cities):
+            if (max_cities - num_cities) == 1:
+                result.append(get_biggest(temp2))
+            elif len(temp2) < (max_cities - num_cities):
                 print "BOE"
                 result += temp2
             else:
