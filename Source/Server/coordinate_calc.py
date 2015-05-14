@@ -159,6 +159,11 @@ def main(db, source, radius):
             elif len(temp2) < (max_cities - num_cities):
                 print "BOE"
                 result += temp2
+            elif (max_cities - num_cities) < 5:
+                for i in range((max_cities - num_cities)):
+                    biggest = get_biggest(temp2)
+                    temp2.remove(biggest)
+                    result.append(biggest)
             else:
                 print "FUCK"
                 while len(temp2) > (max_cities - num_cities):
