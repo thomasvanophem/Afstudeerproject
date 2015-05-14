@@ -135,30 +135,35 @@ def main(db, source, radius):
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
     
-    temp = cities[:]
-    print len(temp)
-    while len(temp) > max_cities:
-        temp = split_cities(temp)
+    if len(cities) < max_cities:
+        temp = cities[:]
         print len(temp)
-    
-    result = temp[:]
+        while len(temp) > max_cities:
+            temp = split_cities(temp)
+            print len(temp)
+        
+        result = temp[:]
 
-    num_cities = len(temp)
+        num_cities = len(temp)
 
-    if num_cities != 15:
-        print len(cities)
-        for city in temp:
-            cities.remove(city)
-        print len(cities)
+        if num_cities != 15:
+            print len(cities)
+            for city in temp:
+                cities.remove(city)
+            print len(cities)
 
-        temp2 = cities[:]
+            temp2 = cities[:]
 
-        while len(temp2) > max_cities - num_cities:
-                temp2 = split_cities(temp2)
+            while len(temp2) > max_cities - num_cities:
+                    temp2 = split_cities(temp2)
 
 
-    result += temp2      
+        result += temp2      
+    else:
+        result = cities[:]
+        
     print len(result)
+
     return result
     
 if __name__ == "__main__":
