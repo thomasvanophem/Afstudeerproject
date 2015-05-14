@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 10
+max_cities = 20
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -151,13 +151,11 @@ def main(db, source, radius):
                 cities.remove(city)
 
             temp2 = cities[:]
-            print temp2
             print len(result), len(temp2), max_cities - num_cities
 
             if (max_cities - num_cities) == 1:
                 result.append(get_biggest(temp2))
             elif len(temp2) < (max_cities - num_cities):
-                print "BOE"
                 result += temp2
             elif (max_cities - num_cities) < 5:
                 for i in range((max_cities - num_cities)):
@@ -165,7 +163,6 @@ def main(db, source, radius):
                     temp2.remove(biggest)
                     result.append(biggest)
             else:
-                print "FUCK"
                 while len(temp2) > (max_cities - num_cities):
                     temp2 = split_cities(temp2)
 
