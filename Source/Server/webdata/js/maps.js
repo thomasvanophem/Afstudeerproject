@@ -8,8 +8,8 @@ var accountKeyEncoded = base64_encode(":" + accountKey);
 jQuery.support.cors = true;
 
 function setHeader(xhr) {
-  xhr.setRequestHeader('Authorization', "Basic " + accountKeyEncoded);
   //'Basic <Your Azure Marketplace Key(Remember add colon character at before the key, then use Base 64 encode it');
+  xhr.setRequestHeader('Authorization', "Basic " + accountKeyEncoded);
 }
 
 function GetBing(city) {
@@ -97,6 +97,7 @@ function base64_encode(data) {
     return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
 }
 
+// Converts radians to degrees
 Math.degrees = function(radians) {
     return radians * 180.0 / Math.PI;
 }
@@ -142,6 +143,7 @@ function loadXMLDoc(radius, x, y) {
     xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
 } 
 
+// Remove all the markers from the map.
 function remove_markers() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
@@ -159,20 +161,20 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     var drawingManager = new google.maps.drawing.DrawingManager({
-                                                                                                        drawingMode: google.maps.drawing.OverlayType.CIRCLE,
-                                                                                                        drawingControl: false,
-                                                                                                        markerOptions: {
-                                                                                                            icon: 'images/beachflag.png'
-                                                                                                        },
-                                                                                                        circleOptions: {
-                                                                                                            fillColor: '#D3E6D3',
-                                                                                                            fillOpacity: 0.5,
-                                                                                                            strokeWeight: 1,
-                                                                                                            clickable: false,
-                                                                                                            editable: true,
-                                                                                                            zIndex: 1
-                                                                                                        }
-                                                                                                        });
+                                                                drawingMode: google.maps.drawing.OverlayType.CIRCLE,
+                                                                drawingControl: false,
+                                                                markerOptions: {
+                                                                    icon: 'images/beachflag.png'
+                                                                },
+                                                                circleOptions: {
+                                                                    fillColor: '#D3E6D3',
+                                                                    fillOpacity: 0.5,
+                                                                    strokeWeight: 1,
+                                                                    clickable: false,
+                                                                    editable: true,
+                                                                    zIndex: 1
+                                                                }
+                                                                });
                                                                                                         
     drawingManager.setMap(map);
 
@@ -183,7 +185,10 @@ function initialize() {
                 remove_markers();
                 selectedArea.setMap(null);
                 google.maps.event.clearInstanceListeners(selectedArea);
+                drawingManager.drawingMode: google.maps.drawing.OverlayType.CIRCLE;
             }
+        } else if (event.button == 0) {
+            drawingManager.drawingMode: google.maps.drawing.OverlayType.MARKER;
         }
 
         selectedArea = null;
@@ -194,17 +199,16 @@ function initialize() {
     });
     
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-            if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
-                alert(event.button);
-                var center = event.overlay.getCenter();
-                var radius = event.overlay.getRadius();
-                //DEBUG
-                console.log("Radius: "+radius/1000.0+" KM");
-                console.log("Lat: "+center.lat()+" Lon: "+center.lng());
-                //Request to server
-                loadXMLDoc(radius / 1000.0, center.lat(), center.lng());
-            }
-        });
+        if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
+            var center = event.overlay.getCenter();
+            var radius = event.overlay.getRadius();
+            //DEBUG
+            console.log("Radius: "+radius/1000.0+" KM");
+            console.log("Lat: "+center.lat()+" Lon: "+center.lng());
+            //Request to server
+            loadXMLDoc(radius / 1000.0, center.lat(), center.lng());
+        }
+    });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
