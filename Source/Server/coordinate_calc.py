@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 20
+max_cities = 10
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -199,10 +199,13 @@ def main(db, source, radius):
         num_cities = len(result)
 
         while num_cities < max_cities:
-            for city in temp:
-                cities.remove(city)
-
+            for city in result:
+                try:
+                    cities.remove(city)
+                except:
+                    pass
             temp2 = cities[:]
+            
             print len(result), len(temp2), max_cities - num_cities
 
             if (max_cities - num_cities) == 1:

@@ -123,7 +123,7 @@ function loadXMLDoc(radius, x, y) {
                 
                 //$("#results").append(temp[i] + "<br />");
                 
-                GetBing(temp[i][0]);
+                //GetBing(temp[i][0]);
                 
                 var latlon = new google.maps.LatLng(Math.degrees(temp[i][1]), Math.degrees(temp[i][2]));
                 var marker = new google.maps.Marker({
@@ -176,11 +176,14 @@ function initialize() {
                                                                                                         
     drawingManager.setMap(map);
 
-    $('#map-canvas').on('mousedown', function() {
-        if ( selectedArea ) {
-            remove_markers();
-            selectedArea.setMap(null);
-            google.maps.event.clearInstanceListeners(selectedArea);
+    $('#map-canvas').on('mousedown', function(event) {
+        //alert("You pressed button: " + event.button);
+        if (event.button == 2) {
+            if (selectedArea) {
+                remove_markers();
+                selectedArea.setMap(null);
+                google.maps.event.clearInstanceListeners(selectedArea);
+            }
         }
 
         selectedArea = null;
@@ -192,6 +195,7 @@ function initialize() {
     
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
             if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
+                alert(event.button);
                 var center = event.overlay.getCenter();
                 var radius = event.overlay.getRadius();
                 //DEBUG
