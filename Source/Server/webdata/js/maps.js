@@ -178,8 +178,8 @@ function initialize() {
                                                                                                         
     drawingManager.setMap(map);
 
-    $('#map-canvas').on('mousedown', function(event) {
-        if (event.button == 0) {
+    $('#map-canvas').on('mousedown', function(e) {
+        if (e.button == 0) {
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
 
             if (selectedArea) {
@@ -187,11 +187,11 @@ function initialize() {
                 selectedArea.setMap(null);
                 google.maps.event.clearInstanceListeners(selectedArea);
             }
-        } else if (event.button == 2) {
+
+            selectedArea = null;
+        } else if (e.button == 2) {
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
         }
-
-        selectedArea = null;
     });
 
     $('#map-canvas').on('mouseup', function() {
