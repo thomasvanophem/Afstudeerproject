@@ -180,15 +180,18 @@ function initialize() {
 
     $('#map-canvas').on('mousedown', function(event) {
         //alert("You pressed button: " + event.button);
-        if (event.button == 2) {
+        //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+        if (event.button == 0) {
             if (selectedArea) {
                 remove_markers();
                 selectedArea.setMap(null);
                 google.maps.event.clearInstanceListeners(selectedArea);
-                drawingManager.drawingMode: google.maps.drawing.OverlayType.CIRCLE;
+                //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
             }
-        } else if (event.button == 0) {
-            drawingManager.drawingMode: google.maps.drawing.OverlayType.MARKER;
+            //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+        } else if (event.button == 2) {
+            alert("boe");
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
         }
 
         selectedArea = null;
