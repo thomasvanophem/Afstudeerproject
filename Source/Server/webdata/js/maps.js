@@ -179,22 +179,23 @@ function initialize() {
     drawingManager.setMap(map);
 
     $('#map-canvas').on('mousedown', function(event) {
-        //alert("You pressed button: " + event.button);
-        //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
         if (event.button == 0) {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+
             if (selectedArea) {
                 remove_markers();
                 selectedArea.setMap(null);
                 google.maps.event.clearInstanceListeners(selectedArea);
-                //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
             }
-            //drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
         } else if (event.button == 2) {
-            alert("boe");
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
         }
 
         selectedArea = null;
+    });
+
+    $('#map-canvas').on('mouseup', function() {
+        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
     });
 
     google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
