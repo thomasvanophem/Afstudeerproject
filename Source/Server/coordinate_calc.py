@@ -36,6 +36,58 @@ def get_cities(db_name, r, lat, lon):
     
     return result 
 
+def split_cities_north_south(cities):
+    pass
+
+def split_cities_east_west(cities):
+    pass
+    
+def split_cities2(cities):
+    result = []
+    north, south, east, west = [], [], [], []
+
+    if len(cities) > 0:
+        biggest = get_biggest(cities)
+        result.append(biggest)
+
+        try:
+            cities.remove(biggest)
+        except ValueError as e:
+            print cities
+            print biggest
+
+        for city in cities:
+            bearing = get_bearing((biggest[1], biggest[2]), (city[1], city[2]))
+
+            if bearing > 270.0 or bearing < 90.0:
+                # north
+                north.append(city)
+            else:
+                # south
+                south.append(city)
+
+        big_north = get_biggest(north)
+        big_south = get_biggest(south)
+
+        if len(north) > 0:
+            result.append(big_north)
+
+            try:
+                north.remove(big_north)
+            except ValueError as es:
+                print north
+                print big_north
+
+            for city in north:
+                bearing = get_bearing((big_north[1], big_north[2]), (city[1], city[2]))
+
+                if bearing > 0.0 and bearing < 180.0:
+                    # east
+                    east.append(city)
+                else:
+                    # west
+                    west.append(city)
+
 def split_cities(cities):
     result = []
     nw, ne, se, sw = [], [], [], []
@@ -144,9 +196,9 @@ def main(db, source, radius):
         
         result = temp[:]
 
-        num_cities = len(temp)
+        num_cities = len(result)
 
-        if num_cities < max_cities:
+        while num_cities < max_cities:
             for city in temp:
                 cities.remove(city)
 
@@ -166,7 +218,9 @@ def main(db, source, radius):
                 while len(temp2) > (max_cities - num_cities):
                     temp2 = split_cities(temp2)
 
-                result += temp2      
+                result += temp2
+
+            num_cities = len(result)      
     else:
         result = cities[:]
         
