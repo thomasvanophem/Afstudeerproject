@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 20
+max_cities = 10
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -104,7 +104,7 @@ def split2(cities):
         west = [city for city in cities if city not in east]
 
         result += split3(west)
-    print result
+    
     return result
 
 def split3(cities):
@@ -127,7 +127,7 @@ def split3(cities):
         south = [city for city in cities if city not in north]
 
         result += split4(south)
-    print result
+    
     return result
 
 def split4(cities):
@@ -150,7 +150,7 @@ def split4(cities):
         west = [city for city in cities if city not in west]
 
         result.append(get_biggest(west))
-    print result
+    
     return result
 
 def split_cities(cities):
@@ -252,8 +252,11 @@ def main(db, source, radius):
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
     
-    result = split1(cities[:])
-    """
+    if len(cities) > max_cities:
+        result = split1(cities[:])
+    else:
+        result = cities[:]
+    """ 
     if len(cities) > max_cities:
         temp = cities[:]
         
@@ -293,10 +296,12 @@ def main(db, source, radius):
             num_cities = len(result)      
     else:
         result = cities[:]
-        """
+    """        
     print len(cities)
     print len(result)
-
+    
+    if len(result) > max_cities:
+        result = result[:max_cities]
     return result
     
 if __name__ == "__main__":

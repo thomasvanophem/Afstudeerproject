@@ -166,7 +166,7 @@ function initialize() {
       fillOpacity: 0.5,
       map: map,
       center: new google.maps.LatLng(52.0833333, 5.1333333),
-      radius: 1000.0 * 1000.0
+      radius: 500.0 * 1000.0
     };
     // Add the circle for this city to the map.
     selection = new google.maps.Circle(selectionOptions);
