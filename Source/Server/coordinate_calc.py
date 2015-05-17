@@ -72,13 +72,14 @@ def split1(cities):
             print biggest
             print cities
         
-        north = get_north(biggest, cities)
+        if biggest != ():
+            north = get_north(biggest, cities)
 
-        result += split2(north)
+            result += split2(north)
 
-        south = [city for city in cities if city not in north]
+            south = [city for city in cities if city not in north]
 
-        result += split2(south)
+            result += split2(south)
 
     # Remove the empty tuples from the result set and return the result.
     return [city for city in result if city != ()]
@@ -95,13 +96,14 @@ def split2(cities):
         print biggest
         print cities
 
-    east = get_east(biggest, east)
+    if biggest != ():
+        east = get_east(biggest, east)
 
-    result += split3(east)
+        result += split3(east)
 
-    west = [city for city in cities if city not in east]
+        west = [city for city in cities if city not in east]
 
-    result += split3(west)
+        result += split3(west)
     print result
     return result
 
@@ -117,13 +119,14 @@ def split3(cities):
         print biggest
         print cities
 
-    north = get_north(biggest, cities)
+    if biggest != ():
+        north = get_north(biggest, cities)
 
-    result += split4(north)
+        result += split4(north)
 
-    south = [city for city in cities if city not in north]
+        south = [city for city in cities if city not in north]
 
-    result += split4(south)
+        result += split4(south)
     print result
     return result
 
@@ -139,13 +142,14 @@ def split4(cities):
         print biggest
         print cities
 
-    east = get_east(biggest, cities)
-    
-    result.append(get_biggest(east))
+    if biggest != ():
+        east = get_east(biggest, cities)
+        
+        result.append(get_biggest(east))
 
-    west = [city for city in cities if city not in west]
+        west = [city for city in cities if city not in west]
 
-    result.append(get_biggest(west))
+        result.append(get_biggest(west))
     print result
     return result
 
