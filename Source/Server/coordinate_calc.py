@@ -102,7 +102,7 @@ def split2(cities):
     west = [city for city in cities if city not in east]
 
     result += split3(west)
-
+    print result
     return result
 
 def split3(cities):
@@ -124,7 +124,7 @@ def split3(cities):
     south = [city for city in cities if city not in north]
 
     result += split4(south)
-
+    print result
     return result
 
 def split4(cities):
@@ -146,7 +146,7 @@ def split4(cities):
     west = [city for city in cities if city not in west]
 
     result.append(get_biggest(west))
-
+    print result
     return result
 
 def split_cities(cities):
@@ -290,6 +290,7 @@ def main(db, source, radius):
     else:
         result = cities[:]
         """
+    print len(cities)
     print len(result)
 
     return result
