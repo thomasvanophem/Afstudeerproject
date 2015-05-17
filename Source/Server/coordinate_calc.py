@@ -35,16 +35,32 @@ def get_cities(db_name, r, lat, lon):
     db.close()
     
     return result 
-
-def split_cities_north_south(cities):
-    pass
-
-def split_cities_east_west(cities):
-    pass
-    
-def split_cities2(cities):
+# Returns all the cities which are to the north.
+def get_north(start, cities):
     result = []
-    north, south, east, west = [], [], [], []
+
+    for city in cities:
+        bearing = get_bearing((start[1], start[2]), (city[1], city[2]))
+
+        if bearing > 270.0 or bearing < 90.0:
+            result.append(city)
+
+    return result
+
+# Returns all the city which are to the east.
+def get_east(start, cities):
+    result = []
+
+    for city in cities:
+        bearing = get_bearing((start[1], start[2]), (city[1], city[2]))
+
+        if bearing < 180.0:
+            result.append(city)
+
+    return result
+    
+def split1(cities):
+    result, north, south = [], [], []
 
     if len(cities) > 0:
         biggest = get_biggest(cities)
@@ -53,40 +69,85 @@ def split_cities2(cities):
         try:
             cities.remove(biggest)
         except ValueError as e:
-            print cities
             print biggest
+            print cities
+        
+        north = get_north(biggest, cities)
 
-        for city in cities:
-            bearing = get_bearing((biggest[1], biggest[2]), (city[1], city[2]))
+        result += split2(north)
 
-            if bearing > 270.0 or bearing < 90.0:
-                # north
-                north.append(city)
-            else:
-                # south
-                south.append(city)
+        south = [city for city in cities if city not in north]
 
-        big_north = get_biggest(north)
-        big_south = get_biggest(south)
+        result += split2(south)
 
-        if len(north) > 0:
-            result.append(big_north)
+    # Remove the empty tuples from the result set and return the result.
+    return [city for city in result if city != ()]
 
-            try:
-                north.remove(big_north)
-            except ValueError as es:
-                print north
-                print big_north
+def split2(cities):
+    result, east, west = [], [], []
 
-            for city in north:
-                bearing = get_bearing((big_north[1], big_north[2]), (city[1], city[2]))
+    biggest = get_biggest(cities)
+    result.append(biggest)
 
-                if bearing > 0.0 and bearing < 180.0:
-                    # east
-                    east.append(city)
-                else:
-                    # west
-                    west.append(city)
+    try:
+        cities.remove(biggest)
+    except ValueError as e:
+        print biggest
+        print cities
+
+    east = get_east(biggest, east)
+
+    result += split3(east)
+
+    west = [city for city in cities if city not in east]
+
+    result += split3(west)
+
+    return result
+
+def split3(cities):
+    result, north, south = [], [], []
+
+    biggest = get_biggest(cities)
+    result.append(biggest)
+
+    try:
+        cities.remove(biggest)
+    except ValueError as e:
+        print biggest
+        print cities
+
+    north = get_north(biggest, cities)
+
+    result += split4(north)
+
+    south = [city for city in cities if city not in north]
+
+    result += split4(south)
+
+    return result
+
+def split4(cities):
+    result, east, west = [], [], []
+
+    biggest = get_biggest(cities)
+    result.append(biggest)
+
+    try:
+        cities.remove(biggest)
+    except ValueError as e:
+        print biggest
+        print cities
+
+    east = get_east(biggest, cities)
+    
+    result.append(get_biggest(east))
+
+    west = [city for city in cities if city not in west]
+
+    result.append(get_biggest(west))
+
+    return result
 
 def split_cities(cities):
     result = []
