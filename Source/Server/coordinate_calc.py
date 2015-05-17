@@ -58,7 +58,7 @@ def get_east(start, cities):
             result.append(city)
 
     return result
-    
+
 def split1(cities):
     result, north, south = [], [], []
 
@@ -248,6 +248,8 @@ def main(db, source, radius):
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
     
+    result = split1(cities[:])
+    """
     if len(cities) > max_cities:
         temp = cities[:]
         
@@ -287,7 +289,7 @@ def main(db, source, radius):
             num_cities = len(result)      
     else:
         result = cities[:]
-        
+        """
     print len(result)
 
     return result
