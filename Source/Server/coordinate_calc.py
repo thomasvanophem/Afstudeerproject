@@ -10,7 +10,8 @@ import time
 import database
 
 min_cities = 6
-max_cities = 10
+max_cities = 20
+
 def get_cities(db_name, r, lat, lon):
     result = []
     dlon = math.asin(math.sin(r)/math.cos(lat))
@@ -37,10 +38,10 @@ def get_cities(db_name, r, lat, lon):
     return result 
 
 # Returns all the cities which are to the north.
-def get_north(cities):
+def split_north(cities):
     result = []
     big = get_biggest(cities)
-
+    print "NORTH"
     for city in cities:
         bearing = get_bearing((big[1], big[2]), (city[1], city[2]))
 
@@ -50,10 +51,10 @@ def get_north(cities):
     return big, result, [city for city in cities if city not in result]
 
 # Returns all the city which are to the east.
-def get_east(start, cities):
+def split_east(cities):
     result = []
     big = get_biggest(cities)
-
+    print "SOUTH"
     for city in cities:
         bearing = get_bearing((big[1], big[2]), (city[1], city[2]))
 
@@ -65,18 +66,19 @@ def get_east(start, cities):
 def split1(cities):
     result = []
 
-    t = [cities[:]]
+    t = [cities]
     d = 0 # 0 = north/south, not 0 = east/west
-
+    
     while len(result) < max_cities:
-        for i in range(len(t))
+        rng = len(t)
+        for i in range(rng):
             if d == 0:
                 big, north, south = split_north(t[i])
                 result.append(big)
                 t.append(north[:])
                 t.append(south[:])
                 t.remove(t[i])
-                if i == (len(t) - 1):
+                if i == (rng - 1):
                     d = 1
             else:
                 big, east, west = split_east(t[i])
@@ -85,7 +87,7 @@ def split1(cities):
                 t.append(west[:])
                 t.remove(t[i])
 
-                if i == (len(t) - 1):
+                if i == (rng - 1):
                     d = 0
 
     return result
@@ -191,7 +193,7 @@ def main(db, source, radius):
     cities = get_cities(db, r, lat, lon)
     
     if len(cities) > max_cities:
-        result = split1([cities[:]])
+        result = split1(cities[:])
     else:
         result = cities[:]
     """ 
