@@ -42,6 +42,12 @@ def split_north(cities):
     result = []
     big = get_biggest(cities)
     print "NORTH"
+    try:
+        cities.remove(big)
+    except ValueError as e:
+        print big
+        print cities
+        
     for city in cities:
         bearing = get_bearing((big[1], big[2]), (city[1], city[2]))
 
@@ -55,6 +61,12 @@ def split_east(cities):
     result = []
     big = get_biggest(cities)
     print "SOUTH"
+    try:
+        cities.remove(big)
+    except ValueError as e:
+        print big
+        print cities
+        
     for city in cities:
         bearing = get_bearing((big[1], big[2]), (city[1], city[2]))
 
