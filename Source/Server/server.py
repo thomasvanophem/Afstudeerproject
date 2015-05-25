@@ -15,12 +15,18 @@ def main():
                     '/js': {
                         'tools.staticdir.on': True,
                         'tools.staticdir.dir': "/home/thomas/Afstudeerproject/Source/Server/webdata/js"},
+                    '/img': {
+                        'tools.staticdir.on': True,
+                        'tools.staticdir.dir': "/home/thomas/Afstudeerproject/Source/Server/webdata/img"},
                     '/layout.css': {
                         'tools.staticfile.on': True,
                         'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/css/layout.css"},
                     '/maps.js': {
                         'tools.staticfile.on': True,
-                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/js/maps.js"}
+                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/js/maps.js"},
+                    '/marker.png': {
+                        'tools.staticfile.on': True,
+                        'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/img/marker.png"}
                     }
 
     cherrypy.quickstart(Index(), config = cherry_conf)
