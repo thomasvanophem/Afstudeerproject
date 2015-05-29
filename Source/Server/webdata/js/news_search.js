@@ -46,7 +46,10 @@ function GetBing(city) {
         }
     });
 }
-        
+
+/*
+ * Function to encode the accountKey using base64.
+ */      
 function base64_encode(data) {
     // http://kevin.vanzonneveld.net
     // +   original by: Tyler Akins (http://rumkin.com)

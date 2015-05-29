@@ -203,7 +203,7 @@ def main(db, source, radius):
     lat = math.radians(float(source[0]))
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
-    
+    """
     if len(cities) > max_cities:
         result = split1(cities[:])
     else:
@@ -248,12 +248,12 @@ def main(db, source, radius):
             num_cities = len(result)      
     else:
         result = cities[:]
-    """        
+    
     print len(cities)
     print len(result)
     
-    if len(result) > max_cities:
-        result = result[:max_cities]
+    #if len(result) > max_cities:
+    #    result = result[:max_cities]
     return result
     
 if __name__ == "__main__":
