@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 20
+max_cities = 10
 
 def get_cities(db_name, r, lat, lon):
     result = []

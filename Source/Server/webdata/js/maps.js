@@ -26,13 +26,14 @@ function loadXMLDoc(radius, x, y) {
             $("#results").html('');
             
             for (var i = 0; i < temp.length; i++) {                
-                //GetBing(temp[i][0]);
+                GetBing(temp[i][0]);
                 
                 var latlon = new google.maps.LatLng(Math.degrees(temp[i][1]), Math.degrees(temp[i][2]));
                 var marker = new google.maps.Marker({
                                                     position: latlon,
                                                     map: map,
-                                                    title: temp[i][0]
+                                                    title: temp[i][0],
+                                                    icon: 'img/marker.png'
                                                     });
                 markers.push(marker);
             }
@@ -81,7 +82,7 @@ function initialize() {
                                                                 drawingMode: google.maps.drawing.OverlayType.CIRCLE,
                                                                 drawingControl: false,
                                                                 markerOptions: {
-                                                                    icon: 'img/marker.png'
+                                                                    icon: '/img/marker.png'
                                                                 },
                                                                 circleOptions: {
                                                                     fillColor: '#D3E6D3',
