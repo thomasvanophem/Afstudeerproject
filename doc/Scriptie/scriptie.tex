@@ -8,6 +8,7 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage[]{algorithm2e}
+\usepackage{pifont}
 
 % Title Page
 \title{Graphical geography-based \\selection of news items}
@@ -269,8 +270,120 @@ HAVING
 			\subsubsection{Willekeurig}
 				Uit de lijst met steden die in het gebied liggen kunnen willekeurig een aantal steden gekozen worden welke dit gebied representeren. Omdat het hier mogelijk is dat alleen (of grotendeels) kleine/de kleinste steden gekozen worden is dit een minder geschikte mogelijkheid.  Ook is het, net als bij boven genomende methodes, mogelijk dat de gekozen steden niet verspreid liggen maar zich concentreren in een klein deel van het gebied. Ander groot probleem is dat elke keer dat de gebruiker een gebied selecteert een andere lijst aan steden terug gegeven wordt, hierdoor zullen er elke keer andere nieuws artikelen gezocht worden. Het wordt hierdoor moeilijker (onmogelijk) om een artikel opnieuw op te zoeken met de tool.
 \chapter{Experimenten}
-	\section{Aantal steden voor gebieds representatie}
+	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen.
+	\section{Gebieds representatie}
 	\label{sec:numcities}
+		Dit onderzoek is gedaan om te bepalen hoeveel steden er nodig zijn om een gebied goed te representeren. Ook wordt er gekeken welke van de twee voorgestelde algoritmes het beste is om de steden te selecteren die het gebied gaan representeren.
+		\subsection{Opzet}
+			Voor dit experiment is een enqu\^ete gemaakt waarin de gebruiker een afbeelding van een geselecteerd gebied te zien krijgt. Een voorbeeld hiervan wordt gegeven in afbeelding \ref{fig:area_rep}.
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[scale=0.8]{./img/area_rep.png}
+				\caption{Voorbeeld vraag gebiedsrepresentatie}
+				\label{fig:area_rep}
+			\end{figure}
+			Bij elke afbeelding krijgt de gebruiker de vraag of dit een goede representatie is van het geselecteerde gebied. Dit is een meerkeuze vraag met als mogelijke antwoorden \textit{ja} en \textit{nee}. Wanneer de gebruiker \textit{nee} kiest krijgt hij of zij een afbeelding van het zelfde gebied te zien maar met meer steden. Er zijn afbeeldingen met tien, vijftien en twintig steden. Zodra er ja gekozen wordt krijgt de gebruiker een vervolg vraag om te bepalen welke van de twee voorgestelde algoritmes beter is. Hiervoor krijgt hij of zij twee afbeeldingen van het zelfde gebied te zien, met het door hem of haar gekozen aantal steden. Een van de afbeeldingen is met algoritme 1 gemaakt terwijl de andere algoritme 2 gebruikt. De vraag is nu welke van de twee representaties beter is, met als mogelijke antwoorden optie 1 of optie 2. Afbeelding \ref{fig:algo} is hier een voorbeeld van. In totaal zijn er voor vier gebebied vragen, dit zijn gebieden met een straal van $25km$, $100km$, $500km$ en $1000km$.
+			\\[0.5cm]
+			Deze enqu\^ete is in met Google Docs\footnote{http://docs.google.com/} gemaakt en de resultaten worden in een \textit{.xls} bestand opgeslagen.
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[scale=0.8]{./img/algo.png}
+				\caption{Voorbeeld vraag gebiedsrepresentatie}
+				\label{fig:algo}
+			\end{figure}			
+		\subsection{Resultaten}
+			De resultaten zoals deze in het \textit{.xls} bestand opgeslagen zijn zijn te vinden in bijlage \ref{app:results_rep}. Hier onder worden de resultaten per gebied besproken. De enqu\^ete is door twintig mensen ingevuld met een leeftijd van 15 tot en met 80 jaar. Er zitten ongeveer evenveel mannen als vrouwen in deze groep met allemaal een verschillend opleidings niveau. Dit is gedaan om een zo goed mogelijk beeld te krijgen van de hoeveelheid steden die nodig is en wat het beste algoritme is.
+			\subsubsection{Gebied 1 - straal 25km}
+				\begin{table}[!htb]
+					\centering
+					\begin{tabular}{| c | c | c | c | c |}
+						\hline	
+						\textbf{Kandidaat} & \textbf{10 steden} & \textbf{15 steden} & \textbf{20 steden} & \textbf{Algoritme} \\ \hline
+						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						3 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						4 & \ding{52} & & & 1 \\ \hline
+						5 & \ding{52} & & & 1 \\ \hline
+						6 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						7 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						8 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						9 & \ding{52} & & & 1 \\ \hline
+						10 & \ding{52} & & & 1 \\ \hline
+						11 & \ding{52} & & & 1 \\ \hline
+						12 & \ding{56} & \ding{56} & \ding{52} & 2 \\ \hline
+						13 & \ding{52} & & & 1 \\ \hline
+						14 & \ding{52} & & & 1 \\ \hline
+						15 & \ding{52} & & & 1 \\ \hline
+						16 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						17 & \ding{52} & & & 1 \\ \hline
+						18 & \ding{52} & & & 1 \\ \hline					
+						19 & \ding{56} & \ding{52} &  & 2 \\ \hline
+						20 & \ding{56} & \ding{52} &  & 1 \\ \hline
+					\end{tabular}
+					\caption{Resultaten voor een gebied met straal 25km}
+					\label{tab:res25}
+				\end{table}
+			\subsubsection{Gebied 2 - straal 100km}
+				\begin{table}
+					\centering
+					\begin{tabular}{| c | c | c | c | c |}
+						\hline	
+						\textbf{Kandidaat} & \textbf{10 steden} & \textbf{15 steden} & \textbf{20 steden} & \textbf{Algoritme} \\ \hline
+						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						3 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						4 & \ding{56} & \ding{52} & & 1 \\ \hline
+						5 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						6 & \ding{52} & &  & 1 \\ \hline
+						7 & \ding{56} & \ding{52} &  & 2 \\ \hline
+						8 & \ding{52} & &  & 2 \\ \hline
+						9 & \ding{56} & \ding{56} & \ding{56} & 1 \\ \hline
+						10 & \ding{52} & & & 1 \\ \hline
+						11 & \ding{52} & & & 1 \\ \hline
+						12 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						13 & \ding{52} & & & 1 \\ \hline
+						14 & \ding{56} & \ding{56} & \ding{56} & 1 \\ \hline
+						15 & \ding{56} & \ding{52} & & 1 \\ \hline
+						16 & \ding{52} & & & 1 \\ \hline
+						17 & \ding{56} & \ding{56} & & 1 \\ \hline
+						18 & \ding{52} & & & 2 \\ \hline					
+						19 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						20 & \ding{56} & \ding{52} &  & 1 \\ \hline
+					\end{tabular}
+					\caption{Resultaten voor een gebied met straal 100km}
+					\label{tab:res100}
+				\end{table}
+			\subsubsection{Gebied 3 - straal 500km}
+				\begin{table}
+					\centering
+					\begin{tabular}{| c | c | c | c | c |}
+						\hline	
+						\textbf{Kandidaat} & \textbf{10 steden} & \textbf{15 steden} & \textbf{20 steden} & \textbf{Algoritme} \\ \hline
+						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						3 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						4 & \ding{56} & \ding{52} & & 1 \\ \hline
+						5 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						6 & \ding{52} & &  & 1 \\ \hline
+						7 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						8 & \ding{52} & &  & 1 \\ \hline
+						9 & \ding{52} & & & 1 \\ \hline
+						10 & \ding{52} & & & 1 \\ \hline
+						11 & \ding{56} & \ding{56} & & 1 \\ \hline
+						12 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+						13 & \ding{56} & \ding{52} & & 1 \\ \hline
+						14 & \ding{52} & & & 1 \\ \hline
+						15 & \ding{56} & \ding{52} & & 2 \\ \hline
+						16 & \ding{56} & \ding{52} & & 1 \\ \hline
+						17 & \ding{52} & & & 1 \\ \hline
+						18 & \ding{56} & \ding{52} & & 1 \\ \hline					
+						19 & \ding{52} & &  & 1 \\ \hline
+						20 & \ding{52} & &  & 1 \\ \hline
+					\end{tabular}
+					\caption{Resultaten voor een gebied met straal 500km}
+					\label{tab:res500}
+				\end{table}
+			\subsubsection{Gebied 4 - straal 1000km}
 	\section{Accuraatheid}
 		\subsection{Geotagging nieuws}
 		\subsection{Locatie selectie}
@@ -296,5 +409,9 @@ HAVING
 	\textit{Reading News with Maps by Exploiting Spatial Sysnonyms}
 	Communications of the ACM, Okotber 2014
 \end{thebibliography}
-
+\newpage
+\appendix
+\chapter{Resultaten onderzoek gebiedsrepresentatie}
+\label{app:results_resp}
+RESULTATEN GEBIEDS REPRESENTATIE
 \end{document}
