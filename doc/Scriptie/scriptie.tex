@@ -204,7 +204,7 @@ HAVING
 		\subsection{Algoritme 1}
 			Dit algoritme reduceerd een lijst steden tot een maximum aantal zodat een gebied goed gerepresenteerd wordt. Dit gaat op de volgende manier:
 			\begin{algorithm}
-				\caption{Algortime 1 voor gebieds representatie}
+				\caption{Algortime 1 voor gebiedsrepresentatie}
 				\mbox{Split():}\\[0.5cm]
 				\KwIn{list of cities}
 				\KwResult{Reduced list of cities representing the area}
@@ -259,6 +259,35 @@ HAVING
 			Als het aantal steden in een deel gebied kleiner dan of gelijk is aan $5$ wordt de grootste stad in het deelgebied gezocht en aan het eind resultaat toegevoegd. Is het aantal steden echter groter dan wordt het hier boven beschreven proces herhaald voor het deelgebied. \\[0.5cm]
 			Aan het einde geeft dit algoritme een lijst van steden die het gebied representeren. Als deze lijst nog steeds meer steden bevat dan het maximale aantal steden om een gebied te representeren wordt dit proces herhaald.
 		\subsection{Algoritme 2}
+			Een andere mogelijkehid om een aantal steden die een gebied vertegenwoordigen te selecteren is weer de gootste stad kiezen maar nu het gebied in twee delen splitsen in plaats van vier zoals bij het hier boven beschreven algortime.
+			\begin{algorithm}
+				\caption{Algoritme 2 voor gebiedsrepresentatie}
+				\mbox{Split():}\\[0.5cm]
+				\KwIn{list of cities}
+				\KwResult{Reduced list of cities representing the area}
+				\mbox{}\\
+				\While{number of result $<$ number of cities to represent the area}{
+					find biggest city;\\
+					add to result;\\
+					\mbox{}\\
+					\ForEach{city}{
+						calculate bearing;\\
+						add to corresponding sublist (nw/ne/se/sw);
+					}
+					\mbox{}\\
+					\ForEach{sublist (nw/ne/se/sw)}{
+						\eIf{number of cities $<= 5$}{
+							find biggest city;\\
+							add to result;
+						}{
+							Split(sublist);\\
+							add to result;
+						}
+					}
+				}
+			\end{algorithm}\\[0.5cm]
+			Het algoritme kiest de grootste stad in het gebied, vevolgens wordt er gekeken welke steden ten noorde liggen en welke steden ten zuide. Voor elk van deze twee deel gebieden wordt weer de grootste stad gezocht, en daarna worden deze deel gebieden opnieuw gesplitst maar nu in oost en west.\\[0.5cm]
+			Voor elk deel gebied wordt dus telkens de grootste staad gezocht en deze wordt aan het eind resultaat toegevoegd. het splitsen van een deelgebied gaat om en om: eerst wordt het gebied in noord en zuid gesplitst, dan wordt elk deel gebied in oost en west gesplitst. Nu hebben we vier deelgebieden die allen weer in noord en zuid worden verdeeld etc.
 		\subsection{Andere opties}
 			Naast deze twee algoritmes zijn er nog enkele andere mogelijkheden om steden te kiezen om een gebied te representeren. Deze werken echter minder goed dan de hier boven beschreven algoritmes.
 			\subsubsection{Grootste steden}
@@ -271,7 +300,7 @@ HAVING
 				Uit de lijst met steden die in het gebied liggen kunnen willekeurig een aantal steden gekozen worden welke dit gebied representeren. Omdat het hier mogelijk is dat alleen (of grotendeels) kleine/de kleinste steden gekozen worden is dit een minder geschikte mogelijkheid.  Ook is het, net als bij boven genomende methodes, mogelijk dat de gekozen steden niet verspreid liggen maar zich concentreren in een klein deel van het gebied. Ander groot probleem is dat elke keer dat de gebruiker een gebied selecteert een andere lijst aan steden terug gegeven wordt, hierdoor zullen er elke keer andere nieuws artikelen gezocht worden. Het wordt hierdoor moeilijker (onmogelijk) om een artikel opnieuw op te zoeken met de tool.
 \chapter{Experimenten}
 	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen.
-	\section{Gebieds representatie}
+	\section{Gebiedsrepresentatie}
 	\label{sec:numcities}
 		Dit onderzoek is gedaan om te bepalen hoeveel steden er nodig zijn om een gebied goed te representeren. Ook wordt er gekeken welke van de twee voorgestelde algoritmes het beste is om de steden te selecteren die het gebied gaan representeren.
 		\subsection{Opzet}
@@ -290,10 +319,12 @@ HAVING
 				\includegraphics[scale=0.8]{./img/algo.png}
 				\caption{Voorbeeld vraag gebiedsrepresentatie}
 				\label{fig:algo}
-			\end{figure}			
+			\end{figure}	
+		\newpage		
 		\subsection{Resultaten}
 			De resultaten zoals deze in het \textit{.xls} bestand opgeslagen zijn zijn te vinden in bijlage \ref{app:results_rep}. Hier onder worden de resultaten per gebied besproken. De enqu\^ete is door twintig mensen ingevuld met een leeftijd van 15 tot en met 80 jaar. Er zitten ongeveer evenveel mannen als vrouwen in deze groep met allemaal een verschillend opleidings niveau. Dit is gedaan om een zo goed mogelijk beeld te krijgen van de hoeveelheid steden die nodig is en wat het beste algoritme is.
 			\subsubsection{Gebied 1 - straal 25km}
+				In tabel \ref{tab:res25} zijn de resultaten te zien voor een gebied met een straal van $25km$. Aan de hand van deze resultaten kunnen we het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(10 * 10 + 9 * 15 + 2 * 20) / 21 \approx 13.09$ steden. Verder is te zien dat $(19 / 21)  * 100\%\approx 90.48\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(2 / 21) * 100\% \approx 9.52\%$ kiest voor algoritme 2.
 				\begin{table}[!htb]
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -302,28 +333,30 @@ HAVING
 						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						3 & \ding{56} & \ding{52} &  & 1 \\ \hline
-						4 & \ding{52} & & & 1 \\ \hline
-						5 & \ding{52} & & & 1 \\ \hline
+						4 & \ding{52} &  &  & 1 \\ \hline
+						5 & \ding{52} &  &  & 1 \\ \hline
 						6 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						7 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						8 & \ding{56} & \ding{52} &  & 1 \\ \hline
-						9 & \ding{52} & & & 1 \\ \hline
-						10 & \ding{52} & & & 1 \\ \hline
-						11 & \ding{52} & & & 1 \\ \hline
+						9 & \ding{52} &  &  & 1 \\ \hline
+						10 & \ding{52} &  &  & 1 \\ \hline
+						11 & \ding{52} &  &  & 1 \\ \hline
 						12 & \ding{56} & \ding{56} & \ding{52} & 2 \\ \hline
-						13 & \ding{52} & & & 1 \\ \hline
-						14 & \ding{52} & & & 1 \\ \hline
-						15 & \ding{52} & & & 1 \\ \hline
+						13 & \ding{52} &  &  & 1 \\ \hline
+						14 & \ding{52} &  &  & 1 \\ \hline
+						15 & \ding{52} &  &  & 1 \\ \hline
 						16 & \ding{56} & \ding{52} &  & 1 \\ \hline
-						17 & \ding{52} & & & 1 \\ \hline
-						18 & \ding{52} & & & 1 \\ \hline					
+						17 & \ding{52} &  &  & 1 \\ \hline
+						18 & \ding{52} &  &  & 1 \\ \hline					
 						19 & \ding{56} & \ding{52} &  & 2 \\ \hline
 						20 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						21 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
 					\end{tabular}
 					\caption{Resultaten voor een gebied met straal 25km}
 					\label{tab:res25}
 				\end{table}
 			\subsubsection{Gebied 2 - straal 100km}
+				In tabel \ref{tab:res100} zijn de resultaten te zien voor een gebied met een straal van $100km$. Aan de hand van deze resultaten kunnen weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(7 * 10 + 8 * 15 + 3 * 20) / 19 \approx 13.16$ steden. Verder is te zien dat $(18 / 21)  * 100\%\approx 85.71\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(3 / 21) * 100\% \approx 14.29\%$ kiest voor algoritme 2. Er is hier bij het berekenen van het gemiddelde aantal steden dat nodig is voor de weergave van dit gebied gedeeld door $19$ omdat twee respondenten geen van de drie representaties goed vonden. Omdat er ook als er op alle drie de vragen nee geantwoord een keuze gemaakt moet worden tussen de twee algoritmes is hier wel door $21$ gedeeld.
 				\begin{table}
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -332,28 +365,30 @@ HAVING
 						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						3 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						4 & \ding{56} & \ding{52} & & 1 \\ \hline
+						4 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						5 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						6 & \ding{52} & &  & 1 \\ \hline
+						6 & \ding{52} &  &  & 1 \\ \hline
 						7 & \ding{56} & \ding{52} &  & 2 \\ \hline
-						8 & \ding{52} & &  & 2 \\ \hline
+						8 & \ding{52} &  &  & 2 \\ \hline
 						9 & \ding{56} & \ding{56} & \ding{56} & 1 \\ \hline
-						10 & \ding{52} & & & 1 \\ \hline
-						11 & \ding{52} & & & 1 \\ \hline
+						10 & \ding{52} &  &  & 1 \\ \hline
+						11 & \ding{52} &  &  & 1 \\ \hline
 						12 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						13 & \ding{52} & & & 1 \\ \hline
+						13 & \ding{52} &  &  & 1 \\ \hline
 						14 & \ding{56} & \ding{56} & \ding{56} & 1 \\ \hline
-						15 & \ding{56} & \ding{52} & & 1 \\ \hline
-						16 & \ding{52} & & & 1 \\ \hline
+						15 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						16 & \ding{52} &  &  & 1 \\ \hline
 						17 & \ding{56} & \ding{56} & & 1 \\ \hline
-						18 & \ding{52} & & & 2 \\ \hline					
+						18 & \ding{52} &  &  & 2 \\ \hline					
 						19 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						20 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						21 & \ding{56} & \ding{52} &  & 1 \\ \hline
 					\end{tabular}
 					\caption{Resultaten voor een gebied met straal 100km}
 					\label{tab:res100}
 				\end{table}
 			\subsubsection{Gebied 3 - straal 500km}
+				In tabel \ref{tab:res500} zijn de resultaten te zien voor een gebied met een straal van $500km$. Ook nu weer kunnen we aan an de hand van deze resultaten het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(9 * 10 + 9 * 15 + 3 * 20) / 21 \approx 13.57$ steden. Verder is te zien dat $(20 / 21)  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(1 / 21) * 100\% \approx 4.76\%$ kiest voor algoritme 2.
 				\begin{table}
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -362,28 +397,60 @@ HAVING
 						1 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						2 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						3 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						4 & \ding{56} & \ding{52} & & 1 \\ \hline
+						4 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						5 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						6 & \ding{52} & &  & 1 \\ \hline
+						6 & \ding{52} &  &  & 1 \\ \hline
 						7 & \ding{56} & \ding{52} &  & 1 \\ \hline
-						8 & \ding{52} & &  & 1 \\ \hline
-						9 & \ding{52} & & & 1 \\ \hline
-						10 & \ding{52} & & & 1 \\ \hline
-						11 & \ding{56} & \ding{56} & & 1 \\ \hline
+						8 & \ding{52} &  &  & 1 \\ \hline
+						9 & \ding{52} &  &  & 1 \\ \hline
+						10 & \ding{52} &  &  & 1 \\ \hline
+						11 & \ding{56} & \ding{52} &  & 1 \\ \hline
 						12 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
-						13 & \ding{56} & \ding{52} & & 1 \\ \hline
-						14 & \ding{52} & & & 1 \\ \hline
-						15 & \ding{56} & \ding{52} & & 2 \\ \hline
-						16 & \ding{56} & \ding{52} & & 1 \\ \hline
-						17 & \ding{52} & & & 1 \\ \hline
-						18 & \ding{56} & \ding{52} & & 1 \\ \hline					
-						19 & \ding{52} & &  & 1 \\ \hline
-						20 & \ding{52} & &  & 1 \\ \hline
+						13 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						14 & \ding{52} &  &  & 1 \\ \hline
+						15 & \ding{56} & \ding{52} &  & 2 \\ \hline
+						16 & \ding{56} & \ding{52} &  & 1 \\ \hline
+						17 & \ding{52} &  &  & 1 \\ \hline
+						18 & \ding{56} & \ding{52} &  & 1 \\ \hline					
+						19 & \ding{52} &  &  & 1 \\ \hline
+						20 & \ding{52} &  &  & 1 \\ \hline
+						21 & \ding{52} &  &  & 1 \\ \hline
 					\end{tabular}
 					\caption{Resultaten voor een gebied met straal 500km}
 					\label{tab:res500}
 				\end{table}
 			\subsubsection{Gebied 4 - straal 1000km}
+				De resultaten voor een gebied met een straal van $1000km$ zijn te zien in tabel \ref{tab:res1000}. Aan de hand van deze resultaten kunnen we weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(12 * 10 + 2 * 15 + 7 * 20) / 21 \approx 13.81$ steden. Verder is te zien dat $(19 / 21)  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(1 / 21) * 100\% \approx 4.76\%$ kiest voor algoritme 2.
+			\begin{table}
+				\centering
+				\begin{tabular}{| c | c | c | c | c |}
+					\hline	
+					\textbf{Kandidaat} & \textbf{10 steden} & \textbf{15 steden} & \textbf{20 steden} & \textbf{Algoritme} \\ \hline
+					1 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+					2 & \ding{56} & \ding{52} &  & 1 \\ \hline
+					3 & \ding{56} & \ding{56} & \ding{52} & 2 \\ \hline
+					4 & \ding{56} & \ding{52} &  & 1 \\ \hline
+					5 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+					6 & \ding{52} &  &  & 1 \\ \hline
+					7 & \ding{52} &  &  & 1 \\ \hline
+					8 & \ding{52} &  &  & 1 \\ \hline
+					9 & \ding{52} &  &  & 1 \\ \hline
+					10 & \ding{52} &  &  & 1 \\ \hline
+					11 & \ding{52} &  &  & 1 \\ \hline
+					12 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+					13 & \ding{52} &  &  & 1 \\ \hline
+					14 & \ding{52} &  &  & 1 \\ \hline
+					15 & \ding{52} &  &  & 1 \\ \hline
+					16 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+					17 & \ding{52} &  &  & 1 \\ \hline
+					18 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline					
+					19 & \ding{52} &  &  & 1 \\ \hline
+					20 & \ding{52} &  &  & 1 \\ \hline
+					21 & \ding{56} & \ding{56} & \ding{52} & 1 \\ \hline
+				\end{tabular}
+				\caption{Resultaten voor een gebied met straal 1000km}
+				\label{tab:res1000}
+			\end{table}
 	\section{Accuraatheid}
 		\subsection{Geotagging nieuws}
 		\subsection{Locatie selectie}
@@ -412,6 +479,6 @@ HAVING
 \newpage
 \appendix
 \chapter{Resultaten onderzoek gebiedsrepresentatie}
-\label{app:results_resp}
+\label{app:results_rep}
 RESULTATEN GEBIEDS REPRESENTATIE
 \end{document}
