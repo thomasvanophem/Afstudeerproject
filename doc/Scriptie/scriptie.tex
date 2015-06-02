@@ -266,23 +266,25 @@ HAVING
 				\KwIn{list of cities}
 				\KwResult{Reduced list of cities representing the area}
 				\mbox{}\\
+				t: list of list of cities;\\
+				\mbox{}\\
 				\While{number of result $<$ number of cities to represent the area}{
-					find biggest city;\\
-					add to result;\\
-					\mbox{}\\
-					\ForEach{city}{
-						calculate bearing;\\
-						add to corresponding sublist (nw/ne/se/sw);
-					}
-					\mbox{}\\
-					\ForEach{sublist (nw/ne/se/sw)}{
-						\eIf{number of cities $<= 5$}{
-							find biggest city;\\
-							add to result;
+					\ForEach{list in t}{
+						\eIf{direction = n/s}{
+							biggest, north, south = split\_north(list);\\append biggest to results;\\
+							append north, south to t;\\
+							remove list from t;\\
+							\If{last list in t}{
+								set direction to e/w;	
+							}	
 						}{
-							Split(sublist);\\
-							add to result;
+						biggest, east, west = split\_east(list);\\append biggest to results;\\
+						append north, south to t;\\
+						remove list from t;\\
+						\If{last list in t}{
+							set direction to n/s;	
 						}
+						}	
 					}
 				}
 			\end{algorithm}\\[0.5cm]
