@@ -78,14 +78,18 @@
 	\section{Ontwerp keuzes}
 	\section{Server}
 	\section{Database}
+	\label{sec:db}
 	\section{User Interface}
 	
 \chapter{Implementatie}
 	\section{Server en database}
-		\subsection{server}
-		\subsection{database}
-	\section{Selecteren van steden}
-		\subsection{Welke steden liggen in het geselecteerde gebied?}
+		\subsection{Server}
+		TODO (staat op papier)
+		\subsection{Database}
+			Zoals uitgelegd in sectie \ref{sec:db} maken we gebruik van een SQLite database, Python heeft hier ondersteuning voor via de \textit{sqlite3}\footnote{https://docs.python.org/2/library/sqlite3.html} module.\\[0.5cm]
+			De database bevat twee tabellen, \textit{cities} en \textit{countries}. De \textit{cities} tabel bevat alle steden, elke stad in de tabel heeft een uniek ID, een naam, een aantal inwoners, een code voor het land waarin deze stad ligt en de co\"ordinaten, breedtegraad en lengtegraad, van de stad. De landcode verwijst naar de tabel \textit{countries} 
+			TODO (staat op papier)
+	\section{Welke steden liggen in het geselecteerde gebied?}
 		Een door de gebruiker op de kaart geselecteerd gebied wordt weergegeven door de co\"ordinaten van het middelpunt (breedtegraad\footnote{http://en.wikipedia.org/wiki/Latitude} en lengtegraad\footnote{http://en.wikipedia.org/wiki/Longitude}) en de straal van de cirkel (het gebied) in kilometers.
 		\\[0.5cm]
 		Om te berekenen welke steden binnen dit gebied ligen moet de afstand van het middelpunt tot een stad berekend worden. Is deze afstand kleiner dan of gelijk aan de straal van het geselecteerde gebied, dan ligt de stad in het gebied.
@@ -117,8 +121,20 @@ WHERE
 		\\[0.5cm]
 		$r$ hangt af van de afstand tussen de twee punten en de straal $R$ van de aarde. De afstand tussen de twee punten stellen we gelijk aan de maximale afstand dat een stad nog in het geselecteerde gebied ligt, dat is de straal van het gebied.
 		\\[0.5cm]
-		$r = max. distance / R = radius / R$
+		$r = \frac{max. distance}{R} = \frac{radius}{R}$
 		\subsubsection{Berekenen minimale en maximale lengtegraad (methode 1)}
+		Een door veel applicatie gebruikte benadering om de minimale en maximale lengtegraad te berekenen is een vasta breedtegraad kiezen en de lengtegraad aanpassen. dat betekent dat er over een breedtecirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_latitude} bewogen wordt. In deze sectie zullen we aan de hand van een voorbeeld laten zien dat dit geen nauwkeurige resultaten geeft.
+		\\[0.5cm]
+		Als we over een breedtecirkel bewegen, bewegen we over een zogenaamde kleine cirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_a\_sphere}. Een breedtecirkel op breedtegraad $lat = 1.3963$ heeft een straal $R_{S} = R \cdot \cos(lat) = 6371 \cdot \cos(1.3963) = 1106km$. Een afstand van $1000km$ op deze breedtecirkel komt nu overeen met een hoek $r_{S} = \frac{d}{R_{S}} = \frac{1000}{1106} = 0.9039$ tussen twee punten op deze cirkel. Bij een lengtegraad van $-0.6981$ van het beginpunt komen de minimale en maximale lengtegraad nu op
+		\\[0.5cm]
+		$lon_{min} = -0.6981 - 0.9039 = -1.6020$\\
+		$lon_{max} = -0.6981 + 0.9039 = 0.2058$\\[0.5cm]
+		Dit is echter \textbf{niet} de minimale en maximale lengtegraad die we kunnen bereiken door $1000km$ in een willekeurige richting te bewegen vanaf het beginpunt $M = (1.3969, -0.6981)$. Dat komt omdat we ons verplaatsen over een kleine cirkel, afstanden over een kleine cirkel zijn groter dan over een grote cirkel\footnote{http://en.wikipedia.org/wiki/Great\_circle}. Hoewel we dus $1000km$ afgelegd hebben op een kleine cirkel om van $M = (1.3969, -0.6981)$ naar $P_{S} = (1.3969, -1.6020)$ kunnen we ``afsnijden'' op een grote cirkel. Deze afstand is\\[0.5cm]		
+		$dist = \arccos(\sin(lat_1) \cdot \sin(lat_2) + \cos(lat_1) \cdot \cos(lat_2) \cdot \cos(lon_1 - lon_2)) \cdot R$\\
+		$= \arccos(\sin(1.3963) \cdot \sin(1.3963) + \cos(1.3963) \cdot \cos(1.3963) \cdot \cos(-0.6981 - (-1.6020))) \cdot 6371$\\
+		$= 967km$\\[0.5cm]
+		We kunnen dus nog $33km$ verder verplaatsen en zitten dan nog steeds binnen het geselecteerde gebied, dat wil zeggen dat we een kleinere en grotere minimale en maximale lengtegraad kunnen bereiken.\\[0.5cm]
+		Als we dus gebruik maken van $lon \pm \frac{d}{\cos(lat)}$ als grenzen voor de lengtegraad, sluiten we een aantal plaatsen uit die in werkelijkheid wel in het gebied liggen. Een punt $P = (1.4618, -1.6021)$ ligt buiten de berekende grenzen voor een gebied met middelpunt $M = (1.3969, -0.6981)$ en straal $d = 1000km$  terwijl de afstand van $M$ maar $872km$ is, een fout van meer dan $12\%$.
 		\subsubsection{Berekenen minimale en maximale lengtegraad (methode 2)}
 		De methode omschreven in de vorige sectie om de minimale en maximale lengtegraad te berekenen werkt dus niet goed. Dit is te zien in figuur \ref{fig:tangentpoints}, de punten op de cirkel met de minimale en maximale lengtegraad $T_1$ en $T_2$ liggen niet op de zelfde breedtecirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_latitude} als $M$, het middelpunt van het geselecteerde gebied maar dichter bij de pool.
 		\begin{figure}[!htb]
@@ -130,12 +146,12 @@ WHERE
 		\newpage
 		In plaats daar van moeten de volgende formules gebruikt worden
 		\\[0.5cm]
-		$lat_T = \arcsin(\sin(lat)/\cos(r))$\\
+		$lat_T = \arcsin(\frac{\sin(lat)}{\cos(r)})$\\
+		$\Delta lon = \arccos(\frac{\cos(r) - \sin(lat_T) \cdot \sin(lat)}{\cos(lat_T) \cdot \cos(lat)})$ \\
+		$= \arcsin(\frac{\sin(r)}{cos(lat)})$
+		\\[0.5cm]
 		$lon_{min} = lon_{T_1} = lon - \Delta lon$\\
 		$lon_{max} = lon_{T_2} = lon + \Delta lon$
-		\\[0.5cm]
-		$\Delta lon = \arccos((\cos(r) - \sin(lat_T) \cdot \sin(lat)) / (\cos(lat_T) \cdot \cos(lat)))$ \\
-		$= \arcsin(\sin(r) / cos(lat))$
 		\subsubsection{SQL query}
 		Aan dde hand van de hierboven berekende minimale en maximale breedtegraad en lengtegraad kunnen we nu een SQL query maken die de berekening, de spherical law of cosines, alleen hoeft uit te voeren op een veel kleiner aantal kandidaat plaatsen.
 \begin{verbatim}
@@ -199,8 +215,6 @@ HAVING
 		
 		\subsubsection{Aantal steden om een gebied te representeren}
 			Het aantal steden om een gebied te representeren is bepaald aan de hand van een gebruikersonderzoek. De opzet en resultaten van dit onderzoek worden bepsroken in sectie \ref{sec:numcities}.
-			\\[0.5cm]
-			Daarnaast wordt er rekening mee gehouden dat er voor een kleiner gebied minder steden nodig zijn om dit gebied te respresenteren dan bij een groter gebied.
 		\subsection{Algoritme 1}
 			Dit algoritme reduceerd een lijst steden tot een maximum aantal zodat een gebied goed gerepresenteerd wordt. Dit gaat op de volgende manier:
 			\begin{algorithm}
@@ -250,11 +264,11 @@ HAVING
 				$x = \sin(\Delta lon) \cdot \cos(lat_2);$\\
 				$y = \cos(lat_1) \cdot \sin(lat_2) - (\sin(lat_1) \cdot \cos(lat_2) \cdot \cos(\Delta lon));$\\
 				\mbox{}\\
-				$bearing = \arctan(x/y);$\\
+				$bearing = \arctan(\frac{x}{y});$\\
 				\mbox{}\\
 				convert bearing to degrees;\\
 				\mbox{}\\
-				$bearing = (bearing + 360.0) / 360.0;$\\
+				$bearing = \frac{bearing + 360.0}{360.0};$\\
 			\end{algorithm}
 			Als het aantal steden in een deel gebied kleiner dan of gelijk is aan $5$ wordt de grootste stad in het deelgebied gezocht en aan het eind resultaat toegevoegd. Is het aantal steden echter groter dan wordt het hier boven beschreven proces herhaald voor het deelgebied. \\[0.5cm]
 			Aan het einde geeft dit algoritme een lijst van steden die het gebied representeren. Als deze lijst nog steeds meer steden bevat dan het maximale aantal steden om een gebied te representeren wordt dit proces herhaald.
@@ -300,6 +314,8 @@ HAVING
 				In het geval van een selectie van meerdere landen is het een mogelijkheid om alleen de hoofdsteden te gebruiken voor de representatie eventueel aangevuld met de grootste steden in het gebied om voldoende steden te krijgen. Dit is eigenlijk alleen een goede optie als er precies even veel landen als benodigde steden in het gebied liggen. Liggen er minder landen in het gebied, en wordt er aangevuld met de grootste steden, loop je hoogst waarschijnlijk tegen het zelfde probleem aan als wanneer je alleen maar voor de grootste steden kiest. Daarbij komt dat het resultaat vaak nagenoeg gelijk zal zijn omdat hoofdsteden vaak bij de grotere steden horen. 
 			\subsubsection{Willekeurig}
 				Uit de lijst met steden die in het gebied liggen kunnen willekeurig een aantal steden gekozen worden welke dit gebied representeren. Omdat het hier mogelijk is dat alleen (of grotendeels) kleine/de kleinste steden gekozen worden is dit een minder geschikte mogelijkheid.  Ook is het, net als bij boven genomende methodes, mogelijk dat de gekozen steden niet verspreid liggen maar zich concentreren in een klein deel van het gebied. Ander groot probleem is dat elke keer dat de gebruiker een gebied selecteert een andere lijst aan steden terug gegeven wordt, hierdoor zullen er elke keer andere nieuws artikelen gezocht worden. Het wordt hierdoor moeilijker (onmogelijk) om een artikel opnieuw op te zoeken met de tool.
+		\section{User Interface}
+		TODO (staat op papier)
 \chapter{Experimenten}
 	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen.
 	\section{Gebiedsrepresentatie}
@@ -326,7 +342,7 @@ HAVING
 		\subsection{Resultaten}
 			De resultaten zoals deze in het \textit{.xls} bestand opgeslagen zijn zijn te vinden in bijlage \ref{app:results_rep}. Hier onder worden de resultaten per gebied besproken. De enqu\^ete is door twintig mensen ingevuld met een leeftijd van 15 tot en met 80 jaar. Er zitten ongeveer evenveel mannen als vrouwen in deze groep met allemaal een verschillend opleidings niveau. Dit is gedaan om een zo goed mogelijk beeld te krijgen van de hoeveelheid steden die nodig is en wat het beste algoritme is.
 			\subsubsection{Gebied 1 - straal 25km}
-				In tabel \ref{tab:res25} zijn de resultaten te zien voor een gebied met een straal van $25km$. Aan de hand van deze resultaten kunnen we het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(10 * 10 + 9 * 15 + 2 * 20) / 21 \approx 13.09$ steden. Verder is te zien dat $(19 / 21)  * 100\%\approx 90.48\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(2 / 21) * 100\% \approx 9.52\%$ kiest voor algoritme 2.
+				In tabel \ref{tab:res25} zijn de resultaten te zien voor een gebied met een straal van $25km$. Aan de hand van deze resultaten kunnen we het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $\frac{10 * 10 + 9 * 15 + 2 * 20}{21} \approx 13.09$ steden. Verder is te zien dat $\frac{19}{21}  * 100\%\approx 90.48\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $\frac{2}{21} * 100\% \approx 9.52\%$ kiest voor algoritme 2.
 				\begin{table}[!htb]
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -358,7 +374,7 @@ HAVING
 					\label{tab:res25}
 				\end{table}
 			\subsubsection{Gebied 2 - straal 100km}
-				In tabel \ref{tab:res100} zijn de resultaten te zien voor een gebied met een straal van $100km$. Aan de hand van deze resultaten kunnen weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(7 * 10 + 8 * 15 + 3 * 20) / 19 \approx 13.16$ steden. Verder is te zien dat $(18 / 21)  * 100\%\approx 85.71\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(3 / 21) * 100\% \approx 14.29\%$ kiest voor algoritme 2. Er is hier bij het berekenen van het gemiddelde aantal steden dat nodig is voor de weergave van dit gebied gedeeld door $19$ omdat twee respondenten geen van de drie representaties goed vonden. Omdat er ook als er op alle drie de vragen nee geantwoord een keuze gemaakt moet worden tussen de twee algoritmes is hier wel door $21$ gedeeld.
+				In tabel \ref{tab:res100} zijn de resultaten te zien voor een gebied met een straal van $100km$. Aan de hand van deze resultaten kunnen weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $\frac{7 * 10 + 8 * 15 + 3 * 20}{19} \approx 13.16$ steden. Verder is te zien dat $\frac{18}{21}  * 100\%\approx 85.71\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $\frac{3}{21} * 100\% \approx 14.29\%$ kiest voor algoritme 2. Er is hier bij het berekenen van het gemiddelde aantal steden dat nodig is voor de weergave van dit gebied gedeeld door $19$ omdat twee respondenten geen van de drie representaties goed vonden. Omdat er ook als er op alle drie de vragen nee geantwoord een keuze gemaakt moet worden tussen de twee algoritmes is hier wel door $21$ gedeeld.
 				\begin{table}
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -390,7 +406,7 @@ HAVING
 					\label{tab:res100}
 				\end{table}
 			\subsubsection{Gebied 3 - straal 500km}
-				In tabel \ref{tab:res500} zijn de resultaten te zien voor een gebied met een straal van $500km$. Ook nu weer kunnen we aan an de hand van deze resultaten het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(9 * 10 + 9 * 15 + 3 * 20) / 21 \approx 13.57$ steden. Verder is te zien dat $(20 / 21)  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(1 / 21) * 100\% \approx 4.76\%$ kiest voor algoritme 2.
+				In tabel \ref{tab:res500} zijn de resultaten te zien voor een gebied met een straal van $500km$. Ook nu weer kunnen we aan an de hand van deze resultaten het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $\frac{9 * 10 + 9 * 15 + 3 * 20}{21} \approx 13.57$ steden. Verder is te zien dat $\frac{20}{21}  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $\frac{1}{21} * 100\% \approx 4.76\%$ kiest voor algoritme 2.
 				\begin{table}
 					\centering
 					\begin{tabular}{| c | c | c | c | c |}
@@ -422,7 +438,7 @@ HAVING
 					\label{tab:res500}
 				\end{table}
 			\subsubsection{Gebied 4 - straal 1000km}
-				De resultaten voor een gebied met een straal van $1000km$ zijn te zien in tabel \ref{tab:res1000}. Aan de hand van deze resultaten kunnen we weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $(12 * 10 + 2 * 15 + 7 * 20) / 21 \approx 13.81$ steden. Verder is te zien dat $(19 / 21)  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $(1 / 21) * 100\% \approx 4.76\%$ kiest voor algoritme 2.
+				De resultaten voor een gebied met een straal van $1000km$ zijn te zien in tabel \ref{tab:res1000}. Aan de hand van deze resultaten kunnen we weer het gemiddelde aantal steden berekenen dat nodig is om dit gebied te representeren: $\frac{12 * 10 + 2 * 15 + 7 * 20}{21} \approx 13.81$ steden. Verder is te zien dat $\frac{20}{21}  * 100\%\approx 95.24\%$ van de respondenten de representatie gegeven door algoritme 1 beter vindt, $\frac{1}{21} * 100\% \approx 4.76\%$ kiest voor algoritme 2.
 			\begin{table}
 				\centering
 				\begin{tabular}{| c | c | c | c | c |}
