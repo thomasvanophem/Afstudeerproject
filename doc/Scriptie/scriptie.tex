@@ -82,13 +82,44 @@
 	\section{User Interface}
 	
 \chapter{Implementatie}
+	\begin{figure}[!htb]
+		\label{fig:arch}
+		\centering
+		\includegraphics[scale=0.3]{./img/architecture.png}
+		\caption{Architectuur}
+	\end{figure}
 	\section{Server en database}
 		\subsection{Server}
-		TODO (staat op papier)
+		De server is geschreven in Python en maatk gebruik van CherryPy en Cheetah. In principe is de server ge"implementeerd als webserver maar zou ook gebruikt kunnen worden als API\footnote{http://en.wikipedia.org/wiki/Application\_programming\_interface} voor een andere applicatie.
+		
+		\subsubsection{Webserver}
+		Op de webserver draait \'e\'en pagina, \textit{web/index.py}, de template met daarin alle HTML voor deze pagina is te vinden in \textit{webdata/templats/layout.tmpl}.
+		\\[0.5cm]
+		Wanneer \textit{web/index.py} een HTTP GET request\footnote{http://en.wikipedia.org/wiki/Hypertext\_Transfer\_Protocol\#Request\_methods} krijgt wordt de HTML uit deze template terug gestuurd naar de gebruiker.
+		\\[0.5cm]
+		Zodra een gebruiker een gebied op de kaart selecteerd wordt er een HTTP POST request door de client naar de server gestuurd. De door de client opgestuurde data, de lengtegraad en breedtegraad van het middelpunt en straal van het gebied, wordt gecontrolleerd en de steden die bij dit gebied horen worden opgezocht. Deze steden worden in een JSON object terug gestuurd naar de client.
+		\subsubsection{API}
+		Om de server te gebruiken als API voor een andere applicatie maken we alleen gebruik van de HTTP POST request, hierin sturen we de lengtegraad en breedtegraad van het middelpunt en de straal van het gebied. Vervolgens krijgen we een JSON object terug met de steden die dit gebied representeren welke we verder kunnen verwerken voor onze applicatie.
+		\textit{TODO: voorbeeld}
 		\subsection{Database}
 			Zoals uitgelegd in sectie \ref{sec:db} maken we gebruik van een SQLite database, Python heeft hier ondersteuning voor via de \textit{sqlite3}\footnote{https://docs.python.org/2/library/sqlite3.html} module.\\[0.5cm]
-			De database bevat twee tabellen, \textit{cities} en \textit{countries}. De \textit{cities} tabel bevat alle steden, elke stad in de tabel heeft een uniek ID, een naam, een aantal inwoners, een code voor het land waarin deze stad ligt en de co\"ordinaten, breedtegraad en lengtegraad, van de stad. De landcode verwijst naar de tabel \textit{countries} 
-			TODO (staat op papier)
+			De database, afbeelding\ref{fig:db} bevat twee tabellen, \textit{cities} en \textit{countries}. De \textit{cities} tabel bevat alle steden, elke stad in de tabel heeft een uniek ID, een naam, een aantal inwoners, een code voor het land waarin deze stad ligt en de co\"ordinaten, breedtegraad en lengtegraad, van de stad. De landcode verwijst naar de tabel \textit{countries}, hiermee kan de naam van het land waarin de stad ligt opgezocht worden. \\[0.5cm]
+			De tweede tabel in de database is de \textit{countries} tabel,  met velden voor de naam en de code van het land.
+			\begin{figure}[!htb]
+				\label{fig:db}
+				\centering
+				\includegraphics[scale=0.6]{./img/database.png}
+				\caption{Database}
+			\end{figure}
+			\subsubsection{database.py}
+			Bij een SQL query is een groot deel van de query vast, bij bijvoorbeeld een SELECT query veranderen alleen de naam van de tabel en de velden die we willen selecteren.
+\begin{verbatim}
+SELECT x, y, z FROM table;
+\end{verbatim}
+			Om niet elke keer een hele query te moeten maken staan er in dit bestand functies waarbij we aan kunnen geven welke velden van welke tabel we willen selecteren, de functie maakt de SQL query en voert deze ook direct uit. Er zijn functies voor het selecteren, toevoegen, updaten en verwijderen van entries in de database. Daarnaast zijn er ook functies voor het maken en verwijderen van tabellen.
+		\subsection{geo\_data.py}
+		In dit Python bestand staan functies voor het downloaden van de geografische informatie van \textit{geonames.org}. Deze informatie is beschikbaar in een tekst bestand, omdat dit niet effici"ent is als er gekeken moet worden welke steden er in een gebied liggen is er een functie om deze data naar de database te schrijven. In principe wordt dit alleen de eerste keer gedaan, maar mocht het nodig zijn kan de database opnieuw opgebouwd worden.\\[0.5cm]
+		Behalve de functies om de database te downloaden en op te bouwen zijn er ook functies om de steden te zoeken en een algoritme om te bepalen welke steden het gebied representeren is hier ge"implementeerd.
 	\section{Welke steden liggen in het geselecteerde gebied?}
 		Een door de gebruiker op de kaart geselecteerd gebied wordt weergegeven door de co\"ordinaten van het middelpunt (breedtegraad\footnote{http://en.wikipedia.org/wiki/Latitude} en lengtegraad\footnote{http://en.wikipedia.org/wiki/Longitude}) en de straal van de cirkel (het gebied) in kilometers.
 		\\[0.5cm]
@@ -315,7 +346,13 @@ HAVING
 			\subsubsection{Willekeurig}
 				Uit de lijst met steden die in het gebied liggen kunnen willekeurig een aantal steden gekozen worden welke dit gebied representeren. Omdat het hier mogelijk is dat alleen (of grotendeels) kleine/de kleinste steden gekozen worden is dit een minder geschikte mogelijkheid.  Ook is het, net als bij boven genomende methodes, mogelijk dat de gekozen steden niet verspreid liggen maar zich concentreren in een klein deel van het gebied. Ander groot probleem is dat elke keer dat de gebruiker een gebied selecteert een andere lijst aan steden terug gegeven wordt, hierdoor zullen er elke keer andere nieuws artikelen gezocht worden. Het wordt hierdoor moeilijker (onmogelijk) om een artikel opnieuw op te zoeken met de tool.
 		\section{User Interface}
-		TODO (staat op papier)
+		De User Interface is te zien in afbeelding \ref{fig:UI}. Aan de linker kant is een kaart te zien waar de gebruiker met de muis een gebied, in de vorm van een cirkel, kan selecteren. Het selecteren van een gebied gaat als volgt:
+		\begin{itemize}
+			\item Linker muisklik op de kaart waar het middelpunt van het gebied komt
+			\item{Ingedrukt houden en slepen, er is nu een groene cirkel te zien}
+			\item{Los laten als het gebied de gewenste grootte heeft}
+		\end{itemize}
+		Aan de rechter kant is een grijs veld waarin een lijst met links naar nieuws artikelen voor het geselecteerde gebied weer gegeven wordt.
 \chapter{Experimenten}
 	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen.
 	\section{Gebiedsrepresentatie}
@@ -469,10 +506,10 @@ HAVING
 				\caption{Resultaten voor een gebied met straal 1000km}
 				\label{tab:res1000}
 			\end{table}
-	\section{Accuraatheid}
-		\subsection{Geotagging nieuws}
-		\subsection{Locatie selectie}
-	\section{User Acceptance Test}
+	\section{Toegevoegde waarde}
+		Om er achter te komen of de ontwikkelde tool toegevoegde waarde heeft en zo ja wat deze toegevoegde waarde is is er nog een gebruikersonderzoek gedaan. De opzet en resultaten van dit onderzoek zullen in deze sectie besproken worden.
+		\subsection{Opzet}
+		\subsection{Resultaten}
 	
 \chapter{Conclusie}
 	\section{Conclusie}
