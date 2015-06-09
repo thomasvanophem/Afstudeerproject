@@ -79,8 +79,7 @@ def write_cities_to_database():
 
 def write_countries_to_database():
     db = database.Database("geo_data.db")
-    db.create_table("countries", ["ID INTEGER PRIMARY KEY ASC",
-                                    "NAME TEXT NOT NULL", "CODE TEXT NOT NULL"])   
+    db.create_table("countries", ["NAME TEXT NOT NULL", "CODE TEXT NOT NULL"])   
     
     temp = open("./Download/countryInfo.txt", 'r')
 
