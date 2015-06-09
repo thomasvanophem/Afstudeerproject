@@ -73,15 +73,48 @@
 			\centering
 			\includegraphics[scale=0.3]{./img/NewsStand.png}
 			\caption{NewsStand User Interface}
-		\end{figure}	
-\chapter{Architectuur}
-	\section{Ontwerp keuzes}
+		\end{figure}
+\chapter{Ontwerp}
+	In dit hoofdstuk zullen de gemaakte ontwerpkeuzes besproken worden. Ook zullen er twee voorstellen gedaan worden voor de implementaties van een dergelijke applicatie.
+	\section{Web applicatie of standalone/desktop applicatie?}
+		\subsection{Web applicatie}
+			Een web applicatie is een applicatie die voor gebruikers beschikbaar is via een webserver. Deze server is vaak bereikbaar via het internet maar het is ook mogelijk om dit via intranet te doen. De gebruiker kan via een client programma, zoals een webbrowser, gebruik maken van een dergelijke applicatie.
+		\subsection{Standalone/desktop applicatie}
+			Een standalone of desktop applicatie is een programma waarbij vooraf bepaald is welek taken uitgevoerd kunnen worden. Vaak zijn dergelijke programma's beschikbaar vanaf een lokale schijf in de computer van een gebruiker en hebben deze programma's in principe geen internet/netwerk nodig om te kunnen functioneren.
+		\subsection{Web applicatie vs. standalone/desktop applicatie}
+			Hier onder staan voor zowel een web applicatie als een standalone/desktop aplpicatie op een rijtje.\\[0.5cm]
+			\textbf{Voordelen web applicatie}
+			\begin{itemize}
+				\item Snel voor iedereen toegankelijk
+				\item Overal beschikbaar (waar internet is)
+				\item Geen onderhoud (updates installeren) voor de gebruiker
+			\end{itemize}
+			\textbf{Voordelen standalone/desktop applicatie}
+			\begin{itemize}
+				\item Krachtigere software, gebruik maken van hardware features
+				\item Veiliger
+				\item Lagere kosten voor de gebruiker op de lange termijn
+				\item Geen internet verbinding nodig
+				\item Sneller
+				\item Mogelijkheid om backups van data te maken
+			\end{itemize}
+			Hier uit blijkt dat een desktop applicatie vooral geschikt is als er bijvoorbeeld grote berekeningen uitgevoerd moeten worden op de computer van de gebruiker. Daarnaast is een desktop applicatie ook sneller als er grote hoeveelheden data in een database opgeslagen moeten worden. Bij een standalone/desktop applicatie kan deze database namelijk op de computer van de gebruiker opgeslagen worden en hoef je alleen naar de schijf te schrijven. Bij een web applicatie zou deze data eerst over een netwerk verstuurd moeten worden om vervoglens alsnog naar een schijf geschreven te worden.\\[0.5cm]
+			Voor onze applicatie is het vooral belangrijk dat gebruikers snel en overal bij de applicatie kunnen komen. Verder versturen we geen privacy gevoelige informatie dus de extra veiligheid die en standalone/desktop applicatie biedt heeft geen toegevoegde waarde. Omdat we ook geen grote hoeveelheden data hoeven te versturen en ook geen grote berekeningen op de computer van de gebruiker hoeven uit te voeren is er gekozen om de applicatie te implementeren als web applicatie.
 	\section{Server}
+		\subsection{CherryPy}
+		\subsection{Cheetah}
 	\section{Database}
-	\label{sec:db}
-	\section{User Interface}
+	\section{Geografische informatie}
+	\section{Nieuwsbronnen}
+		\subsection{Google News}
+		\subsection{BING News}
+		\subsection{Overig}
+	\section{Zoeken naar nieuws}
+	\section{Hoe het eigenlijk zou moeten}
+		In deze sectie beschrijven we een voorstel hoe een dergelijke applicatie eigenlijk zou moeten. Helaas is het door gebrek aan tijd, twaalf weken, niet mogelijk om het op deze manier te doen. 
 	
 \chapter{Implementatie}
+	Hier onder zullen we de implementatie van de hiervoor gemaakte ontwerpkeuzes beschrijven.
 	\begin{figure}[!htb]
 		\label{fig:arch}
 		\centering
@@ -506,14 +539,18 @@ HAVING
 				\caption{Resultaten voor een gebied met straal 1000km}
 				\label{tab:res1000}
 			\end{table}
+	\newpage
 	\section{Toegevoegde waarde}
 		Om er achter te komen of de ontwikkelde tool toegevoegde waarde heeft en zo ja wat deze toegevoegde waarde is is er nog een gebruikersonderzoek gedaan. De opzet en resultaten van dit onderzoek zullen in deze sectie besproken worden.
 		\subsection{Opzet}
+			Voor dit onderzoek hebben we van te voren twee gebieden uitgekozen waar gebruikers naar nieuws moeten zoeken. Het eerste gebied is Noord Holland en het tweede gebied is \textbf{TODO}. De gebruikers beginnen met het zoeken naar nieuws door gebruik te maken van de traditionele methodes, nieuws sites, websites van kranten en zoekmachines al Google en BING. Hiervoor krijgen de gebruikers vijf minuten waarin ze zoveel mogelijk, voor hen interessant, nieuws proberen te vinden. Na deze vijf\textbf{(?)} minuten krijgen ze de zelfde opdracht maar nu door gebruik te maken van de ontwikkelde tool. Om te kijken of de tool een toegevoegde waarde heeft gaan we kijken hoeveel nieuws de gebruikers in beide situaties hebben kunnen vinden. Daarnaast vragen we de gebruiker ook om feedback.
 		\subsection{Resultaten}
 	
 \chapter{Conclusie}
 	\section{Conclusie}
 	\section{Toekomstig onderzoek}
+		Om de applicatie te verbeteren moet er bijvoorbeeld gekeken worden naar het gebruik van andere nieuws bronnen dan zoekmachines en nieuws sites. Denk hierbij aan bijvoorbeeld twitter data, maar ook kan het interessant zijn om naar lokale nieuws bronnen te gaan kijken.
+		\subsection{Lokaal nieuws - voorstel}
 	
 \begin{thebibliography}{9}
 	\bibitem{NewsStand2008} 
