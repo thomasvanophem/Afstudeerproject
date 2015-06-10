@@ -101,18 +101,71 @@
 			Hier uit blijkt dat een desktop applicatie vooral geschikt is als er bijvoorbeeld grote berekeningen uitgevoerd moeten worden op de computer van de gebruiker. Daarnaast is een desktop applicatie ook sneller als er grote hoeveelheden data in een database opgeslagen moeten worden. Bij een standalone/desktop applicatie kan deze database namelijk op de computer van de gebruiker opgeslagen worden en hoef je alleen naar de schijf te schrijven. Bij een web applicatie zou deze data eerst over een netwerk verstuurd moeten worden om vervoglens alsnog naar een schijf geschreven te worden.\\[0.5cm]
 			Voor onze applicatie is het vooral belangrijk dat gebruikers snel en overal bij de applicatie kunnen komen. Verder versturen we geen privacy gevoelige informatie dus de extra veiligheid die en standalone/desktop applicatie biedt heeft geen toegevoegde waarde. Omdat we ook geen grote hoeveelheden data hoeven te versturen en ook geen grote berekeningen op de computer van de gebruiker hoeven uit te voeren is er gekozen om de applicatie te implementeren als web applicatie.
 	\section{Server}
+		Zoals in de voorgaande sectie beschreven is er gekozen voor een web applicatie. Hiervoor moet een server ge"implementeerd worden, in deze sectie worden de ontwerp keuzes besproken die betrekking hebben op deze web server.
+		\section{Python of PHP}
 		\subsection{CherryPy}
+			CherryPy\footnote{http://www.cherrypy.org/} is een open-source minimalistisch Python Web Framework, hiermee is het mogelijk om web applicaties te maken op (bijna) de zelfde manier als een object ge"orienteerd Python programma. Het resultaat hiervan is dat er minder code nodig is en het ontwikkelen van een web applicatie minder tijd kost.
+			
+			Inmiddels bestaat CherryPy al meer dan tien jaar en heeft het bewezen zweer snel en stabiel te zijn. Het wordt gebruikt bij veel websites, van kleine simpele sites tot zeer veel eisende applicaties.
+			
+			Een voorbeeld van een simpele website met CherryPy is het volgende:
+			\begin{verbatim}
+			import cherrypy
+			
+			class HelloWorld(object):
+			@cherrypy.expose
+			def index(self):
+			    return "Hello world!"
+			
+			if __name__ == '__main__':
+			    cherrypy.quickstart(HelloWorld())
+			\end{verbatim}
+			Deze code start een webserver met de standaar configuratie en print de tekst \"Hello World!\" op de pagina. Het is ook mogelijk om een eigen configuratie voor de server te gebruiken, hierin is \textit{cherry\_conf} een Python dictionary\footnote{https://docs.python.org/2/tutorial/datastructures.html\#dictionaries}. Op deze manier kan er bijvoorbeeld handmatig bepaald worden op welk IP adres de server te vinden is en welke poort, standaard $8080$, er gebruikt wordt. 
+			\begin{verbatim}
+			cherrypy.quickstart(HelloWorld(), config = cherry_conf)
+			\end{verbatim}
+			In plaats van een simpele tekst op het scherm willen we graag een complete HTML pagina terug geven, dit doen we door gebruik te maken van Cheetah.
 		\subsection{Cheetah}
+		\subsection{JSON}
+		\subsection{AJAX}
 	\section{Database}
+		Voor de database hebben we gekozen voor een SQLite\footnote{http://www.sqlite.org/} database. SQLite is een software pakket wat een SQL database engine implementeerd, maar in tegenstelling tot bijvoorbeeld MySQL is hier geen client/server systeem voor nodig. Bij SQLite wordt de database in \'e\'en bestand op de schijf opgeslagen.
+		\\[0.5cm]
+		Omdat SQLite standaard geen ondersteuning heeft voor veel wiskundige functies zijn deze toegevoegd via een extentie. Hiervoor wordt het bestand \textit{extension-functions.c} gebruikt. Hierin zijn functies als $\cos$ en $\sin$ ge"implementeerd.
 	\section{Geografische informatie}
+		Voor de geografische informatie, de steden met hun lengtegraad en breedtegraad, populatie en landen is gekeken naar de mogelijkheid om dit via Google Maps te doen. Hoewel dit in theorie mogelijk is, is dit in praktijk geen goede optie. We zouden dan alle steden die in Google Maps te vinden zijn eerst moeten downloaden en opslaan in een database voordat we kunnen gaan berekenen of ze in het geselecteerde gebied liggen.
+		\\[0.5cm]
+		Een andere mogelijkheid waar naar gekeken is, is om gebruik te maken van Wolfram Alpha\footnote{https://www.wolframalpha.com/}, hiermee is het mogelijk om de afstand tussen twee steden op aarde te berkenen. Wel moeten we dan zelf de lengtegraad en breedtegraad van het start en eind punt hebben, we kunnen hiermee dus geen steden zoeken.
+		\\[0.5cm]
+		GeoNames\footnote{http://www.geonames.org/} is een database waar (vrijwel) alle steden op de wereld in te vinden zijn. De database bevat heel veel informatie waarvan, voor ons, vooral de naam van de stad, de populatie, de lengtegraad en breedtegraad en het land waar de stad in ligt interessant zijn. Voor landen en steden zijn ook alternatieve namen, in andere talen dan Engels, te vinden in de database. Daarnaast zijn ook zee"en, oceanen, meren, bergen etc. op te zoeken. Voor dit project is alleen gekeken naar steden en landen maar voor een toekomstig onderzoek zijn dit interessante opties.
+		\\[0.5cm]
+		De database is via een API te benaderen of te downloaden als tekst betand. Bij dit project is voor het laatste gekozen om het netwerk verkeer zo beperkt mogelijk te houden en om te zorgen dat de data altijd beschikbaar is. Omdat een tekstbestand niet effici"ent te door zoeken is schrijven we dedata naar onze eigen SQLite database.
+		\\[0.5cm]
+		Tijdens de ontwikkeling van de applicatie bleek dat voor een deel van de steden, ongeveer $30000$ van de $145000$, geen populatie beschikbaar is. Omdat we bij het algoritme voor de gebiedsrepresentatie kijken wat de grootste stad in een gebied is en dit niet mogelijk is met twee of meer steden waarvan de populatie gelijk is aan $0$ worden deze steden uitgesloten tijdens de selectie. In hoofdstuk \textbf{<todo>} wordt een voorstel gedaan hoe dit opgelost zou kunnen worden zodat deze steden wel gebruikt kunnen worden. Een ander pboleem wat tijdens de implementatie boven kwam is dat een aantal grote steden, zoals Londen en Parijs, in meerdere delen in de database opgeslagen zijn. Ook dit kan voor problemen zorgen bij het algoritme voor de gebiedsrepresentatie. Een oplossing hiervoor is te vinden in hoofdstuk \textbf{<todo>}.
 	\section{Nieuwsbronnen}
+		Voor de ontwikkeling van de applicatie is gekeken naar meerdere nieuwsbronnen. Hier zullen we een aantal van deze bronnen bespreken.
 		\subsection{Google News}
+			Google News is een zoekmachine van Google om nieuws berichten te doorzoeken. De titles, eerste alinea's en afbeeldingen van nieuwsberichten op het internet worden verzameld en kunnen aan de hand van keywords worden doorzocht. Voor deze dienst is een API beschikbaar maar deze wordt sinds 26 mei 2011 niet meer ondersteund. Er kan nog wel gebruik van gemaakt worden, maar de API wordt niet meer bijgewerkt. 
 		\subsection{BING News}
+			BING News is een vergelijkbare zoekmachine van Microsoft. Ook hier is een API voor beschikbaar, welke nog wel ondersteund wordt. Per maand kunnen hier gratis $5000$ zoekopdrachten mee uitgevoerd worden, mocht er meer nodig zijn dan is dit mogelijk tegen betaling.
 		\subsection{Overig}
+			Naast Google News en BING News hebben we nog naar een aantal andere optie gekeken.
+			\subsubsection{Yahoo News Service}
+				Ook deze zoekmachine is te vergelijken met Google News en BING News. Hier voor is ook een API beschikbaar, deze is echter alleen te gebruiken tegen betaling. Voor dit project is dat niet haalbaar maar mogelijk dat dit in de toekomst een interessante optie is.
+			\subsubsection{FAROO}
+				FAROO\footnote{http://www.faroo.com/hp/api/api.html} is een alternatief voor de hierboven genoemde opties. Het is een gratis zoek API waarbij tot 1 miljoen zoekopdrachten per maand gedaan kunnen worden. 
+			\subsubsection{Lokaal nieuws}
+				Een hele interessante optie is om lokale nieuws sites en kranten te zoeken bij het geselecteerde gebied. Vooral voor kleinere gebieden, zal dit nuttige resultaten op kunnen leveren. in hoofdstuk \textbf{<todo>} gaan we hier dieper op in.
 	\section{Zoeken naar nieuws}
+		Het zoeken naar nieuws gaat via de BING API\footnote{http://datamarket.azure.com/dataset/bing/search}. Hiermee is het mogelijk om gratis $5000$ zoekopdrachten per maand uit te voeren, tegen betaling kunnen er meer zoekopdrachten uitgevoerd worden. We zoeken naar nieuws aan de hand van een stad en het land waarin deze stad ligt. Hiervoor is gekozen omdat wanneer we alleen op de naam van een stad zoeken, en deze stad komt in meerdere landen voor, we ook resultaten uit andere landen krijgen die niks met het zoek gebied te maken hebben. 
+		\subsection{Client side of server side?}
+			Het zoeken naar nieuws kan zowel client side als server side gebeuren.
+			Het zoeken van nieuws door de server heeft als voordeel dat het mogelijk is om een cache aan te leggen, van nieuws wat bij een stad hoort. Daarbij komt dat de sleutel van de BING API niet beschikbaar is voor de gebruiker en dus niet misbruikt kan worden. 
+			Omdat we voor dit project maar een kleine server beschikbaar hebben is er toch gekozen om dit client side te doen om de server zo min mogelijk te belasten.
 	\section{Hoe het eigenlijk zou moeten}
-		In deze sectie beschrijven we een voorstel hoe een dergelijke applicatie eigenlijk zou moeten. Helaas is het door gebrek aan tijd, twaalf weken, niet mogelijk om het op deze manier te doen. 
-	
+		In deze sectie beschrijven we een voorstel hoe een dergelijke applicatie eigenlijk zou moeten. Helaas is het vooral door gebrek aan tijd, twaalf weken, niet mogelijk om het op deze manier te doen. 
+		\\[0.5cm]
+		
 \chapter{Implementatie}
 	Hier onder zullen we de implementatie van de hiervoor gemaakte ontwerpkeuzes beschrijven.
 	\begin{figure}[!htb]
@@ -123,7 +176,7 @@
 	\end{figure}
 	\section{Server en database}
 		\subsection{Server}
-		De server is geschreven in Python en maatk gebruik van CherryPy en Cheetah. In principe is de server ge"implementeerd als webserver maar zou ook gebruikt kunnen worden als API\footnote{http://en.wikipedia.org/wiki/Application\_programming\_interface} voor een andere applicatie.
+		De server is geschreven in Python en maakt gebruik van CherryPy en Cheetah. In principe is de server ge"implementeerd als webserver maar zou ook gebruikt kunnen worden als API\footnote{http://en.wikipedia.org/wiki/Application\_programming\_interface} voor een andere applicatie.
 		
 		\subsubsection{Webserver}
 		Op de webserver draait \'e\'en pagina, \textit{web/index.py}, de template met daarin alle HTML voor deze pagina is te vinden in \textit{webdata/templats/layout.tmpl}.
@@ -543,7 +596,7 @@ HAVING
 	\section{Toegevoegde waarde}
 		Om er achter te komen of de ontwikkelde tool toegevoegde waarde heeft en zo ja wat deze toegevoegde waarde is is er nog een gebruikersonderzoek gedaan. De opzet en resultaten van dit onderzoek zullen in deze sectie besproken worden.
 		\subsection{Opzet}
-			Voor dit onderzoek hebben we van te voren twee gebieden uitgekozen waar gebruikers naar nieuws moeten zoeken. Het eerste gebied is Noord Holland en het tweede gebied is \textbf{TODO}. De gebruikers beginnen met het zoeken naar nieuws door gebruik te maken van de traditionele methodes, nieuws sites, websites van kranten en zoekmachines al Google en BING. Hiervoor krijgen de gebruikers vijf minuten waarin ze zoveel mogelijk, voor hen interessant, nieuws proberen te vinden. Na deze vijf\textbf{(?)} minuten krijgen ze de zelfde opdracht maar nu door gebruik te maken van de ontwikkelde tool. Om te kijken of de tool een toegevoegde waarde heeft gaan we kijken hoeveel nieuws de gebruikers in beide situaties hebben kunnen vinden. Daarnaast vragen we de gebruiker ook om feedback.
+			Voor dit onderzoek hebben we van te voren twee gebieden uitgekozen waar gebruikers naar nieuws moeten zoeken. Het eerste gebied is Noord Holland en het tweede gebied is \textbf{TODO}. De gebruikers beginnen met het zoeken naar nieuws door gebruik te maken van de traditionele methodes, nieuws sites, websites van kranten en zoekmachines al Google en BING. Hiervoor krijgen de gebruikers vijf minuten waarin ze zoveel mogelijk, voor hen interessant, nieuws proberen te vinden. Na deze vijf\textbf{(?)} minuten krijgen ze de zelfde opdracht maar nu door gebruik te maken van de ontwikkelde tool. Om te kijken of de tool een toegevoegde waarde heeft gaan we kijken hoeveel nieuws de gebruikers in beide situaties hebben kunnen vinden. Daarnaast vragen we de gebruiker ook om feedback. Bij dit onderzoek is er voor gekozen om een zo breed mogelijk doelgroep te nemen. Dit omdat als we bijvoorbeeld alleen ICT studenten nemen de kans groot is dat zij veel beter dan een gemiddeld persoon weten hoe ze zoekopdrachten bij bijvoorbeeld Google uit moeten voeren.
 		\subsection{Resultaten}
 	
 \chapter{Conclusie}
