@@ -77,6 +77,7 @@
 \chapter{Ontwerp}
 	In dit hoofdstuk zullen de gemaakte ontwerpkeuzes besproken worden. Ook zullen er twee voorstellen gedaan worden voor de implementaties van een dergelijke applicatie.
 	\section{Web applicatie of standalone/desktop applicatie?}
+		Een dergelijke applicatie kan ge"implementeerd worden als web applicatie of standalone applicatie. In deze sectie zullen we beide opties bespreken en een keuze tussen deze twee maken.
 		\subsection{Web applicatie}
 			Een web applicatie is een applicatie die voor gebruikers beschikbaar is via een webserver. Deze server is vaak bereikbaar via het internet maar het is ook mogelijk om dit via intranet te doen. De gebruiker kan via een client programma, zoals een webbrowser, gebruik maken van een dergelijke applicatie.
 		\subsection{Standalone/desktop applicatie}
@@ -102,12 +103,39 @@
 			Voor onze applicatie is het vooral belangrijk dat gebruikers snel en overal bij de applicatie kunnen komen. Verder versturen we geen privacy gevoelige informatie dus de extra veiligheid die en standalone/desktop applicatie biedt heeft geen toegevoegde waarde. Omdat we ook geen grote hoeveelheden data hoeven te versturen en ook geen grote berekeningen op de computer van de gebruiker hoeven uit te voeren is er gekozen om de applicatie te implementeren als web applicatie.
 	\section{Server}
 		Zoals in de voorgaande sectie beschreven is er gekozen voor een web applicatie. Hiervoor moet een server ge"implementeerd worden, in deze sectie worden de ontwerp keuzes besproken die betrekking hebben op deze web server.
-		\section{Python of PHP}
+		\section{Python, PHP of Ruby on Rails}
+			Drie mogelijke talen om een web applicatie mee te ontwikkelen zijn PHP\footnote{http://php.net/}, Ruby\footnote{https://www.ruby-lang.org/en/} en Python\footnote{https://www.python.org/}, van deze talen is PHP de meest gebruikte. In afbeelding \ref{fig:phpvspython} wordt een vergelijking gemaakt tussen de drie talen. In figuur \ref{fig:phpvspython3} is te zien dat PHP verreweg de meest gebruikte taal is.
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[scale=0.9]{./img/phpvspython.png}
+				\caption{Vergelijking PHP, Ruby en Python}
+				\label{fig:phpvspython}
+			\end{figure} 
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[scale=0.9]{./img/phpvspython3.png}
+				\caption{Vergelijking PHP, Ruby en Python}
+				\label{fig:phpvspython3}
+			\end{figure} 
+			\subsection{PHP}
+				PHP, \textit{P}HP: \textit{H}ypertext \textit{P}reprocessor, is een scripttaal waarmee dynamische web pagina's ontwikkeld kunnen worden. De taal is in 1994 ontworpen door Rasmus Lerdorf, en ge"inspireerd door Perl\footnote{https://www.perl.org/}. Tegenwoordig is dit de meest gebruikte taal om web applicaties mee te ontwikkelen. 
+			\subsection{Ruby}
+				Ruby is een programmeertaal waarmee eenvoudig en snel objectge"orienteerd geprogrammeerd kan worden, de taal is in 1995 gepubliceerd door Yukihiro Matsumoto. Sinds 2004 is Ruby on Rails beschikbaar, dit is een open source webapplicatieframework geschreven in Ruby. 
+			\subsection{Python}
+				Python is een in 1991 verschenen programmeertaal, de taal is door Guido van Rossum ontwikkeld. Het is een van de eenvoudigste talen om te leren en omdat het erg op psuedo code lijkt is het meestal ook goed te lezen en te begrijpen voor mensen die zelf niet kunnen prorgarmmeren.
+				\\[0.5cm]
+			Voor dit project is gekozen om gebruik te maken van Python, in combinatie met CherryPy en Cheetah. We hebben hier voor gekozen omdat het een stuk sneller is dan PHP qua run time en het aantal regels code nagenoeg gelijk is aan het aantal dat bij PHP nodig zou zijn, zie afbeelding \ref{fig:phpvspython2}. Hierbij is er ook rekening mee gehouden dat met Python ook standalone applicatie gemaakt kunnen worden, wat met PHP (bijna) niet mogelijk is. Op deze manier kan een groot deel van de code direct gebruikt worden als er behoefte is aan een dergelijke applicatie.
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[scale=0.9]{./img/phpvspython2.png}
+				\caption{Vergelijking snelheid PHP, Ruby en Python}
+				\label{fig:phpvspython2}
+			\end{figure}
 		\subsection{CherryPy}
 			CherryPy\footnote{http://www.cherrypy.org/} is een open-source minimalistisch Python Web Framework, hiermee is het mogelijk om web applicaties te maken op (bijna) de zelfde manier als een object ge"orienteerd Python programma. Het resultaat hiervan is dat er minder code nodig is en het ontwikkelen van een web applicatie minder tijd kost.
-			
+			\\[0.5cm]
 			Inmiddels bestaat CherryPy al meer dan tien jaar en heeft het bewezen zweer snel en stabiel te zijn. Het wordt gebruikt bij veel websites, van kleine simpele sites tot zeer veel eisende applicaties.
-			
+			\\[0.5cm]
 			Een voorbeeld van een simpele website met CherryPy is het volgende:
 			\begin{verbatim}
 			import cherrypy
@@ -126,13 +154,58 @@
 			\end{verbatim}
 			In plaats van een simpele tekst op het scherm willen we graag een complete HTML pagina terug geven, dit doen we door gebruik te maken van Cheetah.
 		\subsection{Cheetah}
+			Cheetah\footnote{http://www.cheetahtemplate.org/} of Cheetah Template is een template engine die gebruik maakt van Python. Het kan apart gebruikt worden of in combinatie met andere tools en frameworks, zoals bijvoorbeeld CherryPy. Over het algemeen wordt het gebruikt voor server-side scripting en het genereren van dynamische web pagina's. Een simpel voorbeeld is het volgende, deze Cheetah template genereerd een HTML pagina met daarop een tabel waarin voor voor elke client de achternaam en voornaam en een link naar het emailadres een regel wordt gemaakt.
+			\begin{verbatim}
+			<html>
+			    <head>
+			        <title>
+			            $title
+			        </title>
+			    </head>
+			    <body>
+			        <table>
+			        #for $client in $clients
+			            <tr>
+			                <td>
+			                    $client.surname, $client.firstname
+			                </td>
+			                <td>
+			                    <a href="mailto:$client.email">$client.email</a>
+			                </td>
+			            </tr>
+			        #end for
+			        </table>
+			    </body>
+			</html>
+			\end{verbatim}
+			Voor dit project gebruiken we JSON om een template te maken van de User Interface.
 		\subsection{JSON}
+			JSON\footnote{http://json.org/} staat voor Javascript Object Notation, het is een simpel formaat voor gegevens uitwisseling. Het is gemakkelijk door computers te verwerken en goed leesbaar voor mensen. Na genoeg alle programmeertalen ondersteunen JSON, zo ook Python. Hier onder volgt een voorbeeld van JSON.
+			\begin{verbatim}
+			[
+			    { 
+			        "Naam": "JSON",
+			        "Type": "Gegevensuitwisselingsformaat",
+			        "isProgrammeertaal": false,
+			        "Zie ook": [ "XML", "ASN.1" ] 
+			    },
+			    { 
+			        "Naam": "JavaScript",
+			        "Type": "Programmeertaal",
+			        "isProgrammeertaal": true,
+			        "Jaar": 1995 
+			    } 
+			]
+			\end{verbatim}
+			Wij gebruiken JSON om de lijst met steden en landen terug te sturen naar de client en de nieuwsberichten worden als JSON object opgevraagd. 
 		\subsection{AJAX}
+			AJAX\footnote{http://en.wikipedia.org/wiki/Ajax\_(programming)}, \textit{A}synchronous \textit{J}avaScript \textit{A}nd \textit{X}ML, wordt gebruikt bij de ontwikkeling van interactieve web pagina's, waarbij asynchroon gegevens van de server worden opgehaald. Dat wil zeggen dat we niet de hele pagina hoeven te vernieuwen als we bijvoorbeeld een andere afbeelding willen laden. Bij dit project maken we gebruik van AJAX om de co"ordinaten van het middelpunt en de straal van het geselecteerde gebied naar de server te verstruren. Ook het uitvoeren van zoekopdrachten voor nieuwsberichten gaat via AJAX. Hiervoor gebruiken we de standaard functies die voor AJAX in JQuery\footnote{https://jquery.com/} ge"implementeerd zijn.
 	\section{Database}
 		Voor de database hebben we gekozen voor een SQLite\footnote{http://www.sqlite.org/} database. SQLite is een software pakket wat een SQL database engine implementeerd, maar in tegenstelling tot bijvoorbeeld MySQL is hier geen client/server systeem voor nodig. Bij SQLite wordt de database in \'e\'en bestand op de schijf opgeslagen.
 		\\[0.5cm]
 		Omdat SQLite standaard geen ondersteuning heeft voor veel wiskundige functies zijn deze toegevoegd via een extentie. Hiervoor wordt het bestand \textit{extension-functions.c} gebruikt. Hierin zijn functies als $\cos$ en $\sin$ ge"implementeerd.
 	\section{Geografische informatie}
+		\label{sec:geo_info}
 		Voor de geografische informatie, de steden met hun lengtegraad en breedtegraad, populatie en landen is gekeken naar de mogelijkheid om dit via Google Maps te doen. Hoewel dit in theorie mogelijk is, is dit in praktijk geen goede optie. We zouden dan alle steden die in Google Maps te vinden zijn eerst moeten downloaden en opslaan in een database voordat we kunnen gaan berekenen of ze in het geselecteerde gebied liggen.
 		\\[0.5cm]
 		Een andere mogelijkheid waar naar gekeken is, is om gebruik te maken van Wolfram Alpha\footnote{https://www.wolframalpha.com/}, hiermee is het mogelijk om de afstand tussen twee steden op aarde te berkenen. Wel moeten we dan zelf de lengtegraad en breedtegraad van het start en eind punt hebben, we kunnen hiermee dus geen steden zoeken.
@@ -141,7 +214,7 @@
 		\\[0.5cm]
 		De database is via een API te benaderen of te downloaden als tekst betand. Bij dit project is voor het laatste gekozen om het netwerk verkeer zo beperkt mogelijk te houden en om te zorgen dat de data altijd beschikbaar is. Omdat een tekstbestand niet effici"ent te door zoeken is schrijven we dedata naar onze eigen SQLite database.
 		\\[0.5cm]
-		Tijdens de ontwikkeling van de applicatie bleek dat voor een deel van de steden, ongeveer $30000$ van de $145000$, geen populatie beschikbaar is. Omdat we bij het algoritme voor de gebiedsrepresentatie kijken wat de grootste stad in een gebied is en dit niet mogelijk is met twee of meer steden waarvan de populatie gelijk is aan $0$ worden deze steden uitgesloten tijdens de selectie. In hoofdstuk \textbf{<todo>} wordt een voorstel gedaan hoe dit opgelost zou kunnen worden zodat deze steden wel gebruikt kunnen worden. Een ander pboleem wat tijdens de implementatie boven kwam is dat een aantal grote steden, zoals Londen en Parijs, in meerdere delen in de database opgeslagen zijn. Ook dit kan voor problemen zorgen bij het algoritme voor de gebiedsrepresentatie. Een oplossing hiervoor is te vinden in hoofdstuk \textbf{<todo>}.
+		Tijdens de ontwikkeling van de applicatie bleek dat voor een deel van de steden, ongeveer $30000$ van de $145000$, geen populatie beschikbaar is. Omdat we bij het algoritme voor de gebiedsrepresentatie kijken wat de grootste stad in een gebied is en dit niet mogelijk is met twee of meer steden waarvan de populatie gelijk is aan $0$ worden deze steden uitgesloten tijdens de selectie. In sectie \ref{sec:citiespop} wordt een voorstel gedaan hoe dit opgelost zou kunnen worden zodat deze steden wel gebruikt kunnen worden. Een ander pboleem wat tijdens de implementatie boven kwam is dat een aantal grote steden, zoals Londen en Parijs, in meerdere delen in de database opgeslagen zijn. Ook dit kan voor problemen zorgen bij het algoritme voor de gebiedsrepresentatie. Een oplossing hiervoor is te vinden in sectie \ref{sec:multcities}.
 	\section{Nieuwsbronnen}
 		Voor de ontwikkeling van de applicatie is gekeken naar meerdere nieuwsbronnen. Hier zullen we een aantal van deze bronnen bespreken.
 		\subsection{Google News}
@@ -162,10 +235,16 @@
 			Het zoeken naar nieuws kan zowel client side als server side gebeuren.
 			Het zoeken van nieuws door de server heeft als voordeel dat het mogelijk is om een cache aan te leggen, van nieuws wat bij een stad hoort. Daarbij komt dat de sleutel van de BING API niet beschikbaar is voor de gebruiker en dus niet misbruikt kan worden. 
 			Omdat we voor dit project maar een kleine server beschikbaar hebben is er toch gekozen om dit client side te doen om de server zo min mogelijk te belasten.
-	\section{Hoe het eigenlijk zou moeten}
+	\section{De ideale implementatie}
 		In deze sectie beschrijven we een voorstel hoe een dergelijke applicatie eigenlijk zou moeten. Helaas is het vooral door gebrek aan tijd, twaalf weken, niet mogelijk om het op deze manier te doen. 
 		\\[0.5cm]
-		
+		Zoals eerder gezegd heeft het zoeken naar nieuws door de server een aantal voordelen. Dit zoeken zou dan ook niet meer via bijvoorbeeld BING News gaan, een betere optie is om gebruik te maken van RSS feeds\footnote{http://en.wikipedia.org/wiki/RSS}.
+		\subsubsection{RSS feeds}
+			RSS staat voor \textit{R}ich \textit{S}ite \textit{S}ummary, maar ook vaak \textit{R}eally \textit{S}imple \textit{S}yndication genoemd, het is een eenvoudige manier om op de hoogte te blijven van bijvoorbeeld het laatste nieuws. Het is gemaakt zodat we niet zelf alle sites hoeven te bezoeken waarvan we op de hoogte willen blijven van de nieuwste berichten. In plaats daarvan kunnen we de RSS feed in de gaten houden, de nieuwste berichten komen hier automatisch op te staan.
+			\\[0.5cm]
+		Met een achtergrond proces op de server kunnen deze RSS feeds in de gaten gehouden worden en zodra er een nieuw nieuws bericht beschikbaar is wordt deze gedownload. Eenmaal gedownload moet een bericht geanalyseerd worden om te bepalen bij welke stad het bericht hoort. Nieuwsberichten die geanalyseerd zijn worden opgelsagen in een database, met bijvoorbeeld de stad en het land waar het bericht bij hoort, een link naar het bericht en de tijd dat het nieuwsbericht gepubliceerd is. Deze tijd kan gebruikt worden om te bepalen of het nog een actueel bericht is.
+		\\[0.5cm]
+		Met de hier beschreven methode verstuurt de client alleen nog het middelpunt en de straal van de op de kaart gemaakte selectie. De server doet de rest van het werk, dat wil zeggen het zoeken naar steden die bij het geslecteerde gebied horen, het zoeken naar nieuws dat bij deze steden horen en vervolgens deze lijst met nieuwsberichten terug sturen naar de client. Op deze manier is het ook eenvoudig om nieuwsbronnen toe te voegen, we hoeven alleen de RSS feed van de bron in de gaten te houden.
 \chapter{Implementatie}
 	Hier onder zullen we de implementatie van de hiervoor gemaakte ontwerpkeuzes beschrijven.
 	\begin{figure}[!htb]
@@ -599,10 +678,19 @@ HAVING
 			Voor dit onderzoek hebben we van te voren twee gebieden uitgekozen waar gebruikers naar nieuws moeten zoeken. Het eerste gebied is Noord Holland en het tweede gebied is \textbf{TODO}. De gebruikers beginnen met het zoeken naar nieuws door gebruik te maken van de traditionele methodes, nieuws sites, websites van kranten en zoekmachines al Google en BING. Hiervoor krijgen de gebruikers vijf minuten waarin ze zoveel mogelijk, voor hen interessant, nieuws proberen te vinden. Na deze vijf\textbf{(?)} minuten krijgen ze de zelfde opdracht maar nu door gebruik te maken van de ontwikkelde tool. Om te kijken of de tool een toegevoegde waarde heeft gaan we kijken hoeveel nieuws de gebruikers in beide situaties hebben kunnen vinden. Daarnaast vragen we de gebruiker ook om feedback. Bij dit onderzoek is er voor gekozen om een zo breed mogelijk doelgroep te nemen. Dit omdat als we bijvoorbeeld alleen ICT studenten nemen de kans groot is dat zij veel beter dan een gemiddeld persoon weten hoe ze zoekopdrachten bij bijvoorbeeld Google uit moeten voeren.
 		\subsection{Resultaten}
 	
-\chapter{Conclusie}
+\chapter{Discussie en conclusie}
+	\section{Discussie}
 	\section{Conclusie}
 	\section{Toekomstig onderzoek}
 		Om de applicatie te verbeteren moet er bijvoorbeeld gekeken worden naar het gebruik van andere nieuws bronnen dan zoekmachines en nieuws sites. Denk hierbij aan bijvoorbeeld twitter data, maar ook kan het interessant zijn om naar lokale nieuws bronnen te gaan kijken.
+		\subsection{Steden met onbekende populatie}
+			\label{sec:citiespop}
+			Het probleem van de steden waarvan geen populatie bekend is, zoals beschreven in sectie \ref{sec:geo_info}, is op te lossen door op bijvoorbeeld Wikipedia\footnote{https://en.wikipedia.org/} of WolframAlpha\footnote{http://www.wolframalpha.com/} de populatie op te zoeken. Dit kan gedaan worden door de pagina die over de stad gaat te downloaden en hier vervolgens de populatie uit te halen. We zouden dit kunnen doen op het moment dat een stad geselecteerd worden met populatie $0$, een beter mogelijkheid is waarschijnlijk om dit te doen zodra de database opgebouwd wordt.
+		\subsection{Dubbele steden}
+			\label{sec:multcities}
+			Bij het algoritme voor de gebiedsrepresentatie worden af en toe twee steden heel dicht bij elkaar gekozen, in sommige gevallen gaat dit zelfs om de zelfde stad. Dit komt omdat een aantal grote steden in meerdere delen in de database staan. Een voorbeeld hiervan is \textit{London} deze stad staat er als \textit{London} en \textit{City of London} in. Er zijn twee manieren om dit op te lossen.\\[0.5cm]
+			Ten eerste kan er gekeken worden of deze steden samen gevoegd kunnen worden. Bij het opbouwen van de database moet dan gekeken worden of er al een grote stad op dezelfde plek ligt, als dit het geval is wordt de populatie van de tweede stad bij de eerste opgeteld en slaan we dus maar \'e\'en stad op.\\[0.5cm]
+			De tweede optie is om het algoritme voor de gebiedsrepresentatie zo aan te passen dat niet twee steden vlak bij elkaar gekozen kunnen worden, ook al zijn dit misschien de grootste steden. Hiervoor moet je voor elke stad die je kiest kijken hoe dicht ze bij de al eerder gekozen steden liggen. Als deze afstand kleiner is dan een minimale afstand moet er een andere stad gekozen worden.
 		\subsection{Lokaal nieuws - voorstel}
 	
 \begin{thebibliography}{9}
