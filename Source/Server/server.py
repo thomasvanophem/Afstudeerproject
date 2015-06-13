@@ -7,7 +7,7 @@ def main():
     cherry_conf = {'global': {
 			'tools.sessions.on': True,
 			'tools.sessions.timeout': 20160, #14 days
-			'server.socket_host': '192.168.0.13',
+			'server.socket_host': '0.0.0.0',
 			'tools.trailing_slash.on': False},
                     '/css': {
                         'tools.staticdir.on': True,

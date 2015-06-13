@@ -63,7 +63,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     /*
-    RESEARCH
+    //RESEARCH
     var selection
     var selectionOptions = {
       fillColor: '#D3E6D3',

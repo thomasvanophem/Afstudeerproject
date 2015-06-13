@@ -10,7 +10,7 @@ import time
 import database
 
 min_cities = 6
-max_cities = 10
+max_cities = 15
 
 def get_cities(db_name, r, lat, lon):
     result = []
@@ -203,12 +203,15 @@ def main(db, source, radius):
     lat = math.radians(float(source[0]))
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
+    
     """
+    # For the second algorithm
     if len(cities) > max_cities:
         result = split1(cities[:])
     else:
         result = cities[:]
-    """ 
+    """
+ 
     if len(cities) > max_cities:
         temp = cities[:]
         
@@ -252,8 +255,10 @@ def main(db, source, radius):
     print len(cities)
     print len(result)
     
+    # For the second algorithm
     #if len(result) > max_cities:
     #    result = result[:max_cities]
+    
     return result
     
 if __name__ == "__main__":
