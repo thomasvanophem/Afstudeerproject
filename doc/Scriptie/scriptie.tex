@@ -38,16 +38,23 @@
 		Wie op dit moment naar nieuws wil zoeken doet dit aan de hand van zoektermen gericht op een onderwerp of enkele locatie. Voor het nieuws over een brand in Amsterdam kan gezocht worden met bijvoorbeeld de zoekterm "brand Amsterdam". Dit is voor relatief eenvoudige zoektermen, waar er alleen gekeken wordt naar een stad geen probleem. Maar stel dat je wilt weten wat er op dit moment gaande is in Noord Holland. Welke zoektermen moeten dan gebruikt worden? 
 		\\[0.5cm]
 		Het probleem wordt nog groter als je gaat kijken naar grotere (internationale) gebieden, stel je wilt weten wat er gaande is rondom de Zwarte Zee. Om hier al het nieuws voor te vinden moet gezocht worden naar het nieuws in alle omliggende landen. Dit resulteerd in een groot aantal zoektermen, met als gevolg dat je veel tijd kwijt bent om een duidelijk beeld te krijgen van wat er in het betreffende gebied gaande is, of dat er helemaal niet gezocht wordt. Gevolg hiervan is dat mensen, burgers, een beperkt/beperkter begrip hebben van het nieuws. Hierdoor krijgen burgers geen of geen goede informatie over wat er gaande is in de wereld, worden zij zich niet bewust van politieke processen met als risico dat zij niet de juiste beslissingen nemen, en belanghebbenden een (mogelijk verkeerde) invloed uit kunnen oefenen.
-		\\[0.5cm]
-		Een mogelijke oplossing hiervoor is een tool waarmee het mogelijk is om op gebied te zoeken, bijvoorbeeld door een gebied te selecteren op een kaart waar vervolgens het nieuws bijgezocht wordt. Hiermee krijgen burgers een duidelijker beeld van poltieke processen, en zaken die hun leven kunnen be\"invloeden. Daarnaast wordt het mogelijk om de kern en de oorzaken van problemen in de wereld beter te begrijpen.	
 	\section{Over dit onderzoek}
-		Ik ga een tool ontwikkelen waarbij het mogelijk is om een gebied op een kaart te selecteren waar het nieuws bij gezocht zal worden. In eerste instantie zal ik hierbij gebruik maken van \textit{Bing News} en \textit{Google News}, vervolgens gaat er gebruik gemaakt worden van lokale nieuwsbronnen. Deze nieuwsbronnen hangen dus af van het gekozen gebied. Voor beide implementaties ga ik onderzoeken wat de toegevoegde waarde van de tool is.
+		Een mogelijke oplossing hiervoor is een tool waarmee het mogelijk is om op gebied te zoeken, bijvoorbeeld door een gebied te selecteren op een kaart waar vervolgens het nieuws bijgezocht wordt. Hiermee krijgen burgers een duidelijker beeld van poltieke processen, en zaken die hun leven kunnen be\"invloeden. Daarnaast wordt het mogelijk om de kern en de oorzaken van problemen in de wereld beter te begrijpen.
 		\\[0.5cm]
-		De hoofdvraag in dit onderzoek is:
+		Dit onderzoek willen we kijken wat de toegevoegde waarde voor de gebruiker van een dergelijke tool is. De hoofdvraag in deze scriptie is:
 		\\[0.5cm]
 		\indent \textit{Wat is de toegevoegde waarde van het zoeken van nieuwsberichten aan de hand van een locatie?}
 		\\[0.5cm]
-		In deze scriptie zal ik bespreken hoe de tool tot stand is gekomen, welke ontwerp keuzen er zijn gemaakt en hoe deze ge"implementeerd zijn. Daarnaast zal de opzet van het onderzoek en de resultaten besproken worden.
+		Omdat dit een behoorlijke brede vraag is zullen we een aantal deelvragen formuleren om naar het antwoord op deze vraag toe te kunnen werken.
+		\\[0.5cm]
+		\indent \textit{Wat is het beste ontwerp voor een dergelijke applicatie?} \\[0.2cm]
+		\indent \textit{Kunnen we een gebied representeren door een beperkt aantal steden? En zo ja, hoe?} \\[0.2cm]
+		\indent \textit{Hoeveel steden zijn er nodig om een gebied te representeren?} \\[0.2cm]
+		\indent \textit{Hoe kunnen we aan de hand van deze steden naar nieuws zoeken?}\\[0.2cm]
+		\indent \textit{Welke nieuwsbronnen kunnen we gebruiken?}\\[0.2cm]
+		\indent \textit{Hoe implementeren we een dergelijke applicatie?}\\[0.5cm]
+		
+		In hoofdstuk 2 zullen we eerst kijken naar gerelateerd onderzoek, zodat we ons een goed beeld kunnen vormen wat er op dit moment mogelijk is. Hoofdstuk 3 en 4 bespreken het ontwerp en de implementatie van de applicatie, met deze applicatie zullen we vervolgens gaan onderzoeken wat de toegevoegde waarde van een dergelijke tool is. De experimenten die hiervoor gedaan zijn zullen besproken worden in hoofdstuk 5.
 \chapter{Gerelateerd onderzoek}
 	\label{ch:related}
 	% iest over sinds wanneer umd al onderzoek doet naar dit onderwerp?
@@ -83,38 +90,44 @@
 		\subsection{Standalone/desktop applicatie}
 			Een standalone of desktop applicatie is een programma waarbij vooraf bepaald is welek taken uitgevoerd kunnen worden. Vaak zijn dergelijke programma's beschikbaar vanaf een lokale schijf in de computer van een gebruiker en hebben deze programma's in principe geen internet/netwerk nodig om te kunnen functioneren.
 		\subsection{Web applicatie vs. standalone/desktop applicatie}
-			Hier onder staan voor zowel een web applicatie als een standalone/desktop aplpicatie op een rijtje.\\[0.5cm]
+			Om te kunnen beslissen of we beter een web applicatie of een standalone/desktop applicatie kunnen gebruiken moeten we eerst weten welke aspecten van belang zijn bij een dergelijke applicatie. Dat zijn:
+			\begin{itemize}
+				\item Beschikbaar voor iedereen
+				\item Portabiliteit, niet afhankelijk zijn van een besturingssysteem
+				\item Privacy
+				\item Toegang tot recent nieuws
+			\end{itemize}
+			Nu we weten welke aspecten belangrijk zijn kunnen we naar de voordelen van zowel web applicaties als standalone/desktop applicaties kijken om vervolgens een keuze te maken.\\[0.5cm]
 			\textbf{Voordelen web applicatie}
 			\begin{itemize}
 				\item Snel voor iedereen toegankelijk
 				\item Overal beschikbaar (waar internet is)
 				\item Geen onderhoud (updates installeren) voor de gebruiker
+				\item Niet afhankelijk van besturingssysteem
 			\end{itemize}
 			\textbf{Voordelen standalone/desktop applicatie}
 			\begin{itemize}
-				\item Krachtigere software, gebruik maken van hardware features
-				\item Veiliger
+				\item Veiliger, er wordt geen privacy gevoelige data over het netwerk verstuurd
 				\item Lagere kosten voor de gebruiker op de lange termijn
 				\item Geen internet verbinding nodig
 				\item Sneller
 				\item Mogelijkheid om backups van data te maken
 			\end{itemize}
-			Hier uit blijkt dat een desktop applicatie vooral geschikt is als er bijvoorbeeld grote berekeningen uitgevoerd moeten worden op de computer van de gebruiker. Daarnaast is een desktop applicatie ook sneller als er grote hoeveelheden data in een database opgeslagen moeten worden. Bij een standalone/desktop applicatie kan deze database namelijk op de computer van de gebruiker opgeslagen worden en hoef je alleen naar de schijf te schrijven. Bij een web applicatie zou deze data eerst over een netwerk verstuurd moeten worden om vervoglens alsnog naar een schijf geschreven te worden.\\[0.5cm]
-			Voor onze applicatie is het vooral belangrijk dat gebruikers snel en overal bij de applicatie kunnen komen. Verder versturen we geen privacy gevoelige informatie dus de extra veiligheid die en standalone/desktop applicatie biedt heeft geen toegevoegde waarde. Omdat we ook geen grote hoeveelheden data hoeven te versturen en ook geen grote berekeningen op de computer van de gebruiker hoeven uit te voeren is er gekozen om de applicatie te implementeren als web applicatie.
+			Hier uit blijkt dat een web applicatie het beste aansluit bij de aspecten die van belang zijn. Wel moet er goed gekeken worden naar de privacy bij de ontwikkeling van een dergelijke applicatie. In dit onderzoek is dit niet van belang omdat we geen gegevens van de gebruiker opslaan. 
 	\section{Server}
 		Zoals in de voorgaande sectie beschreven is er gekozen voor een web applicatie. Hiervoor moet een server ge"implementeerd worden, in deze sectie worden de ontwerp keuzes besproken die betrekking hebben op deze web server.
 		\section{Python, PHP of Ruby on Rails}
-			Drie mogelijke talen om een web applicatie mee te ontwikkelen zijn PHP\footnote{http://php.net/}, Ruby\footnote{https://www.ruby-lang.org/en/} en Python\footnote{https://www.python.org/}, van deze talen is PHP de meest gebruikte. In afbeelding \ref{fig:phpvspython} wordt een vergelijking gemaakt tussen de drie talen. In figuur \ref{fig:phpvspython3} is te zien dat PHP verreweg de meest gebruikte taal is.
+			Drie mogelijke talen om een web applicatie mee te ontwikkelen zijn PHP\footnote{http://php.net/}, Ruby\footnote{https://www.ruby-lang.org/en/} en Python\footnote{https://www.python.org/}, van deze talen is PHP de meest gebruikte. In figuur \ref{fig:phpvspython} wordt een vergelijking gemaakt tussen de drie talen. In figuur \ref{fig:phpvspython3} is te zien dat PHP verreweg de meest gebruikte taal is.
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[scale=0.9]{./img/phpvspython.png}
-				\caption{Vergelijking PHP, Ruby en Python}
+				\caption{Vergelijking PHP, Ruby en Python, bron: Udemy}
 				\label{fig:phpvspython}
 			\end{figure} 
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[scale=0.9]{./img/phpvspython3.png}
-				\caption{Vergelijking PHP, Ruby en Python}
+				\caption{Vergelijking PHP, Ruby en Python, bron: http://w3techs.com}
 				\label{fig:phpvspython3}
 			\end{figure} 
 			\subsection{PHP}
@@ -124,15 +137,15 @@
 			\subsection{Python}
 				Python is een in 1991 verschenen programmeertaal, de taal is door Guido van Rossum ontwikkeld. Het is een van de eenvoudigste talen om te leren en omdat het erg op psuedo code lijkt is het meestal ook goed te lezen en te begrijpen voor mensen die zelf niet kunnen prorgarmmeren.
 				\\[0.5cm]
-			Voor dit project is gekozen om gebruik te maken van Python, in combinatie met CherryPy en Cheetah. We hebben hier voor gekozen omdat het een stuk sneller is dan PHP qua run time en het aantal regels code nagenoeg gelijk is aan het aantal dat bij PHP nodig zou zijn, zie afbeelding \ref{fig:phpvspython2}. Hierbij is er ook rekening mee gehouden dat met Python ook standalone applicatie gemaakt kunnen worden, wat met PHP (bijna) niet mogelijk is. Op deze manier kan een groot deel van de code direct gebruikt worden als er behoefte is aan een dergelijke applicatie.
+			Voor dit project is gekozen om gebruik te maken van Python, in combinatie met CherryPy en Cheetah. We hebben hier voor gekozen omdat het een stuk sneller is dan PHP qua run time en het aantal regels code nagenoeg gelijk is aan het aantal dat bij PHP nodig zou zijn, zie figuur \ref{fig:phpvspython2}. Hierbij is er ook rekening mee gehouden dat met Python ook standalone applicatie gemaakt kunnen worden, wat met PHP (bijna) niet mogelijk is. Op deze manier kan een groot deel van de code direct gebruikt worden als er behoefte is aan een dergelijke applicatie.
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[scale=0.9]{./img/phpvspython2.png}
-				\caption{Vergelijking snelheid PHP, Ruby en Python}
+				\caption{Vergelijking snelheid PHP, Ruby en Python, bron: Udemy}
 				\label{fig:phpvspython2}
 			\end{figure}
 		\subsection{CherryPy}
-			CherryPy\footnote{http://www.cherrypy.org/} is een open-source minimalistisch Python Web Framework, hiermee is het mogelijk om web applicaties te maken op (bijna) de zelfde manier als een object ge"orienteerd Python programma. Het resultaat hiervan is dat er minder code nodig is en het ontwikkelen van een web applicatie minder tijd kost.
+			CherryPy\footnote{http://www.cherrypy.org/} is een open-source (BSD license\footnote{https://en.wikipedia.org/wiki/BSD\_licenses}) minimalistisch Python Web Framework, hiermee is het mogelijk om web applicaties te maken op (bijna) de zelfde manier als een object ge"orienteerd Python programma. Het resultaat hiervan is dat er minder code nodig is en het ontwikkelen van een web applicatie minder tijd kost.
 			\\[0.5cm]
 			Inmiddels bestaat CherryPy al meer dan tien jaar en heeft het bewezen zweer snel en stabiel te zijn. Het wordt gebruikt bij veel websites, van kleine simpele sites tot zeer veel eisende applicaties.
 			\\[0.5cm]
@@ -148,7 +161,7 @@
 			if __name__ == '__main__':
 			    cherrypy.quickstart(HelloWorld())
 			\end{verbatim}
-			Deze code start een webserver met de standaar configuratie en print de tekst \"Hello World!\" op de pagina. Het is ook mogelijk om een eigen configuratie voor de server te gebruiken, hierin is \textit{cherry\_conf} een Python dictionary\footnote{https://docs.python.org/2/tutorial/datastructures.html\#dictionaries}. Op deze manier kan er bijvoorbeeld handmatig bepaald worden op welk IP adres de server te vinden is en welke poort, standaard $8080$, er gebruikt wordt. 
+			Deze code start een webserver met de standaar configuratie en print de tekst 'Hello World!` op de pagina. Het is ook mogelijk om een eigen configuratie voor de server te gebruiken, hierin is \textit{cherry\_conf} een Python dictionary\footnote{https://docs.python.org/2/tutorial/datastructures.html\#dictionaries}. Op deze manier kan er bijvoorbeeld handmatig bepaald worden op welk IP adres de server te vinden is en welke poort, standaard $8080$, er gebruikt wordt. 
 			\begin{verbatim}
 			cherrypy.quickstart(HelloWorld(), config = cherry_conf)
 			\end{verbatim}
@@ -201,16 +214,17 @@
 		\subsection{AJAX}
 			AJAX\footnote{http://en.wikipedia.org/wiki/Ajax\_(programming)}, \textit{A}synchronous \textit{J}avaScript \textit{A}nd \textit{X}ML, wordt gebruikt bij de ontwikkeling van interactieve web pagina's, waarbij asynchroon gegevens van de server worden opgehaald. Dat wil zeggen dat we niet de hele pagina hoeven te vernieuwen als we bijvoorbeeld een andere afbeelding willen laden. Bij dit project maken we gebruik van AJAX om de co"ordinaten van het middelpunt en de straal van het geselecteerde gebied naar de server te verstruren. Ook het uitvoeren van zoekopdrachten voor nieuwsberichten gaat via AJAX. Hiervoor gebruiken we de standaard functies die voor AJAX in JQuery\footnote{https://jquery.com/} ge"implementeerd zijn.
 	\section{Database}
+		\label{sec:db}
 		Voor de database hebben we gekozen voor een SQLite\footnote{http://www.sqlite.org/} database. SQLite is een software pakket wat een SQL database engine implementeerd, maar in tegenstelling tot bijvoorbeeld MySQL is hier geen client/server systeem voor nodig. Bij SQLite wordt de database in \'e\'en bestand op de schijf opgeslagen.
 		\\[0.5cm]
 		Omdat SQLite standaard geen ondersteuning heeft voor veel wiskundige functies zijn deze toegevoegd via een extentie. Hiervoor wordt het bestand \textit{extension-functions.c} gebruikt. Hierin zijn functies als $\cos$ en $\sin$ ge"implementeerd.
 	\section{Geografische informatie}
 		\label{sec:geo_info}
-		Voor de geografische informatie, de steden met hun lengtegraad en breedtegraad, populatie en landen is gekeken naar de mogelijkheid om dit via Google Maps te doen. Hoewel dit in theorie mogelijk is, is dit in praktijk geen goede optie. We zouden dan alle steden die in Google Maps te vinden zijn eerst moeten downloaden en opslaan in een database voordat we kunnen gaan berekenen of ze in het geselecteerde gebied liggen.
+		Voor de geografische informatie, de steden met hun breedtegraad en lengtegraad, populatie en landen is gekeken naar de mogelijkheid om dit via Google Maps te doen. Hoewel dit in theorie mogelijk is, is dit in praktijk geen goede optie. We zouden dan alle steden die in Google Maps te vinden zijn eerst moeten downloaden en opslaan in een database voordat we kunnen gaan berekenen of ze in het geselecteerde gebied liggen.
 		\\[0.5cm]
-		Een andere mogelijkheid waar naar gekeken is, is om gebruik te maken van Wolfram Alpha\footnote{https://www.wolframalpha.com/}, hiermee is het mogelijk om de afstand tussen twee steden op aarde te berkenen. Wel moeten we dan zelf de lengtegraad en breedtegraad van het start en eind punt hebben, we kunnen hiermee dus geen steden zoeken.
+		Een andere mogelijkheid waar naar gekeken is, is om gebruik te maken van Wolfram Alpha\footnote{https://www.wolframalpha.com/}, hiermee is het mogelijk om de afstand tussen twee steden op aarde te berkenen. Wel moeten we dan zelf de breedtegraad en lengtegraad van het start en eind punt hebben, we kunnen hiermee dus geen steden zoeken.
 		\\[0.5cm]
-		GeoNames\footnote{http://www.geonames.org/} is een database waar (vrijwel) alle steden op de wereld in te vinden zijn. De database bevat heel veel informatie waarvan, voor ons, vooral de naam van de stad, de populatie, de lengtegraad en breedtegraad en het land waar de stad in ligt interessant zijn. Voor landen en steden zijn ook alternatieve namen, in andere talen dan Engels, te vinden in de database. Daarnaast zijn ook zee"en, oceanen, meren, bergen etc. op te zoeken. Voor dit project is alleen gekeken naar steden en landen maar voor een toekomstig onderzoek zijn dit interessante opties.
+		GeoNames\footnote{http://www.geonames.org/} is een database waar (vrijwel) alle steden op de wereld in te vinden zijn. De database bevat heel veel informatie waarvan, voor ons, vooral de naam van de stad, de populatie, de breedtegraad en lengtegraad en het land waar de stad in ligt interessant zijn. Voor landen en steden zijn ook alternatieve namen, in andere talen dan Engels, te vinden in de database. Daarnaast zijn ook zee"en, oceanen, meren, bergen etc. op te zoeken. Voor dit project is alleen gekeken naar steden en landen maar voor een toekomstig onderzoek zijn dit interessante opties.
 		\\[0.5cm]
 		De database is via een API te benaderen of te downloaden als tekst betand. Bij dit project is voor het laatste gekozen om het netwerk verkeer zo beperkt mogelijk te houden en om te zorgen dat de data altijd beschikbaar is. Omdat een tekstbestand niet effici"ent te door zoeken is schrijven we dedata naar onze eigen SQLite database.
 		\\[0.5cm]
@@ -228,14 +242,14 @@
 			\subsubsection{FAROO}
 				FAROO\footnote{http://www.faroo.com/hp/api/api.html} is een alternatief voor de hierboven genoemde opties. Het is een gratis zoek API waarbij tot 1 miljoen zoekopdrachten per maand gedaan kunnen worden. 
 			\subsubsection{Lokaal nieuws}
-				Een hele interessante optie is om lokale nieuws sites en kranten te zoeken bij het geselecteerde gebied. Vooral voor kleinere gebieden, zal dit nuttige resultaten op kunnen leveren. in hoofdstuk \textbf{<todo>} gaan we hier dieper op in.
+				Een hele interessante optie is om lokale nieuws sites en kranten te zoeken bij het geselecteerde gebied. Vooral voor kleinere gebieden, zal dit nuttige resultaten op kunnen leveren. in sectie \ref{sec:localnews} gaan we hier dieper op in.
 	\section{Zoeken naar nieuws}
 		Het zoeken naar nieuws gaat via de BING API\footnote{http://datamarket.azure.com/dataset/bing/search}. Hiermee is het mogelijk om gratis $5000$ zoekopdrachten per maand uit te voeren, tegen betaling kunnen er meer zoekopdrachten uitgevoerd worden. We zoeken naar nieuws aan de hand van een stad en het land waarin deze stad ligt. Hiervoor is gekozen omdat wanneer we alleen op de naam van een stad zoeken, en deze stad komt in meerdere landen voor, we ook resultaten uit andere landen krijgen die niks met het zoek gebied te maken hebben. 
 		\subsection{Client side of server side?}
 			Het zoeken naar nieuws kan zowel client side als server side gebeuren.
 			Het zoeken van nieuws door de server heeft als voordeel dat het mogelijk is om een cache aan te leggen, van nieuws wat bij een stad hoort. Daarbij komt dat de sleutel van de BING API niet beschikbaar is voor de gebruiker en dus niet misbruikt kan worden. 
 			Omdat we voor dit project maar een kleine server beschikbaar hebben is er toch gekozen om dit client side te doen om de server zo min mogelijk te belasten.
-	\section{De ideale implementatie}
+	\section{Ideaal ontwerp}
 		In deze sectie beschrijven we een voorstel hoe een dergelijke applicatie eigenlijk zou moeten. Helaas is het vooral door gebrek aan tijd, twaalf weken, niet mogelijk om het op deze manier te doen. 
 		\\[0.5cm]
 		Zoals eerder gezegd heeft het zoeken naar nieuws door de server een aantal voordelen. Dit zoeken zou dan ook niet meer via bijvoorbeeld BING News gaan, een betere optie is om gebruik te maken van RSS feeds\footnote{http://en.wikipedia.org/wiki/RSS}.
@@ -245,6 +259,12 @@
 		Met een achtergrond proces op de server kunnen deze RSS feeds in de gaten gehouden worden en zodra er een nieuw nieuws bericht beschikbaar is wordt deze gedownload. Eenmaal gedownload moet een bericht geanalyseerd worden om te bepalen bij welke stad het bericht hoort. Nieuwsberichten die geanalyseerd zijn worden opgelsagen in een database, met bijvoorbeeld de stad en het land waar het bericht bij hoort, een link naar het bericht en de tijd dat het nieuwsbericht gepubliceerd is. Deze tijd kan gebruikt worden om te bepalen of het nog een actueel bericht is.
 		\\[0.5cm]
 		Met de hier beschreven methode verstuurt de client alleen nog het middelpunt en de straal van de op de kaart gemaakte selectie. De server doet de rest van het werk, dat wil zeggen het zoeken naar steden die bij het geslecteerde gebied horen, het zoeken naar nieuws dat bij deze steden horen en vervolgens deze lijst met nieuwsberichten terug sturen naar de client. Op deze manier is het ook eenvoudig om nieuwsbronnen toe te voegen, we hoeven alleen de RSS feed van de bron in de gaten te houden.
+	\section{Samenvatting}
+		In dit hoofdstuk hebben we gezien hoe we een applicatie om nieuws te zoeken aan de hand van een locatie kunnen opbouwen. Ook hebben we gezien welke nieuwsbronnen we kunnen gebruiken. Hiermee is de volgende vraag beantwoord:\\[0.5cm]	
+		\indent \textit{Welke nieuwsbronnen kunnen we gebruiken?}\\[0.5cm]
+		Ook hebben we de volgende vraag deels beantwoord:\\[0.5cm]
+		\indent \textit{Hoe implementeren we een dergelijke applicatie?}\\[0.5cm]
+		In het volgende hoofdstuk zullen we nu kijken hoe we het hier besproken ontwerp kunnen implementeren.
 \chapter{Implementatie}
 	Hier onder zullen we de implementatie van de hiervoor gemaakte ontwerpkeuzes beschrijven.
 	\begin{figure}[!htb]
@@ -262,13 +282,13 @@
 		\\[0.5cm]
 		Wanneer \textit{web/index.py} een HTTP GET request\footnote{http://en.wikipedia.org/wiki/Hypertext\_Transfer\_Protocol\#Request\_methods} krijgt wordt de HTML uit deze template terug gestuurd naar de gebruiker.
 		\\[0.5cm]
-		Zodra een gebruiker een gebied op de kaart selecteerd wordt er een HTTP POST request door de client naar de server gestuurd. De door de client opgestuurde data, de lengtegraad en breedtegraad van het middelpunt en straal van het gebied, wordt gecontrolleerd en de steden die bij dit gebied horen worden opgezocht. Deze steden worden in een JSON object terug gestuurd naar de client.
+		Zodra een gebruiker een gebied op de kaart selecteerd wordt er een HTTP POST request door de client naar de server gestuurd. De door de client opgestuurde data, de breedtegraad en lengtegraad van het middelpunt en straal van het gebied, wordt gecontrolleerd en de steden die bij dit gebied horen worden opgezocht. Deze steden worden in een JSON object terug gestuurd naar de client.
 		\subsubsection{API}
-		Om de server te gebruiken als API voor een andere applicatie maken we alleen gebruik van de HTTP POST request, hierin sturen we de lengtegraad en breedtegraad van het middelpunt en de straal van het gebied. Vervolgens krijgen we een JSON object terug met de steden die dit gebied representeren welke we verder kunnen verwerken voor onze applicatie.
+		Om de server te gebruiken als API voor een andere applicatie maken we alleen gebruik van de HTTP POST request, hierin sturen we de breedtegraad en lengtegraad van het middelpunt en de straal van het gebied. Vervolgens krijgen we een JSON object terug met de steden die dit gebied representeren welke we verder kunnen verwerken voor onze applicatie.
 		\textit{TODO: voorbeeld}
 		\subsection{Database}
 			Zoals uitgelegd in sectie \ref{sec:db} maken we gebruik van een SQLite database, Python heeft hier ondersteuning voor via de \textit{sqlite3}\footnote{https://docs.python.org/2/library/sqlite3.html} module.\\[0.5cm]
-			De database, afbeelding\ref{fig:db} bevat twee tabellen, \textit{cities} en \textit{countries}. De \textit{cities} tabel bevat alle steden, elke stad in de tabel heeft een uniek ID, een naam, een aantal inwoners, een code voor het land waarin deze stad ligt en de co\"ordinaten, breedtegraad en lengtegraad, van de stad. De landcode verwijst naar de tabel \textit{countries}, hiermee kan de naam van het land waarin de stad ligt opgezocht worden. \\[0.5cm]
+			De database, figuur \ref{fig:db} bevat twee tabellen, \textit{cities} en \textit{countries}. De \textit{cities} tabel bevat alle steden, elke stad in de tabel heeft een uniek ID, een naam, een aantal inwoners, een code voor het land waarin deze stad ligt en de co\"ordinaten, breedtegraad en lengtegraad, van de stad. De landcode verwijst naar de tabel \textit{countries}, hiermee kan de naam van het land waarin de stad ligt opgezocht worden. \\[0.5cm]
 			De tweede tabel in de database is de \textit{countries} tabel,  met velden voor de naam en de code van het land.
 			\begin{figure}[!htb]
 				\label{fig:db}
@@ -319,7 +339,7 @@ WHERE
 		\\[0.5cm]
 		$r = \frac{max. distance}{R} = \frac{radius}{R}$
 		\subsubsection{Berekenen minimale en maximale lengtegraad (methode 1)}
-		Een door veel applicatie gebruikte benadering om de minimale en maximale lengtegraad te berekenen is een vasta breedtegraad kiezen en de lengtegraad aanpassen. dat betekent dat er over een breedtecirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_latitude} bewogen wordt. In deze sectie zullen we aan de hand van een voorbeeld laten zien dat dit geen nauwkeurige resultaten geeft.
+		Een door veel applicatie gebruikte benadering om de minimale en maximale lengtegraad te berekenen is een vaste breedtegraad kiezen en de lengtegraad aanpassen. dat betekent dat er over een breedtecirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_latitude} bewogen wordt. In deze sectie zullen we aan de hand van een voorbeeld laten zien dat dit geen nauwkeurige resultaten geeft.
 		\\[0.5cm]
 		Als we over een breedtecirkel bewegen, bewegen we over een zogenaamde kleine cirkel\footnote{http://en.wikipedia.org/wiki/Circle\_of\_a\_sphere}. Een breedtecirkel op breedtegraad $lat = 1.3963$ heeft een straal $R_{S} = R \cdot \cos(lat) = 6371 \cdot \cos(1.3963) = 1106km$. Een afstand van $1000km$ op deze breedtecirkel komt nu overeen met een hoek $r_{S} = \frac{d}{R_{S}} = \frac{1000}{1106} = 0.9039$ tussen twee punten op deze cirkel. Bij een lengtegraad van $-0.6981$ van het beginpunt komen de minimale en maximale lengtegraad nu op
 		\\[0.5cm]
@@ -339,7 +359,6 @@ WHERE
 			\caption{Tangent meridians to the query circle}
 			\label{fig:tangentpoints}
 		\end{figure}
-		\newpage
 		In plaats daar van moeten de volgende formules gebruikt worden
 		\\[0.5cm]
 		$lat_T = \arcsin(\frac{\sin(lat)}{\cos(r)})$\\
@@ -405,9 +424,21 @@ HAVING
          cos(cities.LON - (lon))) <= radius;
 \end{verbatim}
 	\section{Gebieds representatie}
-		Bij het geselecteerde gebied worden vaak honderd of meer, en bij een groot gebied duizenden, steden gevonden die in dit gebied liggen. Om voor elke stad naar nieuws te zoeken levert evenveel zoekopdrachten als steden op. Dit gaat erg veel tijd in beslag nemen, ongeveer $300ms$ per zoekopdracht, en levert te veel nieuws op. Een dergelijke hoeveelheid nieuws, in de orde van duidezenden artikelen, is voor de gebruker niet te verwerken en draagt niet bij aan een beter begrip van het nieuws en wat er in het gebied gaande is.
+		Bij het geselecteerde gebied worden vaak honderd of meer, en bij een groot gebied duizenden, steden gevonden die in dit gebied liggen, een voorbeeld is te zien in figuur \ref{fig:without}. Om voor elke stad naar nieuws te zoeken levert evenveel zoekopdrachten als steden op. Dit gaat erg veel tijd in beslag nemen, ongeveer $300ms$ per zoekopdracht, en levert te veel nieuws op. Een dergelijke hoeveelheid nieuws, in de orde van duidezenden artikelen, is voor de gebruker niet te verwerken en draagt niet bij aan een beter begrip van het nieuws en wat er in het gebied gaande is.
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=1.0]{./img/area_wo_algo.png}
+			\caption{Alle steden in een gebied}
+			\label{fig:without}
+		\end{figure}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=1.0]{./img/area_w_algo.png}
+			\caption{Het zelfde gebied maar nu met het algoritme voor gebiedsrepresentatie}
+			\label{fig:with}
+		\end{figure}
 		\\[0.5cm]
-		Een gebied moet dus door een kleiner aantal steden gerepresenteerd worden zodat het aantal zoekopdrachten beperkt blijft en de gebruiker de hoeveelheid nieuws goed kan verwerken. Hiervoor zijn verschillende optie die hieronder besproken zullen worden.
+		Een gebied moet dus door een kleiner aantal steden gerepresenteerd worden zodat het aantal zoekopdrachten beperkt blijft en de gebruiker de hoeveelheid nieuws goed kan verwerken. Hiervoor zijn verschillende optie die hieronder besproken zullen worden. Een voorbeeld hiervan is in figuur \ref{fig:with} te zien, dit is het zelfde gebied maar nu met een beperkt aantal steden.
 		
 		\subsubsection{Aantal steden om een gebied te representeren}
 			Het aantal steden om een gebied te representeren is bepaald aan de hand van een gebruikersonderzoek. De opzet en resultaten van dit onderzoek worden bepsroken in sectie \ref{sec:numcities}.
@@ -511,20 +542,34 @@ HAVING
 			\subsubsection{Willekeurig}
 				Uit de lijst met steden die in het gebied liggen kunnen willekeurig een aantal steden gekozen worden welke dit gebied representeren. Omdat het hier mogelijk is dat alleen (of grotendeels) kleine/de kleinste steden gekozen worden is dit een minder geschikte mogelijkheid.  Ook is het, net als bij boven genomende methodes, mogelijk dat de gekozen steden niet verspreid liggen maar zich concentreren in een klein deel van het gebied. Ander groot probleem is dat elke keer dat de gebruiker een gebied selecteert een andere lijst aan steden terug gegeven wordt, hierdoor zullen er elke keer andere nieuws artikelen gezocht worden. Het wordt hierdoor moeilijker (onmogelijk) om een artikel opnieuw op te zoeken met de tool.
 		\section{User Interface}
-		De User Interface is te zien in afbeelding \ref{fig:UI}. Aan de linker kant is een kaart te zien waar de gebruiker met de muis een gebied, in de vorm van een cirkel, kan selecteren. Het selecteren van een gebied gaat als volgt:
+		De User Interface is te zien in figuur \ref{fig:UI}. Aan de linker kant is een kaart te zien waar de gebruiker met de muis een gebied, in de vorm van een cirkel, kan selecteren. Het selecteren van een gebied gaat als volgt:
 		\begin{itemize}
 			\item Linker muisklik op de kaart waar het middelpunt van het gebied komt
 			\item{Ingedrukt houden en slepen, er is nu een groene cirkel te zien}
 			\item{Los laten als het gebied de gewenste grootte heeft}
 		\end{itemize}
 		Aan de rechter kant is een grijs veld waarin een lijst met links naar nieuws artikelen voor het geselecteerde gebied weer gegeven wordt.
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[angle=-90,origin=c,scale=0.70]{./img/UI.png}
+			\caption{De User Interface}
+			\label{fig:UI}
+		\end{figure}
+	\section{Samenvatting}
+		In dit hoofdstuk hebben we gekeken hoe we het in het voorgaande hoofdstuk voorgestelde ontwerp kunnen implementeren. Daarnaast hebben we gekeken hoe we een gebied kunnen representeren met een beperkt aantal steden. Met dit hoofdstuk hebben we de volgende vragen beantwoord:\\[0.5cm]
+		\indent \textit{Kunnen we een gebied representeren door een beperkt aantal steden? En zo ja, hoe?} \\[0.2cm]
+		\indent \textit{Hoe kunnen we aan de hand van deze steden naar nieuws zoeken?}\\[0.2cm]
+		\indent \textit{Hoe implementeren we een dergelijke applicatie?}\\[0.5cm]
 \chapter{Experimenten}
-	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen.
+	Om te weten of de ontwikkelde applicatie echt een toegevoegde waarde is moeten er een gebruikers onderzoek uitgevoerd worden. Daarnaast is er een onderzoek nodig om een te bepalen hoeveel steden er nodig zijn om een gebied te representeren, en om een keuze te maken uit de twee voorgestelde algoritmes om deze steden te kiezen. Met deze twee onderzoeken kunnen we de volgende twee vragen beantwoorden:\\[0.5cm]
+	\indent \textit{Hoeveel steden zijn er nodig om een gebied te representeren?}
+	\\[0.2cm]
+	\indent \textit{Wat is de toegevoegde waarde van het zoeken van nieuwsberichten aan de hand van een locatie?}
 	\section{Gebiedsrepresentatie}
 	\label{sec:numcities}
 		Dit onderzoek is gedaan om te bepalen hoeveel steden er nodig zijn om een gebied goed te representeren. Ook wordt er gekeken welke van de twee voorgestelde algoritmes het beste is om de steden te selecteren die het gebied gaan representeren.
 		\subsection{Opzet}
-			Voor dit experiment is een enqu\^ete gemaakt waarin de gebruiker een afbeelding van een geselecteerd gebied te zien krijgt. Een voorbeeld hiervan wordt gegeven in afbeelding \ref{fig:area_rep}.
+			Voor dit experiment is een enqu\^ete gemaakt waarin de gebruiker een afbeelding van een geselecteerd gebied te zien krijgt. Een voorbeeld hiervan wordt gegeven in figuur \ref{fig:area_rep}.
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[scale=0.8]{./img/area_rep.png}
@@ -692,7 +737,8 @@ HAVING
 			Ten eerste kan er gekeken worden of deze steden samen gevoegd kunnen worden. Bij het opbouwen van de database moet dan gekeken worden of er al een grote stad op dezelfde plek ligt, als dit het geval is wordt de populatie van de tweede stad bij de eerste opgeteld en slaan we dus maar \'e\'en stad op.\\[0.5cm]
 			De tweede optie is om het algoritme voor de gebiedsrepresentatie zo aan te passen dat niet twee steden vlak bij elkaar gekozen kunnen worden, ook al zijn dit misschien de grootste steden. Hiervoor moet je voor elke stad die je kiest kijken hoe dicht ze bij de al eerder gekozen steden liggen. Als deze afstand kleiner is dan een minimale afstand moet er een andere stad gekozen worden.
 		\subsection{Lokaal nieuws - voorstel}
-	
+			\label{sec:localnews}
+			Een interessante optie voor de toekomst is om te kijken of het mogelijk is om de nieuwsbronnen af te laten hangen van het geselecteerde gebied, dat wil zeggen dat er gebruik gemaakt wordt van de lokale nieuwsbronnen. Om te bepalen of we te maken hebben met een lokale nieuwsbron kunnen we om te beginnen kijken naar het top-level domain\footnote{https://en.wikipedia.org/wiki/Domain\_name\#Top-level\_domains}, ook kan er gekeken worden naar de WHOIS\footnote{https://en.wikipedia.org/wiki/WHOIS} informatie. Hiermee kan al een aardige schatting gemaakt worden bij welk land de nieuwssite hoort. Om te bepalen bij welke steden de site hoort kunnen we kijken naar bijvoorbeeld de homepage van de nieuwssite. Deze kunnen we analyseren, we kunnen alle namen van steden hier uit halen, als deze grotendeels bij elkaar liggen is de kans groot dat het om een lokale nieuwsbron gaat. Liggen de genoemde steden op de homepage ver uit elkaar, dan is het waarschijnlijk een minder lokale bron.
 \begin{thebibliography}{9}
 	\bibitem{NewsStand2008} 
 	Benjamin E. Teiler, Micheal D. Lieberman, Daniele Panozzo, Jagan Sankaranarayanan, Hanan Samet and Jon Sperling.
