@@ -11,9 +11,9 @@ class Index():
         if cherrypy.request.method == "GET":
             return interface("Home", "")
         elif cherrypy.request.method == "POST":
-            if type(lat) == float and type(lon) == float and type(radius) == float:
+            try:
                 temp = geo_data.main("geo_data.db", (lat, lon), radius)
-            else:
+            except:
                 temp = []
 
             return json.dumps(temp)

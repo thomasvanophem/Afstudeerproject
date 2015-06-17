@@ -25,9 +25,10 @@ function RequestData(radius, x, y) {
 
             $("#results").html('');
             
-            if temp.length == 0:
+            if (temp.length == 0) {
                 $("#results").append("No cities found...");
-            
+            }
+
             for (var i = 0; i < temp.length; i++) {
                 // For each city search for news and add a marker to the map.         
                 GetBing(temp[i][0]);
