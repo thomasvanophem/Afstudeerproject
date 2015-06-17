@@ -1,23 +1,54 @@
+/*
+ * Stylesheet.
+ *
+ * Author: Thomas van Ophem, thomas.vanophem@student.uva.nl
+ * Date: 28-04-2015
+ */
 html, body {
     height: 100%;
     margin: 0px;
     padding: 0px
 }
-#menu {
-    width: 100%;
-    height: 50px;
-    background-color: #4A4A4A;
-}
-#wrapper {
-    height: 100%;
-    width: 100%;
-    background-color: #ffffff;
-}
+
 body p {
     margin-left: 5%;
     margin-right: 5%;
 }
-#map-canvas {
+
+div#menu {
+    width: 100%;
+    height: 50px;
+    background-color: #4A4A4A;
+}
+
+div#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding 0;
+    overflow: hidden;
+}
+
+div#menu ul li {
+    float: left;
+}
+
+div#menu a {
+    display: block;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding-right: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    line-height: 50px;
+}
+
+div#wrapper {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+div#map-canvas {
     height: 75%;
     width: 54%;
     margin-top: 50px;
@@ -26,7 +57,8 @@ body p {
     float: left;
     border: 1px solid #8E998E;
 }
-#results {
+
+div#results {
     height: 75%;
     width: 30%;
     margin-right: 5%;
@@ -34,22 +66,4 @@ body p {
     background-color: #C2C2C2;
     float: right;
     overflow:auto;
-}
-#menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding 0;
-    overflow: hidden;
-}
-#menu ul li {
-    float: left;
-}
-#menu a {
-    display: block;
-    color: #FFFFFF;
-    text-decoration: none;
-    padding-right: 20px;
-    font-family: Arial;
-    font-weight: bold;
-    line-height: 50px;
 }

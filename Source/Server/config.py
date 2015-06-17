@@ -2,7 +2,7 @@
 Config file for the server and download script.
 
 Author: Thomas van Ophem, thomas.vanophem@student.uva.nl
-Date: 29-04-2014
+Date: 29-04-2015
 """
 
 # Files to download from the geonames database (database dumps).

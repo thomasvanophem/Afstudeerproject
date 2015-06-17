@@ -1,4 +1,7 @@
-import coordinate_calc
+"""
+Implements a webpage using CherryPy and a Cheetah template.
+"""
+import geo_data
 
 from functions import *
 
@@ -8,6 +11,6 @@ class Index():
         if cherrypy.request.method == "GET":
             return interface("Home", "")
         elif cherrypy.request.method == "POST":
-            temp = coordinate_calc.main("geo_data.db", (lat, lon), radius)
+            temp = geo_data.main("geo_data.db", (lat, lon), radius)
 
             return json.dumps(temp)

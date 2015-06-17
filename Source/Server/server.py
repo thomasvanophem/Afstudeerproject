@@ -1,9 +1,20 @@
+"""
+Implements the webserver using CherryPy.
+
+python server.py to start the server.
+
+Author: Thomas van Ophem, thomas.vanophem@student.uva.nl
+Date: 26-04-2015
+"""
 import geo_data
 from functions import *
 from web.index import Index
 
 def main():
+	# Download the geo data.
     geo_data.download_helper()
+	
+	# CherryPy configuration.
     cherry_conf = {'global': {
 			'tools.sessions.on': True,
 			'tools.sessions.timeout': 20160, #14 days
@@ -29,6 +40,7 @@ def main():
                         'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/img/marker.png"}
                     }
 
+	# Start the server using our own configuration.
     cherrypy.quickstart(Index(), config = cherry_conf)
 
 if __name__ == "__main__":

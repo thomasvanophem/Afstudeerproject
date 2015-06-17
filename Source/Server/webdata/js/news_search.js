@@ -1,3 +1,4 @@
+// The account key for the BING API
 var accountKey = 'C9+uvX1xxYhWjL5IUdy4GlA3UoekeDxfb9tFTMR4TKk';
 var accountKeyEncoded = base64_encode(":" + accountKey);
 
@@ -38,6 +39,7 @@ function GetBing(city) {
                 }
 
             } else {
+				// No news found for this city.
                 $("#results").append("No news for " + city + "...<br />");
             }
         },

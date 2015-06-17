@@ -14,14 +14,13 @@ class Database:
     def __init__(self, db_name):
         self.db = self.open_database(db_name)
     
-    # Opens a connection to the database with name 
-    # <db_name>.
-    # Returns a connection object or None.
     def open_database(self, db_name):
         """
         Opens a connection to the database.
         
         db_name:    name of database
+		
+		Returns a connection object or None.
         """
         try:
             logger.log("busy", "Connecting to database <" + db_name + ">", time.strftime("%c"))
