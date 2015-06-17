@@ -7,6 +7,7 @@ Math.degrees = function(radians) {
     return radians * 180.0 / Math.PI;
 }
 
+// Function to sent a request to the server using AJAX.
 function RequestData(radius, x, y) {
     var xmlhttp;
     
@@ -45,7 +46,7 @@ function RequestData(radius, x, y) {
         }
     }
 
-    //Sent the request to the server.
+    //Sent the request to the server using AJAX.
     xmlhttp.open("POST","",true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
