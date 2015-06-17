@@ -199,7 +199,8 @@ def main(db, source, radius):
                     pass
             temp2 = cities[:]
             
-            print len(result), len(temp2), max_cities - num_cities
+            if config.debug == True:
+                print "# results: ", len(result), "# temp2: ",  len(temp2), "# diff: ", max_cities - num_cities
 
             if (max_cities - num_cities) == 1:
                 result.append(get_biggest(temp2))
@@ -220,8 +221,9 @@ def main(db, source, radius):
     else:
         result = cities[:]
     
-    print len(cities)
-    print len(result)
+    if config.debug == True:    
+        print "# cities: ", len(cities)
+        print "# result: ", len(result)
     
     return result
 
