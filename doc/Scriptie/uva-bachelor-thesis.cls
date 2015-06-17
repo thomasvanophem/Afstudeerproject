@@ -14,6 +14,7 @@
 %\usepackage[a4paper,scale={0.7,0.8}]{geometry}
 \usepackage[a4paper,scale={0.7,0.8},twoside]{geometry}
 
+\usepackage{color}
 \usepackage[sf]{titlesec}
 \titleformat{\chapter}[display]
 %{\cleardoublepage\sffamily\raggedleft
@@ -55,8 +56,7 @@
 	\textblockcolor{LightGray}
 	\begin{textblock*}{2cm}(3.7cm,25cm)
 		\begin{rotate}{90}
-			\noindent\scshape\Huge\textcolor{Gray}{
-				Informatica --- Universiteit van Amsterdam}
+			\noindent\scshape\Huge\textcolor{Gray}{Informatica --- Universiteit van Amsterdam}
 		\end{rotate}
 	\end{textblock*}
 	\begin{textblock*}{2cm}(3cm,2cm)
