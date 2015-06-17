@@ -7,7 +7,7 @@ Math.degrees = function(radians) {
     return radians * 180.0 / Math.PI;
 }
 
-function loadXMLDoc(radius, x, y) {
+function RequestData(radius, x, y) {
     var xmlhttp;
     
     if (window.XMLHttpRequest) {
@@ -25,7 +25,11 @@ function loadXMLDoc(radius, x, y) {
 
             $("#results").html('');
             
-            for (var i = 0; i < temp.length; i++) {                
+            if temp.length == 0:
+                $("#results").append("No cities found...");
+            
+            for (var i = 0; i < temp.length; i++) {
+                // For each city search for news and add a marker to the map.         
                 GetBing(temp[i][0]);
                 
                 var latlon = new google.maps.LatLng(Math.degrees(temp[i][1]), Math.degrees(temp[i][2]));
@@ -40,6 +44,7 @@ function loadXMLDoc(radius, x, y) {
         }
     }
 
+    //Sent the request to the server.
     xmlhttp.open("POST","",true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send("lat="+x+"&lon="+y+"&radius="+radius);
@@ -54,7 +59,9 @@ function remove_markers() {
     markers = [];
 }
 
+// Initialize the map
 function initialize() {
+    // Where do we center the map, and what zoom level do we want?
     var mapOptions = {
         center: new google.maps.LatLng(52.3740300, 4.8896900),
         zoom: 8
@@ -96,6 +103,7 @@ function initialize() {
                                                                                                         
     drawingManager.setMap(map);
 
+    // Tell the map what to do on mouse down
     $('#map-canvas').on('mousedown', function(e) {
         if (e.button == 0) {
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
@@ -112,6 +120,7 @@ function initialize() {
         }
     });
 
+    // And on mouse up...
     $('#map-canvas').on('mouseup', function() {
         drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
     });
@@ -120,6 +129,7 @@ function initialize() {
         selectedArea = circle;
     });
     
+    // Call RequestData to make the request to the server
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
         if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
             var center = event.overlay.getCenter();
@@ -128,7 +138,7 @@ function initialize() {
             console.log("Radius: "+radius/1000.0+" KM");
             console.log("Lat: "+center.lat()+" Lon: "+center.lng());
             //Request to server
-            loadXMLDoc(radius / 1000.0, center.lat(), center.lng());
+            RequestData(radius / 1000.0, center.lat(), center.lng());
         }
     });
 }
