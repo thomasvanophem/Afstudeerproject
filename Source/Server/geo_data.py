@@ -22,16 +22,16 @@ min_cities = 6
 max_cities = 15
 
 def get_cities(db_name, r, lat, lon):
-	"""
-	Returns a list of cities in the area represented by mid point (lat, lon) and
-	radius r.
-	
-	lat and lon both in degrees.
-	r is a float, the radius in km.
-	"""
+    """
+    Returns a list of cities in the area represented by mid point (lat, lon) and
+    radius r.
+
+    lat and lon both in degrees.
+    r is a float, the radius in km.
+    """
     result = []
-	
-	# Calculate the minimal and maxiimal latitude and longitude.
+
+    # Calculate the minimal and maxiimal latitude and longitude.
     dlon = math.asin(math.sin(r)/math.cos(lat))
     
     lat_min = str(lat - r)
@@ -39,17 +39,17 @@ def get_cities(db_name, r, lat, lon):
     lon_min = str(lon - dlon)
     lon_max = str(lon + dlon)
     
-	# Which fields do we want to select from our database?
+    # Which fields do we want to select from our database?
     fields = ["cities.NAME", "cities.LAT", "cities.LON", "cities.POP", "countries.NAME"]
-	
-	# Construct the where clause using the spherical law of cosines and minimal and maximal latitude and longitude.
+
+    # Construct the where clause using the spherical law of cosines and minimal and maximal latitude and longitude.
     where = "cities.COUNTRY_CODE = countries.CODE AND (cities.LAT >= " + lat_min + " AND  cities.LAT <= " + lat_max + \
             ") AND (cities.LON >= " + lon_min + " AND cities.LON <= " + lon_max + ")" + \
             " GROUP BY cities.NAME HAVING acos(sin(" + str(lat) + ") * sin(cities.LAT) + cos(" + \
             str(lat) + ") * cos(cities.LAT) * cos(cities.LON - (" + str(lon) + "))) <= " + str(r) + \
             " AND cities.pop != 0"
     
-	# Connect to the database and run the query.
+    # Connect to the database and run the query.
     db = database.Database(db_name)
     
     for row in db.select("cities, countries", fields, where):
@@ -60,11 +60,11 @@ def get_cities(db_name, r, lat, lon):
     return result
 
 def split_cities(cities):
-	"""
-	Algorithm to get a representation of the area.
-	
-	cities is a list of cities.
-	"""
+    """
+    Algorithm to get a representation of the area.
+
+    cities is a list of cities.
+    """
     result = []
     nw, ne, se, sw = [], [], [], []
     
@@ -133,36 +133,36 @@ def split_cities(cities):
 
 # Returns the bearing from big to city.
 def get_bearing(big, city):
-	"""
-	Return the bearing from big to city.
-	big = (lat, lon)
-	city = (lat, lon)
-	
-	lat and lon both in degrees.
-	"""
-	# Convert latitude of both cities to radians.
+    """
+    Return the bearing from big to city.
+    big = (lat, lon)
+    city = (lat, lon)
+
+    lat and lon both in degrees.
+    """
+    # Convert latitude of both cities to radians.
     lat_big = math.radians(big[0])
     lat_city = math.radians(city[0])
- 
-	# Convert the difference in longitude to radians.
+
+    # Convert the difference in longitude to radians.
     d_lon = math.radians(city[1] - big[1])
- 
+
     x = math.sin(d_lon) * math.cos(lat_city)
     y = math.cos(lat_big) * math.sin(lat_city) - (math.sin(lat_big) * math.cos(lat_city) * math.cos(d_lon))
-	
-	# Convert bearing to degrees.
+
+    # Convert bearing to degrees.
     bearing = math.degrees(math.atan2(x, y))
-    
-	# Make sure it is a number between 0.0 and 360.0.
+
+    # Make sure it is a number between 0.0 and 360.0.
     temp = (bearing + 360) % 360
- 
+
     return temp
 
 def get_biggest(cities):
-	"""
-	Returns the biggest city in the list cities.
-	The fourth element of each sublist in cities is the population.
-	"""
+    """
+    Returns the biggest city in the list cities.
+    The fourth element of each sublist in cities is the population.
+    """
     t = 0
     result = ()
 
@@ -179,8 +179,8 @@ def main(db, source, radius):
     lon = math.radians(float(source[1]))
     cities = get_cities(db, r, lat, lon)
 
-	# If the number of cities in the area is more than the maximum we have to 
-	# run the algorithm for area representation.
+    # If the number of cities in the area is more than the maximum we have to 
+    # run the algorithm for area representation.
     if len(cities) > max_cities:
         temp = cities[:]
         
@@ -224,7 +224,7 @@ def main(db, source, radius):
     print len(result)
     
     return result
-	
+
 def unzip_file(zip_file):
     """
     Unzips the file specified by zip_file and writes the content of files in the 
@@ -364,6 +364,6 @@ def download_helper():
     
 if __name__ == "__main__":
     download_helper()
-	
-	t = main("geo_data.db", (52.6333333, 4.75), 50)
+
+    t = main("geo_data.db", (52.6333333, 4.75), 50)
     print t

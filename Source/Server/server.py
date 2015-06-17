@@ -11,15 +11,15 @@ from functions import *
 from web.index import Index
 
 def main():
-	# Download the geo data.
+    # Download the geo data.
     geo_data.download_helper()
-	
-	# CherryPy configuration.
+
+    # CherryPy configuration.
     cherry_conf = {'global': {
-			'tools.sessions.on': True,
-			'tools.sessions.timeout': 20160, #14 days
-			'server.socket_host': '0.0.0.0',
-			'tools.trailing_slash.on': False},
+                    'tools.sessions.on': True,
+                    'tools.sessions.timeout': 20160, #14 days
+                    'server.socket_host': '0.0.0.0',
+                    'tools.trailing_slash.on': False},
                     '/css': {
                         'tools.staticdir.on': True,
                         'tools.staticdir.dir': "/home/thomas/Afstudeerproject/Source/Server/webdata/css"},
@@ -40,7 +40,7 @@ def main():
                         'tools.staticfile.filename': "/home/thomas/Afstudeerproject/Source/Server/webdata/img/marker.png"}
                     }
 
-	# Start the server using our own configuration.
+    # Start the server using our own configuration.
     cherrypy.quickstart(Index(), config = cherry_conf)
 
 if __name__ == "__main__":

@@ -19,8 +19,8 @@ class Database:
         Opens a connection to the database.
         
         db_name:    name of database
-		
-		Returns a connection object or None.
+
+        Returns a connection object or None.
         """
         try:
             logger.log("busy", "Connecting to database <" + db_name + ">", time.strftime("%c"))
